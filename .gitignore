@@ -1,4 +1,9 @@
-node_modules/
 package-lock.json
 package.json
 tailwindcss-windows-x64.exe
+/node_modules
+/coverage
+/.next/
+/build
+tailwindcss.exe
+cmd.txt

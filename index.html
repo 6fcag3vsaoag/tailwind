@@ -1,16 +1,25 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/output.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <!--Header-->
-    <header class="flex-row">
-      <img src="img/header/Logo.svg" alt="">
 
-    </header>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Document</title>
+</head>
+
+<body>
+  <!--Header-->
+  <header>
+    <div class="@container">
+      <div class="grid grid-cols-1 @sm:grid-cols-3 @lg:grid-cols-4">
+        <img class="rotate-x-51 rotate-z-43 transform-3d" src="img/header/Logo.svg" alt="" />
+      </div>
+    </div>
+  </header>
+  <button class="text-white px-4 sm:px-8 py-2 sm:py-3 bg-sky-700 hover:bg-sky-800">
+    Submit
+  </button>
+</body>
+
 </html>
