@@ -1,25 +1,45 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Concept</title>
+    <link href="style.css" rel="stylesheet">
 </head>
+<body class="bg-gray-100 font-sans">
 
-<body>
-  <!--Header-->
-  <header>
-    <div class="@container">
-      <div class="grid grid-cols-1 @sm:grid-cols-3 @lg:grid-cols-4">
-        <img class="rotate-x-51 rotate-z-43 transform-3d" src="img/header/Logo.svg" alt="" />
-      </div>
-    </div>
-  </header>
-  <button class="text-white px-4 sm:px-8 py-2 sm:py-3 bg-sky-700 hover:bg-sky-800">
-    Submit
-  </button>
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <img src="src/img/header/Logo.svg" alt="logo">
+                <nav class="flex space-x-3">
+                    <img src="src/img/header/log-in.svg" alt="login">
+                    <img src="src/img/header/cart.svg" alt="cart">
+                    <img src="src/img/header/Button.svg" alt="button">
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">Food Delivery</h3>
+                    <p class="text-gray-400">© 2023 All rights reserved.</p>
+                </div>
+                <nav class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Contact Us</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
 </body>
-
 </html>
