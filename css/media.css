@@ -1,0 +1,149 @@
+@media only screen and (min-width:200px) and (max-width:575px)
+{   .header-logo
+    { margin:auto;}
+
+   nav>.menuBar
+    { display:none;}
+
+    #FoodCourt .foodCourt
+    { height:600px;
+      background-size: cover;
+      display:flex;
+      flex-wrap: nowrap;
+      justify-content: left;
+      flex-direction: column;
+    }
+
+    .fcTop
+    {  width:80%;
+        background-color: #ffffffb5;
+        backdrop-filter: blur(5px); 
+        margin:180px 0px 0px 0px;
+        
+    }
+
+    .fcTop>p
+    { text-align: left;
+      font-size:50px;  
+      line-height: 50px;
+      padding:20px 20px;
+      }
+
+      .fcButton
+      { margin:20px auto;
+        background-color: #fff;
+        padding:10px 45px;
+        height:40px;
+    }
+
+    .fcBottom
+    { display:none;
+    }
+
+    #Restaurants .restaurants
+    { width:88%;
+    }
+
+    .foodRow
+    { flex-direction: column;}
+
+    .foodBox
+    { width:70%;
+      margin: 10px auto;
+    }
+
+    #SearchRestro .searchRestro
+    { flex-direction: column;
+      padding-bottom:30px;
+    }
+
+    .SearchRestroLeft
+    { width:80%;
+      text-align: center;
+    }
+
+    .SearchRestroLeft>p
+    {  padding:50px 30px 0px 30px;
+       line-height: 50px;
+     }
+
+     .SearchRestroLeft>span>p
+     { width:80%;
+        padding:20px 0px 60px 50px;
+      }     
+
+
+    .SearchRestroRight
+    { width:80%;
+       
+    }
+
+    .delivery
+    { margin-left:50px;}
+
+    .arrleft, .arrRight
+    { display:none;}
+
+    #Specialities .specialities
+    { width:90%;
+      margin:auto;
+    position: static;}
+
+      .spHeading
+      { 
+        margin-top:50px;
+      }
+
+  .specFeatures
+  { width:25%;
+    margin:20px 10px 20px 10px;
+  }
+
+  #Lemon
+  {display:none;}
+
+  #Map .map
+  { display: none;}
+
+  #Instagram .instagram
+{ width:80%;
+  margin:auto;
+  font-size:28px;
+}
+
+.instcont
+{ width:70%;
+  margin:30px auto;
+}
+
+.Footer
+{ width:80%;
+  margin:auto;
+  flex-direction: column;
+}
+
+.footer-left
+{ width:90%;
+}
+
+.footer-left>img
+{ margin:40px 0px 20px 0px;}
+
+.footer-right
+{ width:90%;
+  flex-direction: column;
+}
+
+.footerRow
+{ width:90%;
+ 
+}
+
+.footerRow>.privacyRow
+{ display: none;}
+
+
+
+
+
+}
