@@ -208,9 +208,6 @@
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
-  .z-10 {
-    z-index: 10;
-  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -249,9 +246,6 @@
   }
   .mt-10 {
     margin-top: calc(var(--spacing) * 10);
-  }
-  .mt-12 {
-    margin-top: calc(var(--spacing) * 12);
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
@@ -306,6 +300,9 @@
   }
   .max-h-\[720px\] {
     max-height: 720px;
+  }
+  .min-h-\[789px\] {
+    min-height: 789px;
   }
   .min-h-screen {
     min-height: 100vh;
