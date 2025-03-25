@@ -9,305 +9,250 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link href="style.css" rel="stylesheet">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
 
 </head>
 
 <body class="font-sans leading-normal tracking-normal">
-
-    <!-- Header -->
-    <header class="bg-white border-b">
-        <div class="container mx-auto flex justify-between items-center py-4">
-            <a href="#" class="text-xl font-bold text-gray-800">yellow<span class="text-yellow-500">kitchen</span></a>
-            <nav class="flex items-center space-x-6">
-                <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
-                        <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5V5z" />
-                    </svg>
-                    Log in
+    <!-- Главный контейнер с ограничением ширины -->
+    <div class="max-w-[1440px] mx-auto bg-white">
+        <!-- Header -->
+        <header class="bg-white border-b">
+            <div class="container mx-auto flex justify-start items-center py-4 px-23">
+                <!-- Логотип -->
+                <a href="#" class="text-xl font-bold text-gray-800 mr-6">
+                    <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
                 </a>
-                <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.358.811V19a2 2 0 002 2h12a2 2 0 002-2V7.389a.997.997 0 00.358-.811l.305-1.22L18.78 3H7.22A1 1 0 005 3zm8 9a1 1 0 100-2 1 1 0 000 2z" />
-                    </svg>
-                    0
-                </a>
-                <button class="focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="py-16 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1600x900/?food')">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">Your Food court at home</h1>
-            <div class="flex space-x-4 mt-8">
-                <a href="#" class="px-4 py-2 bg-yellow-100 text-yellow-600 rounded-lg hover:bg-yellow-200">
-                    Delivery<br />
-                    <small class="text-xs">Order in</small>
-                </a>
-                <a href="#" class="px-4 py-2 bg-yellow-100 text-yellow-600 rounded-lg hover:bg-yellow-200">
-                    Takeout<br />
-                    <small class="text-xs">Grab and go</small>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-wrap -mx-4">
-                <div class="w-full md:w-1/3 p-4">
-                    <img src="https://source.unsplash.com/random/100x100/?clock" alt="" class="inline-block h-8 w-8 mr-2">
-                    <p class="text-gray-600">delivery in all paris<br />in less than 30 minutes</p>
-                </div>
-                <div class="w-full md:w-1/3 p-4">
-                    <img src="https://source.unsplash.com/random/100x100/?truck" alt="" class="inline-block h-8 w-8 mr-2">
-                    <p class="text-gray-600">Free delivery<br />from 29 euros</p>
-                </div>
-                <div class="w-full md:w-1/3 p-4">
-                    <img src="https://source.unsplash.com/random/100x100/?france" alt="" class="inline-block h-8 w-8 mr-2">
-                    <p class="text-gray-600">Only fresh<br />and French products</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Restaurants Section -->
-    <section class="py-16">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-gray-800">Restaurants</h2>
-                <a href="#" class="bg-gray-100 text-gray-600 px-4 py-2 rounded hover:bg-gray-200">show all</a>
-            </div>
-            <div class="carousel relative overflow-hidden">
-                <div class="carousel-inner flex transition-transform duration-500 ease-in-out">
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
-                        <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
-                        <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
-                        <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
-                        <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
-                    </div>
-                </div>
-                <button class="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <button class="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Nearest Restaurants Section -->
-    <section class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-800">Your nearest restaurants</h2>
-                    <p class="text-gray-600 mt-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
-                </div>
-                <form class="flex">
-                    <input type="text" placeholder="Enter delivery address" class="border rounded-l px-4 py-2 w-full">
-                    <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-r">send</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Specialties Section -->
-    <section class="py-16">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-gray-800">Specialities</h2>
-                <a href="#" class="bg-gray-100 text-gray-600 px-4 py-2 rounded hover:bg-gray-200">show all</a>
-            </div>
-            <div class="carousel relative overflow-hidden">
-                <div class="carousel-inner flex transition-transform duration-500 ease-in-out">
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?bagel')">
-                        <img src="https://source.unsplash.com/random/300x300/?bagel" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Bagel</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?burger')">
-                        <img src="https://source.unsplash.com/random/300x300/?burger" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Burger</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?chicken')">
-                        <img src="https://source.unsplash.com/random/300x300/?chicken" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Chicken</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?fish')">
-                        <img src="https://source.unsplash.com/random/300x300/?fish" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Fish</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?fish-chips')">
-                        <img src="https://source.unsplash.com/random/300x300/?fish-chips" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Fish'Chips</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?salad')">
-                        <img src="https://source.unsplash.com/random/300x300/?salad" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Salads</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?pizza')">
-                        <img src="https://source.unsplash.com/random/300x300/?pizza" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Pizza</p>
-                    </div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?pasta')">
-                        <img src="https://source.unsplash.com/random/300x300/?pasta" alt="" class="absolute inset-0 w-full h-full object-contain">
-                        <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Pasta</p>
-                    </div>
-                </div>
-                <button class="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <button class="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Statistics Section -->
-    <section class="py-16 bg-yellow-100">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-around items-center">
-                <div class="flex flex-col items-center">
-                    <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">1</span></div>
-                    <p class="mt-2">kitchen</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">11</span></div>
-                    <p class="mt-2">specialties</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">11</span></div>
-                    <p class="mt-2">restaurants</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">1</span></div>
-                    <p class="mt-2">transport costs</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Map Section -->
-    <section class="py-16">
-        <div class="container mx-auto px-4">
-            <img src="https://source.unsplash.com/random/1600x600/?map" alt="Delivery Area Map" class="w-full h-auto">
-        </div>
-    </section>
-
-    <!-- Instagram Section -->
-    <section class="py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="text-2xl font-bold text-gray-800">#YellowKitchens in instagram</h2>
-            <div class="carousel relative overflow-hidden mt-8">
-                <div class="carousel-inner flex transition-transform duration-500 ease-in-out">
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
-                    <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
-                </div>
-                <button class="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <button class="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hidden md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-16">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-wrap -mx-4">
-                <div class="w-full md:w-1/4 p-4">
-                    <a href="#" class="text-xl font-bold">
-                        yellow<span class="text-yellow-500">kitchen</span>
+                <!-- Навигация -->
+                <nav class="flex items-center space-x-7">
+                    <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
+                        <img src="images/person.svg" alt="User Icon" class="h-5 w-5 mr-1">
+                        Log in
                     </a>
-                    <hr class="my-4">
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" class="hover:text-yellow-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18a4 4 0 014-4h12a4 4 0 014 4v2H4z" />
-                            </svg>
-                        </a>
-                        <a href="#" class="hover:text-yellow-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                        </a>
-                        <a href="#" class="hover:text-yellow-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10V5H9m19 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </a>
+                    <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
+                        <img src="images/cart.svg" alt="Cart Icon" class="h-5 w-5 mr-1">
+                        0
+                    </a>
+                    <button class="focus:outline-none">
+                        <img src="images/Button.svg" alt="Menu Icon" class="h-10 w-10">
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="py-16 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1600x900/?food')">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Your Food court at home</h1>
+                <div class="flex space-x-4 mt-8">
+                    <a href="#" class="px-4 py-2 bg-yellow-100 text-yellow-600 rounded-lg hover:bg-yellow-200">
+                        Delivery<br />
+                        <small class="text-xs">Order in</small>
+                    </a>
+                    <a href="#" class="px-4 py-2 bg-yellow-100 text-yellow-600 rounded-lg hover:bg-yellow-200">
+                        Takeout<br />
+                        <small class="text-xs">Grab and go</small>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/3 p-4">
+                        <img src="https://source.unsplash.com/random/100x100/?clock" alt="" class="inline-block h-8 w-8 mr-2">
+                        <p class="text-gray-600">delivery in all paris<br />in less than 30 minutes</p>
+                    </div>
+                    <div class="w-full md:w-1/3 p-4">
+                        <img src="https://source.unsplash.com/random/100x100/?truck" alt="" class="inline-block h-8 w-8 mr-2">
+                        <p class="text-gray-600">Free delivery<br />from 29 euros</p>
+                    </div>
+                    <div class="w-full md:w-1/3 p-4">
+                        <img src="https://source.unsplash.com/random/100x100/?france" alt="" class="inline-block h-8 w-8 mr-2">
+                        <p class="text-gray-600">Only fresh<br />and French products</p>
                     </div>
                 </div>
-                <div class="w-full md:w-1/4 p-4">
-                    <h3 class="text-xl font-bold mb-4">About us</h3>
-                    <ul>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Concept</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Business</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Restaurant signup</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">For Investors</a></li>
-                    </ul>
+            </div>
+        </section>
+
+        <!-- Restaurants Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">Restaurants</h2>
+                    <a href="#" class="bg-gray-100 text-gray-600 px-4 py-2 rounded hover:bg-gray-200">show all</a>
                 </div>
-                <div class="w-full md:w-1/4 p-4">
-                    <h3 class="text-xl font-bold mb-4">Get help</h3>
-                    <ul>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Read FAQs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Restaurants</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Specialities</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Sign up to deliver</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">English <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg></a></li>
-                    </ul>
-                </div>
-                <div class="w-full md:w-1/4 p-4">
-                    <h3 class="text-xl font-bold mb-4">Contact us</h3>
-                    <p class="text-gray-400">Yellow kitchen Paris 11<br />69 avenue de la République 75011 Paris</p>
-                    <p class="text-gray-400 mt-2">0800 111 126</p>
-                    <p class="text-gray-400 mt-2">contact@yellowkitchens.com</p>
+                <div class="carousel relative overflow-hidden">
+                    <div class="carousel-inner flex transition-transform duration-500 ease-in-out">
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
+                            <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
+                        </div>
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
+                            <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
+                        </div>
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?restaurant')">
+                            <img src="https://source.unsplash.com/random/300x300/?logo" alt="" class="absolute inset-0 w-full h-full object-contain">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="flex justify-between items-center mt-8">
-                <div>
-                    <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-white ml-4">Terms</a>
+        </section>
+
+        <!-- Nearest Restaurants Section -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Your nearest restaurants</h2>
+                        <p class="text-gray-600 mt-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
+                    </div>
+                    <form class="flex">
+                        <input type="text" placeholder="Enter delivery address" class="border rounded-l px-4 py-2 w-full">
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-r">send</button>
+                    </form>
                 </div>
-                <p class="text-gray-400">© 2020 Yellow kitchen</p>
             </div>
-        </div>
-    </footer>
+        </section>
+
+        <!-- Specialties Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">Specialities</h2>
+                    <a href="#" class="bg-gray-100 text-gray-600 px-4 py-2 rounded hover:bg-gray-200">show all</a>
+                </div>
+                <div class="carousel relative overflow-hidden">
+                    <div class="carousel-inner flex transition-transform duration-500 ease-in-out">
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?bagel')">
+                            <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Bagel</p>
+                        </div>
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?burger')">
+                            <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Burger</p>
+                        </div>
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?chicken')">
+                            <p class="absolute bottom-0 left-0 right-0 text-center text-white bg-yellow-500 bg-opacity-50 p-2">Chicken</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="py-16 bg-yellow-100">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-around items-center">
+                    <div class="flex flex-col items-center">
+                        <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">1</span></div>
+                        <p class="mt-2">kitchen</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">11</span></div>
+                        <p class="mt-2">specialties</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">11</span></div>
+                        <p class="mt-2">restaurants</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-yellow-500 text-white rounded-full p-4"><span class="text-4xl font-bold">1</span></div>
+                        <p class="mt-2">transport costs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <img src="https://source.unsplash.com/random/1600x600/?map" alt="Delivery Area Map" class="w-full h-auto">
+            </div>
+        </section>
+
+        <!-- Instagram Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-2xl font-bold text-gray-800">#YellowKitchens in instagram</h2>
+                <div class="carousel relative overflow-hidden mt-8">
+                    <div class="carousel-inner flex transition-transform duration-500 ease-in-out">
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
+                        <div class="carousel-item w-64 h-64 bg-cover bg-center inline-block" style="background-image: url('https://source.unsplash.com/random/300x300/?instagram')"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-16">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/4 p-4">
+                        <a href="#" class="text-xl font-bold">
+                            yellow<span class="text-yellow-500">kitchen</span>
+                        </a>
+                        <hr class="my-4">
+                        <div class="flex space-x-4 mt-4">
+                            <a href="#" class="hover:text-yellow-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18a4 4 0 014-4h12a4 4 0 014 4v2H4z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="hover:text-yellow-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                </svg>
+                            </a>
+                            <a href="#" class="hover:text-yellow-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10V5H9m19 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/4 p-4">
+                        <h3 class="text-xl font-bold mb-4">About us</h3>
+                        <ul>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Concept</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Business</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Restaurant signup</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">For Investors</a></li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/4 p-4">
+                        <h3 class="text-xl font-bold mb-4">Get help</h3>
+                        <ul>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Read FAQs</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Restaurants</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Specialities</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Sign up to deliver</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">English <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg></a></li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/4 p-4">
+                        <h3 class="text-xl font-bold mb-4">Contact us</h3>
+                        <p class="text-gray-400">Yellow kitchen Paris 11<br />69 avenue de la République 75011 Paris</p>
+                        <p class="text-gray-400 mt-2">0800 111 126</p>
+                        <p class="text-gray-400 mt-2">contact@yellowkitchens.com</p>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center mt-8">
+                    <div>
+                        <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white ml-4">Terms</a>
+                    </div>
+                    <p class="text-gray-400">© 2020 Yellow kitchen</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
 
 </body>
 

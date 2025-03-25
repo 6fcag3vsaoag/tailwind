@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <defs>
+  <symbol height="108" id="svg_2" viewBox="0 0 128 108" width="128" xmlns="http://www.w3.org/2000/svg">
+   <g filter="url(#svg_1)">
+    <rect fill="white" height="48" rx="24" width="48" x="40" y="12"/>
+    <path d="m76,37l-24,0l0,-2l24,0l0,2z" fill="#9093A6"/>
+    <path d="m76,26l-24,0l0,-2l24,0l0,2z" fill="#9093A6"/>
+    <path d="m76,48l-24,0l0,-2l24,0l0,2z" fill="#9093A6"/>
+   </g>
+   <defs>
+    <filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="128" id="svg_1" width="128" x="0" y="-20">
+     <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+     <feColorMatrix in="SourceAlpha" result="hardAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+     <feOffset dy="8"/>
+     <feGaussianBlur stdDeviation="20"/>
+     <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+     <feBlend in2="BackgroundImageFix"/>
+     <feBlend in="SourceGraphic" in2="effect1_dropShadow_48_580"/>
+    </filter>
+   </defs>
+  </symbol>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <use id="svg_3" transform="matrix(1.25 0 0 1.25 -47 -12)" xlink:href="#svg_2"/>
+ </g>
+</svg>
