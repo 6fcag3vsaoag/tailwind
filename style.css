@@ -289,8 +289,8 @@
   .ml-\[-1px\] {
     margin-left: -1px;
   }
-  .ml-\[7px\] {
-    margin-left: 7px;
+  .ml-\[-4px\] {
+    margin-left: -4px;
   }
   .box-border {
     box-sizing: border-box;
@@ -358,9 +358,6 @@
   .w-6 {
     width: calc(var(--spacing) * 6);
   }
-  .w-8 {
-    width: calc(var(--spacing) * 8);
-  }
   .w-12 {
     width: calc(var(--spacing) * 12);
   }
@@ -378,6 +375,9 @@
   }
   .w-68 {
     width: calc(var(--spacing) * 68);
+  }
+  .w-84 {
+    width: calc(var(--spacing) * 84);
   }
   .w-109 {
     width: calc(var(--spacing) * 109);
@@ -618,6 +618,9 @@
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
   }
+  .pl-4 {
+    padding-left: calc(var(--spacing) * 4);
+  }
   .pl-5\.5 {
     padding-left: calc(var(--spacing) * 5.5);
   }
@@ -699,13 +702,21 @@
     --tw-tracking: 0.33px;
     letter-spacing: 0.33px;
   }
+  .tracking-\[0\.35px\] {
+    --tw-tracking: 0.35px;
+    letter-spacing: 0.35px;
+  }
   .tracking-\[0\.50px\] {
     --tw-tracking: 0.50px;
     letter-spacing: 0.50px;
   }
-  .tracking-\[2\.82px\] {
-    --tw-tracking: 2.82px;
-    letter-spacing: 2.82px;
+  .tracking-\[0\.px\] {
+    --tw-tracking: 0.px;
+    letter-spacing: 0.px;
+  }
+  .tracking-\[2\.85px\] {
+    --tw-tracking: 2.85px;
+    letter-spacing: 2.85px;
   }
   .tracking-\[2\.88px\] {
     --tw-tracking: 2.88px;
