@@ -307,11 +307,8 @@
   .h-\[104px\] {
     height: 104px;
   }
-  .h-\[110px\] {
-    height: 110px;
-  }
-  .h-\[125px\] {
-    height: 125px;
+  .h-\[112px\] {
+    height: 112px;
   }
   .h-\[184px\] {
     height: 184px;
@@ -524,9 +521,6 @@
   }
   .bg-repeat-x {
     background-repeat: repeat-x;
-  }
-  .object-contain {
-    object-fit: contain;
   }
   .object-cover {
     object-fit: cover;
