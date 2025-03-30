@@ -17,8 +17,6 @@
     --spacing: 0.25rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
-    --text-sm: 0.875rem;
-    --text-sm--line-height: calc(1.25 / 0.875);
     --text-base: 1rem;
     --text-base--line-height: calc(1.5 / 1);
     --text-xl: 1.25rem;
@@ -270,8 +268,14 @@
   .ml-12 {
     margin-left: calc(var(--spacing) * 12);
   }
+  .ml-\[-1px\] {
+    margin-left: -1px;
+  }
   .box-border {
     box-sizing: border-box;
+  }
+  .block {
+    display: block;
   }
   .flex {
     display: flex;
@@ -284,9 +288,6 @@
   }
   .h-6 {
     height: calc(var(--spacing) * 6);
-  }
-  .h-8 {
-    height: calc(var(--spacing) * 8);
   }
   .h-12 {
     height: calc(var(--spacing) * 12);
@@ -327,14 +328,20 @@
   .w-6 {
     width: calc(var(--spacing) * 6);
   }
-  .w-8 {
-    width: calc(var(--spacing) * 8);
-  }
   .w-12 {
     width: calc(var(--spacing) * 12);
   }
+  .w-52 {
+    width: calc(var(--spacing) * 52);
+  }
   .w-64 {
     width: calc(var(--spacing) * 64);
+  }
+  .w-65 {
+    width: calc(var(--spacing) * 65);
+  }
+  .w-68 {
+    width: calc(var(--spacing) * 68);
   }
   .w-\[117px\] {
     width: 117px;
@@ -357,11 +364,17 @@
   .w-full {
     width: 100%;
   }
+  .max-w-55 {
+    max-width: calc(var(--spacing) * 55);
+  }
   .max-w-\[539px\] {
     max-width: 539px;
   }
   .max-w-\[1440px\] {
     max-width: 1440px;
+  }
+  .shrink {
+    flex-shrink: 1;
   }
   .shrink-0 {
     flex-shrink: 0;
@@ -382,6 +395,9 @@
   .flex-col {
     flex-direction: column;
   }
+  .flex-row {
+    flex-direction: row;
+  }
   .flex-wrap {
     flex-wrap: wrap;
   }
@@ -394,8 +410,17 @@
   .justify-between {
     justify-content: space-between;
   }
+  .justify-end {
+    justify-content: flex-end;
+  }
   .justify-start {
     justify-content: flex-start;
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
+  }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
   }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
@@ -535,10 +560,6 @@
     font-size: var(--text-base);
     line-height: var(--tw-leading, var(--text-base--line-height));
   }
-  .text-sm {
-    font-size: var(--text-sm);
-    line-height: var(--tw-leading, var(--text-sm--line-height));
-  }
   .text-xl {
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
@@ -557,6 +578,10 @@
   .leading-5 {
     --tw-leading: calc(var(--spacing) * 5);
     line-height: calc(var(--spacing) * 5);
+  }
+  .leading-6 {
+    --tw-leading: calc(var(--spacing) * 6);
+    line-height: calc(var(--spacing) * 6);
   }
   .leading-\[64px\] {
     --tw-leading: 64px;
@@ -577,6 +602,10 @@
   .tracking-\[0\.00px\] {
     --tw-tracking: 0.00px;
     letter-spacing: 0.00px;
+  }
+  .tracking-\[0\.3px\] {
+    --tw-tracking: 0.3px;
+    letter-spacing: 0.3px;
   }
   .tracking-\[0\.50px\] {
     --tw-tracking: 0.50px;
