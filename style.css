@@ -238,9 +238,6 @@
   .my-4 {
     margin-block: calc(var(--spacing) * 4);
   }
-  .mt-1 {
-    margin-top: calc(var(--spacing) * 1);
-  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -310,26 +307,20 @@
   .h-\[104px\] {
     height: 104px;
   }
+  .h-\[110px\] {
+    height: 110px;
+  }
+  .h-\[125px\] {
+    height: 125px;
+  }
+  .h-\[184px\] {
+    height: 184px;
+  }
   .h-\[320px\] {
     height: 320px;
   }
-  .h-\[392px\] {
-    height: 392px;
-  }
   .h-auto {
     height: auto;
-  }
-  .h-full {
-    height: 100%;
-  }
-  .max-h-\[46px\] {
-    max-height: 46px;
-  }
-  .max-h-\[250px\] {
-    max-height: 250px;
-  }
-  .max-h-\[392px\] {
-    max-height: 392px;
   }
   .max-h-\[720px\] {
     max-height: 720px;
@@ -367,20 +358,17 @@
   .w-\[118px\] {
     width: 118px;
   }
+  .w-\[296px\] {
+    width: 296px;
+  }
   .w-\[300px\] {
     width: 300px;
-  }
-  .w-\[305px\] {
-    width: 305px;
   }
   .w-\[540px\] {
     width: 540px;
   }
   .w-\[872px\] {
     width: 872px;
-  }
-  .w-\[1256px\] {
-    width: 1256px;
   }
   .w-auto {
     width: auto;
@@ -443,9 +431,6 @@
   .justify-between {
     justify-content: space-between;
   }
-  .justify-center {
-    justify-content: center;
-  }
   .justify-end {
     justify-content: flex-end;
   }
@@ -458,11 +443,11 @@
   .gap-5 {
     gap: calc(var(--spacing) * 5);
   }
-  .gap-5\.5 {
-    gap: calc(var(--spacing) * 5.5);
-  }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
+  }
+  .gap-\[25px\] {
+    gap: 25px;
   }
   .space-x-4 {
     :where(& > :not(:last-child)) {
@@ -479,6 +464,10 @@
   }
   .rounded-full {
     border-radius: calc(infinity * 1px);
+  }
+  .rounded-t {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
   }
   .rounded-l {
     border-top-left-radius: 0.25rem;
@@ -536,6 +525,9 @@
   .bg-repeat-x {
     background-repeat: repeat-x;
   }
+  .object-contain {
+    object-fit: contain;
+  }
   .object-cover {
     object-fit: cover;
   }
@@ -568,9 +560,6 @@
   }
   .pt-6 {
     padding-top: calc(var(--spacing) * 6);
-  }
-  .pt-12 {
-    padding-top: calc(var(--spacing) * 12);
   }
   .pt-\[18px\] {
     padding-top: 18px;
