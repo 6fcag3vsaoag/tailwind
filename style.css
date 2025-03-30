@@ -430,9 +430,6 @@
   .min-w-\[118px\] {
     min-width: 118px;
   }
-  .min-w-\[1299px\] {
-    min-width: 1299px;
-  }
   .shrink {
     flex-shrink: 1;
   }
@@ -493,9 +490,6 @@
   }
   .gap-9 {
     gap: calc(var(--spacing) * 9);
-  }
-  .gap-\[5px\] {
-    gap: 5px;
   }
   .gap-\[25px\] {
     gap: 25px;
