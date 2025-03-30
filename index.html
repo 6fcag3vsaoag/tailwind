@@ -20,35 +20,32 @@
     <!-- Главный контейнер с ограничением ширины -->
     <div class="max-w-[1440px] ml-0 bg-white h-[3966px]">
         <!-- Header -->
-        <header class="bg-white">
-            <div class="container mx-auto flex justify-between items-center py-3 px-23 relative">
-                <!-- Логотип -->
-                <a href="#" class="text-xl font-bold text-gray-800">
-                    <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
+        <header class="bg-white flex justify-between items-center py-3 px-23 relative">
+            <!-- Логотип -->
+            <a href="#" class="text-xl font-bold text-gray-800">
+                <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
+            </a>
+
+            <!-- Навигация -->
+            <nav class="flex items-center gap-12">
+                <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
+                    <img src="images/person.svg" alt="User Icon" class="h-6 w-6">
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto ml-1">
+                        Log in
+                    </p>
                 </a>
-
-                <!-- Навигация -->
-                <nav class="flex items-center">
-                    <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
-                        <img src="images/person.svg" alt="User Icon" class="h-6 w-6">
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto ml-1">
-                            Log in
-                        </p>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center ml-12">
-                        <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6">
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto">
-                            0
-                        </p>
-                    </a>
-                    <button class="focus:outline-none ml-12">
-                        <img src="images/Button.svg" alt="Menu Icon" class="h-12 w-12">
-                    </button>
-                </nav>
-
-                <!-- Разделительная линия (фоновое изображение) -->
-                <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
-            </div>
+                <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
+                    <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6">
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto">
+                        0
+                    </p>
+                </a>
+                <button class="focus:outline-none">
+                    <img src="images/Button.svg" alt="Menu Icon" class="h-12 w-12">
+                </button>
+            </nav>
+            <!-- Разделительная линия (фоновое изображение) -->
+            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
         </header>
 
 
