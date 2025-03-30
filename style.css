@@ -265,8 +265,14 @@
   .mt-18 {
     margin-top: calc(var(--spacing) * 18);
   }
+  .mt-21 {
+    margin-top: calc(var(--spacing) * 21);
+  }
   .mr-2 {
     margin-right: calc(var(--spacing) * 2);
+  }
+  .mr-\[-22px\] {
+    margin-right: -22px;
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
@@ -343,8 +349,17 @@
   .h-\[284px\] {
     height: 284px;
   }
+  .h-\[299px\] {
+    height: 299px;
+  }
   .h-\[320px\] {
     height: 320px;
+  }
+  .h-\[386px\] {
+    height: 386px;
+  }
+  .h-\[600px\] {
+    height: 600px;
   }
   .h-\[3966px\] {
     height: 3966px;
@@ -394,6 +409,9 @@
   .w-109 {
     width: calc(var(--spacing) * 109);
   }
+  .w-\[100\.00\%\] {
+    width: 100.00%;
+  }
   .w-\[117px\] {
     width: 117px;
   }
@@ -411,6 +429,9 @@
   }
   .w-\[300px\] {
     width: 300px;
+  }
+  .w-\[440px\] {
+    width: 440px;
   }
   .w-\[540px\] {
     width: 540px;
@@ -490,6 +511,9 @@
   }
   .items-center {
     align-items: center;
+  }
+  .items-stretch {
+    align-items: stretch;
   }
   .justify-between {
     justify-content: space-between;
@@ -622,6 +646,9 @@
   .px-23 {
     padding-inline: calc(var(--spacing) * 23);
   }
+  .px-\[91px\] {
+    padding-inline: 91px;
+  }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
@@ -630,6 +657,9 @@
   }
   .py-16 {
     padding-block: calc(var(--spacing) * 16);
+  }
+  .py-\[72px\] {
+    padding-block: 72px;
   }
   .pt-6 {
     padding-top: calc(var(--spacing) * 6);
@@ -643,17 +673,26 @@
   .pt-\[18px\] {
     padding-top: 18px;
   }
+  .pt-\[67px\] {
+    padding-top: 67px;
+  }
   .pr-2 {
     padding-right: calc(var(--spacing) * 2);
   }
   .pr-5\.5 {
     padding-right: calc(var(--spacing) * 5.5);
   }
+  .pr-\[188px\] {
+    padding-right: 188px;
+  }
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
   }
   .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
+  }
+  .pb-\[147px\] {
+    padding-bottom: 147px;
   }
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
@@ -666,6 +705,9 @@
   }
   .pl-6 {
     padding-left: calc(var(--spacing) * 6);
+  }
+  .pl-\[1px\] {
+    padding-left: 1px;
   }
   .text-center {
     text-align: center;
@@ -837,6 +879,9 @@
   }
   .\[background\:url\(\'images\/bg\.png\'\)_50\%_\/_cover_no-repeat\] {
     background: url('images/bg.png') 50% / cover no-repeat;
+  }
+  .\[background\:url\(\'images\/map\.png\'\)_50\%_\/_cover_no-repeat\] {
+    background: url('images/map.png') 50% / cover no-repeat;
   }
   .hover\:text-gray-800 {
     &:hover {
