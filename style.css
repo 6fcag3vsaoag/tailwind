@@ -7,9 +7,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
     --color-yellow-100: oklch(0.973 0.071 103.193);
-    --color-yellow-200: oklch(0.945 0.129 101.54);
     --color-yellow-500: oklch(0.795 0.184 86.047);
-    --color-yellow-600: oklch(0.681 0.162 75.834);
     --color-gray-50: oklch(0.985 0.002 247.839);
     --color-gray-100: oklch(0.967 0.003 264.542);
     --color-gray-200: oklch(0.928 0.006 264.531);
@@ -30,6 +28,7 @@
     --text-2xl--line-height: calc(2 / 1.5);
     --text-4xl: 2.25rem;
     --text-4xl--line-height: calc(2.5 / 2.25);
+    --font-weight-light: 300;
     --font-weight-bold: 700;
     --radius-lg: 0.5rem;
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
@@ -197,8 +196,8 @@
   .top-3 {
     top: calc(var(--spacing) * 3);
   }
-  .top-12 {
-    top: calc(var(--spacing) * 12);
+  .top-14 {
+    top: calc(var(--spacing) * 14);
   }
   .right-0 {
     right: calc(var(--spacing) * 0);
@@ -212,8 +211,8 @@
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
-  .left-12 {
-    left: calc(var(--spacing) * 12);
+  .left-11\.5 {
+    left: calc(var(--spacing) * 11.5);
   }
   .container {
     width: 100%;
@@ -260,6 +259,9 @@
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
+  .-ml-\[3px\] {
+    margin-left: calc(3px * -1);
+  }
   .ml-0 {
     margin-left: calc(var(--spacing) * 0);
   }
@@ -271,6 +273,9 @@
   }
   .ml-12 {
     margin-left: calc(var(--spacing) * 12);
+  }
+  .box-border {
+    box-sizing: border-box;
   }
   .flex {
     display: flex;
@@ -299,8 +304,8 @@
   .h-\[104px\] {
     height: 104px;
   }
-  .h-\[288px\] {
-    height: 288px;
+  .h-\[320px\] {
+    height: 320px;
   }
   .h-auto {
     height: auto;
@@ -332,8 +337,8 @@
   .w-64 {
     width: calc(var(--spacing) * 64);
   }
-  .w-\[536px\] {
-    width: 536px;
+  .w-\[540px\] {
+    width: 540px;
   }
   .w-\[872px\] {
     width: 872px;
@@ -343,6 +348,9 @@
   }
   .w-full {
     width: 100%;
+  }
+  .max-w-\[539px\] {
+    max-width: 539px;
   }
   .max-w-\[1440px\] {
     max-width: 1440px;
@@ -441,14 +449,14 @@
   .object-contain {
     object-fit: contain;
   }
+  .p-0 {
+    padding: calc(var(--spacing) * 0);
+  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
-  }
-  .p-6 {
-    padding: calc(var(--spacing) * 6);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
@@ -468,11 +476,23 @@
   .py-16 {
     padding-block: calc(var(--spacing) * 16);
   }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
+  }
+  .pl-6 {
+    padding-left: calc(var(--spacing) * 6);
+  }
   .text-center {
     text-align: center;
   }
+  .text-left {
+    text-align: left;
+  }
   .\[font-family\:\'Martel_Sans\'\,sans-serif\] {
     font-family: 'Martel Sans',sans-serif;
+  }
+  .\[font-family\:Poppins\,sans-serif\] {
+    font-family: Poppins,sans-serif;
   }
   .text-2xl {
     font-size: var(--text-2xl);
@@ -498,17 +518,35 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
+  .text-\[58px\] {
+    font-size: 58px;
+  }
   .leading-5 {
     --tw-leading: calc(var(--spacing) * 5);
     line-height: calc(var(--spacing) * 5);
+  }
+  .leading-\[64px\] {
+    --tw-leading: 64px;
+    line-height: 64px;
   }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
   }
+  .font-light {
+    --tw-font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-light);
+  }
   .tracking-\[0\.50px\] {
     --tw-tracking: 0.50px;
     letter-spacing: 0.50px;
+  }
+  .tracking-\[2\.90px\] {
+    --tw-tracking: 2.90px;
+    letter-spacing: 2.90px;
+  }
+  .text-\[\#3f4255\] {
+    color: #3f4255;
   }
   .text-\[\#9093a6\] {
     color: #9093a6;
@@ -527,9 +565,6 @@
   }
   .text-yellow-500 {
     color: var(--color-yellow-500);
-  }
-  .text-yellow-600 {
-    color: var(--color-yellow-600);
   }
   .shadow-\[0px_8px_40px_0px_rgba\(0\,0\,0\,0\.08\)\] {
     --tw-shadow: 0px 8px 40px 0px var(--tw-shadow-color, rgba(0,0,0,0.08));
@@ -559,13 +594,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gray-200);
-      }
-    }
-  }
-  .hover\:bg-yellow-200 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-yellow-200);
       }
     }
   }
