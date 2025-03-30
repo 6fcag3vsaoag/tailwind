@@ -6,7 +6,6 @@
     'Noto Color Emoji';
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
-    --color-yellow-100: oklch(0.973 0.071 103.193);
     --color-yellow-500: oklch(0.795 0.184 86.047);
     --color-gray-100: oklch(0.967 0.003 264.542);
     --color-gray-400: oklch(0.707 0.022 261.325);
@@ -337,6 +336,9 @@
   .h-\[184px\] {
     height: 184px;
   }
+  .h-\[284px\] {
+    height: 284px;
+  }
   .h-\[320px\] {
     height: 320px;
   }
@@ -464,11 +466,11 @@
   .items-center {
     align-items: center;
   }
-  .justify-around {
-    justify-content: space-around;
-  }
   .justify-between {
     justify-content: space-between;
+  }
+  .justify-center {
+    justify-content: center;
   }
   .justify-end {
     justify-content: flex-end;
@@ -551,9 +553,6 @@
   }
   .bg-white {
     background-color: var(--color-white);
-  }
-  .bg-yellow-100 {
-    background-color: var(--color-yellow-100);
   }
   .bg-yellow-500 {
     background-color: var(--color-yellow-500);
@@ -780,6 +779,9 @@
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
+  }
+  .\[background\:url\(\'images\/bg\.png\'\)_50\%_\/_cover_no-repeat\] {
+    background: url('images/bg.png') 50% / cover no-repeat;
   }
   .hover\:text-gray-800 {
     &:hover {
