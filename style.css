@@ -29,6 +29,7 @@
     --text-4xl: 2.25rem;
     --text-4xl--line-height: calc(2.5 / 2.25);
     --font-weight-light: 300;
+    --font-weight-normal: 400;
     --font-weight-bold: 700;
     --radius-lg: 0.5rem;
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
@@ -241,6 +242,9 @@
   .my-4 {
     margin-block: calc(var(--spacing) * 4);
   }
+  .mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -258,9 +262,6 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
-  }
-  .-ml-\[3px\] {
-    margin-left: calc(3px * -1);
   }
   .ml-0 {
     margin-left: calc(var(--spacing) * 0);
@@ -301,6 +302,9 @@
   .h-\[1px\] {
     height: 1px;
   }
+  .h-\[72px\] {
+    height: 72px;
+  }
   .h-\[104px\] {
     height: 104px;
   }
@@ -336,6 +340,15 @@
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
+  }
+  .w-\[117px\] {
+    width: 117px;
+  }
+  .w-\[118px\] {
+    width: 118px;
+  }
+  .w-\[300px\] {
+    width: 300px;
   }
   .w-\[540px\] {
     width: 540px;
@@ -385,6 +398,12 @@
   .justify-center {
     justify-content: center;
   }
+  .justify-start {
+    justify-content: flex-start;
+  }
+  .gap-6 {
+    gap: calc(var(--spacing) * 6);
+  }
   .space-x-4 {
     :where(& > :not(:last-child)) {
       --tw-space-x-reverse: 0;
@@ -415,6 +434,17 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+  .border-2 {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
+  .border-solid {
+    --tw-border-style: solid;
+    border-style: solid;
+  }
+  .border-\[\#ffe145\] {
+    border-color: #ffe145;
   }
   .bg-gray-50 {
     background-color: var(--color-gray-50);
@@ -479,6 +509,12 @@
   .pt-6 {
     padding-top: calc(var(--spacing) * 6);
   }
+  .pb-2 {
+    padding-bottom: calc(var(--spacing) * 2);
+  }
+  .pl-5\.5 {
+    padding-left: calc(var(--spacing) * 5.5);
+  }
   .pl-6 {
     padding-left: calc(var(--spacing) * 6);
   }
@@ -521,6 +557,10 @@
   .text-\[58px\] {
     font-size: 58px;
   }
+  .leading-4 {
+    --tw-leading: calc(var(--spacing) * 4);
+    line-height: calc(var(--spacing) * 4);
+  }
   .leading-5 {
     --tw-leading: calc(var(--spacing) * 5);
     line-height: calc(var(--spacing) * 5);
@@ -536,6 +576,14 @@
   .font-light {
     --tw-font-weight: var(--font-weight-light);
     font-weight: var(--font-weight-light);
+  }
+  .font-normal {
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
+  }
+  .tracking-\[0\.00px\] {
+    --tw-tracking: 0.00px;
+    letter-spacing: 0.00px;
   }
   .tracking-\[0\.50px\] {
     --tw-tracking: 0.50px;
