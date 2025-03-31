@@ -193,29 +193,29 @@
   .top-14 {
     top: calc(var(--spacing) * 14);
   }
-  .top-\[10\%\] {
-    top: 10%;
-  }
-  .top-\[13\%\] {
-    top: 13%;
+  .top-\[13\.3\%\] {
+    top: 13.3%;
   }
   .top-\[20\%\] {
     top: 20%;
   }
-  .top-\[30\%\] {
-    top: 30%;
+  .top-\[26\.5\%\] {
+    top: 26.5%;
   }
-  .top-\[40\%\] {
-    top: 40%;
+  .top-\[36\%\] {
+    top: 36%;
   }
-  .top-\[50\%\] {
-    top: 50%;
+  .top-\[37\.2\%\] {
+    top: 37.2%;
   }
-  .top-\[60\%\] {
-    top: 60%;
+  .top-\[38\.6\%\] {
+    top: 38.6%;
   }
-  .top-\[70\%\] {
-    top: 70%;
+  .top-\[56\.5\%\] {
+    top: 56.5%;
+  }
+  .top-\[62\.5\%\] {
+    top: 62.5%;
   }
   .right-0 {
     right: calc(var(--spacing) * 0);
@@ -232,29 +232,29 @@
   .left-11\.5 {
     left: calc(var(--spacing) * 11.5);
   }
-  .left-\[20\%\] {
-    left: 20%;
+  .left-\[13\.5\%\] {
+    left: 13.5%;
   }
   .left-\[34\%\] {
     left: 34%;
   }
-  .left-\[40\%\] {
-    left: 40%;
+  .left-\[41\.5\%\] {
+    left: 41.5%;
   }
-  .left-\[50\%\] {
-    left: 50%;
+  .left-\[52\.5\%\] {
+    left: 52.5%;
   }
-  .left-\[60\%\] {
-    left: 60%;
+  .left-\[58\%\] {
+    left: 58%;
   }
-  .left-\[70\%\] {
-    left: 70%;
+  .left-\[72\.7\%\] {
+    left: 72.7%;
   }
-  .left-\[80\%\] {
-    left: 80%;
+  .left-\[83\.7\%\] {
+    left: 83.7%;
   }
-  .left-\[88\%\] {
-    left: 88%;
+  .left-\[85\.2\%\] {
+    left: 85.2%;
   }
   .container {
     width: 100%;
@@ -321,9 +321,6 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
-  }
-  .ml-0 {
-    margin-left: calc(var(--spacing) * 0);
   }
   .ml-1 {
     margin-left: calc(var(--spacing) * 1);
