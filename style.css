@@ -184,11 +184,38 @@
   .relative {
     position: relative;
   }
+  .inset-0 {
+    inset: calc(var(--spacing) * 0);
+  }
   .top-3 {
     top: calc(var(--spacing) * 3);
   }
   .top-14 {
     top: calc(var(--spacing) * 14);
+  }
+  .top-\[10\%\] {
+    top: 10%;
+  }
+  .top-\[13\%\] {
+    top: 13%;
+  }
+  .top-\[20\%\] {
+    top: 20%;
+  }
+  .top-\[30\%\] {
+    top: 30%;
+  }
+  .top-\[40\%\] {
+    top: 40%;
+  }
+  .top-\[50\%\] {
+    top: 50%;
+  }
+  .top-\[60\%\] {
+    top: 60%;
+  }
+  .top-\[70\%\] {
+    top: 70%;
   }
   .right-0 {
     right: calc(var(--spacing) * 0);
@@ -204,6 +231,30 @@
   }
   .left-11\.5 {
     left: calc(var(--spacing) * 11.5);
+  }
+  .left-\[20\%\] {
+    left: 20%;
+  }
+  .left-\[34\%\] {
+    left: 34%;
+  }
+  .left-\[40\%\] {
+    left: 40%;
+  }
+  .left-\[50\%\] {
+    left: 50%;
+  }
+  .left-\[60\%\] {
+    left: 60%;
+  }
+  .left-\[70\%\] {
+    left: 70%;
+  }
+  .left-\[80\%\] {
+    left: 80%;
+  }
+  .left-\[88\%\] {
+    left: 88%;
   }
   .container {
     width: 100%;
