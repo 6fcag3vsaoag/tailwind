@@ -18,7 +18,7 @@
 
 <body class="bg-gray-100 max-w-[320px] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1440px] md:mx-auto md:px-0">
     <!-- Header -->
-    <header class="bg-white flex justify-between items-center py-3 mx-auto md:px-23">
+    <header class="bg-white flex justify-between items-center py-3 mx-auto md:px-23 relative">
         <!-- Логотип -->
         <a href="#" class="text-xl font-bold text-gray-800">
             <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
@@ -42,7 +42,7 @@
             </button>
         </nav>
         <!-- Разделительная линия (фоновое изображение) -->
-        <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
+        <div class="md:absolute md:bottom-0 md:left-0 md:right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
     </header>
 
     <!-- Title section + Features -->
@@ -96,15 +96,15 @@
     </section>
 
     <!-- Restaurants Section -->
-    <section class="container mx-auto max-w-[1256px] mt-12">
+    <section class="bg-white container mx-auto max-w-[1256px] mt-12">
         <div class="flex justify-between items-center">
-            <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Restaurants</h2>
+            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Restaurants</h2>
             <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
                 show all
             </button>
         </div>
         <!-- Карусель ресторанов -->
-        <div class="flex-col md:carousel md:flex-row mt-12 flex gap-[25px]">
+        <div class="flex-col bg-white md:carousel md:flex-row mt-12 flex gap-[25px]">
             <!-- Ресторан 1 -->
             <div class="md:carousel-item w-[296px] flex flex-col">
                 <img src="images/food1.png" alt="BURGER D'LiCg" class="w-full h-[184px] object-cover rounded-t">
@@ -130,16 +130,16 @@
 
     <!-- Nearest Restaurants Section -->
     <section class="mt-18 bg-gray-100 mx-0 xl:h-74 md:h-max-74">
-        <div class="pt-23 xl:mx-41 bg-gray-100 flex flex-col xl:flex-row justify-between">
+        <div class="pt-5 md:pt-10 lg:pt-15 xl:pt-23 mx-2 md:mx-10 xl:mx-41 bg-gray-100 flex flex-col lg:flex-row justify-between">
             <div class="flex flex-wrap flex-col gap-2  xl:gap-9 bg-gray-100">
-                <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 pl-2">Your nearest restaurants</h2>
+                <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 pl-2">Your nearest restaurants</h2>
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] xl:max-w-95 box-border m-0 pl-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
             </div>
             <!-- форма ввода адреса -->
             <form class="flex justify-between gap-2 bg-gray-100 box-border w-50 md:w-109 pr-2 mt-5 mb-8">
-                <div class="flex items-center shadow-[0px_8px_40px_rgba(0,0,0,0.08)] [font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.35px] leading-6 bg-white text-[#9093a6] grow-0 shrink-0 basis-auto pl-4 py-2 w-84 rounded">
+                <div class="flex items-center shadow-[0px_8px_40px_rgba(0,0,0,0.08)] [font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.35px] leading-6 bg-white text-[#9093a6] grow-0 shrink-0 basis-auto md:pl-4 py-2 w-54 md:w-84 rounded">
                     <img src="images/loc1.svg" alt="Location" class="mr-2">
-                    <input type="text" placeholder="Enter delivery address" class="w-full focus:outline-none">
+                    <input type="text" placeholder="Enter delivery address" class="md:w-full focus:outline-none">
                 </div>
                 <button type="submit" class="bg-[#ffe145] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.px] leading-5 text-[#b79c10] grow-0 shrink-0 px-0 rounded w-22 ml-[-4px]">send</button>
             </form>
@@ -149,7 +149,7 @@
     <!-- Specialties Section -->
     <section class="container mx-auto max-w-[1256px] md:mt-18">
         <div class="flex justify-between items-center">
-            <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Specialities</h2>
+            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Specialities</h2>
             <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
                 show all
             </button>
@@ -243,7 +243,7 @@
                 </div>
             </div>
             <!-- TEXT -->
-            <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">specialties</p>
+            <p class="[font-family:Poppins,sans-serif] md:text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">specialties</p>
         </div>
         <!-- Third 11 -->
         <div class="flex flex-col items-center w-50 pt-8.5 pl-2">
@@ -296,9 +296,9 @@
 
         <!-- INST -->
         <div class="grow-0 shrink-0 basis-auto mt-21">
-            <p class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-[#313030] m-0 pl-[1px]">
+            <p class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-[#313030] m-0 pl-[1px]">
                 <span>#YellowKitchens </span>
-                <span class="[font-family:Poppins,sans-serif] text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
+                <span class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full box-border mt-8">
                 <img src="images/Rectangle 10.png" class="w-full h-auto object-cover rounded-md border-[none]" />
