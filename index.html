@@ -16,15 +16,15 @@
 
 </head>
 
-<body class="bg-gray-100 max-w-[1440px] mx-auto">
+<body class="bg-gray-100 max-w-[320px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1440px] mx-auto xl:px-0">
     <!-- Header -->
-    <header class="bg-white flex justify-between items-center py-3 px-23 relative">
+    <header class="bg-white flex justify-between items-center py-3 mx-auto md:px-23">
         <!-- Логотип -->
         <a href="#" class="text-xl font-bold text-gray-800">
             <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
         </a>
         <!-- Навигация -->
-        <nav class="flex items-center gap-12">
+        <nav class="flex items-center gap-3 md:gap-12">
             <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
                 <img src="images/person.svg" alt="User Icon" class="h-6 w-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto ml-1">
@@ -53,7 +53,7 @@
         <div class="container mx-auto px-6 absolute top-14 left-11.5">
             <div class="mt-10 w-[540px] h-[320px] flex flex-col justify-between p-0">
                 <!-- Верхняя часть: текст -->
-                <h1 class="[font-family:Poppins,sans-serif] text-[58px] font-light tracking-[2.90px] text-left leading-[64px] text-[#3f4255] max-w-[539px] box-border pl-6 pt-6">Your Food court at home</h1>
+                <h1 class="[font-family:Poppins,sans-serif] md:text-[58px] font-light tracking-[2.90px] text-left md:leading-[64px] text-[#3f4255] md:max-w-[539px] box-border pl-6 pt-6">Your Food court at home</h1>
                 <!-- Нижняя часть: кнопки -->
                 <div class="flex items-center justify-start pl-5.5 pb-2 w-[300px]">
                     <div class="flex gap-6">
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Features Section -->
-        <div class="w-auto h-auto xl:w-[872px] xl:h-[104px] absolute left-0 bottom-0 bg-white shadow-[0px_8px_40px_0px_rgba(0,0,0,0.08)] flex justify-end gap-5 flex-row items-center">
+        <div class="w-auto h-auto absolute left-0 bottom-0 bg-white shadow-[0px_8px_40px_0px_rgba(0,0,0,0.08)] flex flex-wrap  items-center xl:justify-end xl:gap-5 xl:w-[872px] xl:h-[104px]">
             <div class="flex items-center gap-4 w-68">
                 <img src="images/clock.png" alt="" class="h-12 w-12 block box-border">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] text-left leading-6 text-[#3f4255] grow-0 shrink basis-auto">
@@ -129,11 +129,11 @@
     </section>
 
     <!-- Nearest Restaurants Section -->
-    <section class="mt-18 bg-gray-100 mx-0 h-74 h-max-74">
-        <div class="pt-23 mx-41 bg-gray-100 flex justify-between">
-            <div class="flex flex-col gap-9 bg-gray-100">
+    <section class="xl:mt-18 bg-gray-100 mx-0 xl:h-74 md:h-max-74">
+        <div class="xl:pt-23 xl:mx-41 bg-gray-100 flex flex-col xl:flex-row justify-between">
+            <div class="flex flex-wrap flex-row xl:flex-col  xl:gap-9 bg-gray-100">
                 <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 pl-2">Your nearest restaurants</h2>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] max-w-95 box-border m-0 pl-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] xl:max-w-95 box-border m-0 pl-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
             </div>
             <!-- форма ввода адреса -->
             <form class="flex justify-between gap-2 bg-gray-100 box-border w-109 pr-2 mt-5 mb-8">
@@ -147,8 +147,8 @@
     </section>
 
     <!-- Specialties Section -->
-    <section class="container mx-auto max-w-[1256px] mt-18">
-        <div class="flex justify-between items-center">
+    <section class="container mx-auto max-w-[1256px] md:mt-18">
+        <div class="flex-row md:flex-col justify-between items-center">
             <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Specialities</h2>
             <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
                 show all
@@ -216,7 +216,7 @@
     </section>
 
     <!-- Statistics Section -->
-    <section class="mt-18 [background:url('images/bg.png')_50%_/_cover_no-repeat] h-[284px] px-0 flex justify-center items-center ">
+    <section class="mt-18 [background:url('images/bg.png')_50%_/_cover_no-repeat] md:h-[284px] px-0 flex flex-col md:flex-row justify-center items-center ">
         <!-- First 1 -->
         <div class="flex flex-col items-center w-50 pt-8.5 pr-5.5">
             <!-- Желтый круг (фон) -->
