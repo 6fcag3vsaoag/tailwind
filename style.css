@@ -416,9 +416,6 @@
   .w-\[296px\] {
     width: 296px;
   }
-  .w-\[300px\] {
-    width: 300px;
-  }
   .w-\[440px\] {
     width: 440px;
   }
@@ -967,6 +964,11 @@
       height: 320px;
     }
   }
+  .md\:w-\[300px\] {
+    @media (width >= 48rem) {
+      width: 300px;
+    }
+  }
   .md\:w-\[540px\] {
     @media (width >= 48rem) {
       width: 540px;
@@ -990,6 +992,11 @@
   .md\:flex-row {
     @media (width >= 48rem) {
       flex-direction: row;
+    }
+  }
+  .md\:justify-between {
+    @media (width >= 48rem) {
+      justify-content: space-between;
     }
   }
   .md\:gap-12 {
