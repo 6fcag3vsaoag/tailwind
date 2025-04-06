@@ -16,476 +16,418 @@
 
 </head>
 
-<body class="bg-gray-100">
-    <!-- Главный контейнер с ограничением ширины -->
-    <div class="max-w-[1440px] mx-auto bg-white h-[3966px]">
-        <!-- Header -->
-        <header class="bg-white flex justify-between items-center py-3 px-23 relative">
-            <!-- Логотип -->
-            <a href="#" class="text-xl font-bold text-gray-800">
-                <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
+<body class="bg-gray-100 max-w-[1440px] mx-auto">
+    <!-- Header -->
+    <header class="bg-white flex justify-between items-center py-3 px-23 relative">
+        <!-- Логотип -->
+        <a href="#" class="text-xl font-bold text-gray-800">
+            <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto">
+        </a>
+        <!-- Навигация -->
+        <nav class="flex items-center gap-12">
+            <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
+                <img src="images/person.svg" alt="User Icon" class="h-6 w-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto ml-1">
+                    Log in
+                </p>
             </a>
+            <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
+                <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto">
+                    0
+                </p>
+            </a>
+            <button class="focus:outline-none">
+                <img src="images/Button.svg" alt="Menu Icon" class="h-12 w-12">
+            </button>
+        </nav>
+        <!-- Разделительная линия (фоновое изображение) -->
+        <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
+    </header>
 
-            <!-- Навигация -->
-            <nav class="flex items-center gap-12">
-                <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
-                    <img src="images/person.svg" alt="User Icon" class="h-6 w-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto ml-1">
-                        Log in
-                    </p>
-                </a>
-                <a href="#" class="text-gray-600 hover:text-gray-800 flex items-center">
-                    <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto">
-                        0
-                    </p>
-                </a>
-                <button class="focus:outline-none">
-                    <img src="images/Button.svg" alt="Menu Icon" class="h-12 w-12">
-                </button>
-            </nav>
-            <!-- Разделительная линия (фоновое изображение) -->
-            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
-        </header>
-
-
-
-
-        <!-- Title section + Features -->
-        <section class="bg-white py-16 relative min-h-[789px]">
-            <!-- Картинка в правом верхнем углу -->
-            <img src="images/foodCourt.png" alt="Food Court Image" class="absolute top-3 right-18 w-auto h-auto max-h-[720px]">
-
-            <!-- Текстовый блок в левом верхнем углу -->
-            <div class="container mx-auto px-6 absolute top-14 left-11.5">
-                <div class="mt-10 w-[540px] h-[320px] flex flex-col justify-between p-0">
-                    <!-- Верхняя часть: текст -->
-                    <h1 class="[font-family:Poppins,sans-serif] text-[58px] font-light tracking-[2.90px] text-left leading-[64px] text-[#3f4255] max-w-[539px] box-border pl-6 pt-6">Your Food court at home</h1>
-
-                    <!-- Нижняя часть: кнопки -->
-                    <div class="flex items-center justify-start pl-5.5 pb-2 w-[300px]">
-                        <div class="flex gap-6">
-                            <!-- Delivery Button -->
-                            <a href="#" class="flex flex-col items-center justify-start h-[72px] w-[118px] h-max-[72px] rounded border-2 border-solid border-[#ffe145] text-center">
-                                <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5">Delivery</span>
-                                <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px]">Order in</small>
-                            </a>
-
-                            <!-- Takeout Button -->
-                            <a href="#" class="flex flex-col items-center justify-start h-[72px] w-[117px] h-max-[72px] rounded border-2 border-solid border-[#ffe145] text-center">
-                                <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5">Takeout</span>
-                                <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px]">Grab and go</small>
-                            </a>
-                        </div>
+    <!-- Title section + Features -->
+    <section class="bg-white py-16 relative min-h-[789px]">
+        <!-- Картинка в правом верхнем углу -->
+        <img src="images/foodCourt.png" alt="Food Court Image" class="absolute top-3 right-18 w-auto h-auto max-h-[720px]">
+        <!-- Текстовый блок в левом верхнем углу -->
+        <div class="container mx-auto px-6 absolute top-14 left-11.5">
+            <div class="mt-10 w-[540px] h-[320px] flex flex-col justify-between p-0">
+                <!-- Верхняя часть: текст -->
+                <h1 class="[font-family:Poppins,sans-serif] text-[58px] font-light tracking-[2.90px] text-left leading-[64px] text-[#3f4255] max-w-[539px] box-border pl-6 pt-6">Your Food court at home</h1>
+                <!-- Нижняя часть: кнопки -->
+                <div class="flex items-center justify-start pl-5.5 pb-2 w-[300px]">
+                    <div class="flex gap-6">
+                        <!-- Delivery Button -->
+                        <a href="#" class="flex flex-col items-center justify-start h-[72px] w-[118px] h-max-[72px] rounded border-2 border-solid border-[#ffe145] text-center">
+                            <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5">Delivery</span>
+                            <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px]">Order in</small>
+                        </a>
+                        <!-- Takeout Button -->
+                        <a href="#" class="flex flex-col items-center justify-start h-[72px] w-[117px] h-max-[72px] rounded border-2 border-solid border-[#ffe145] text-center">
+                            <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5">Takeout</span>
+                            <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px]">Grab and go</small>
+                        </a>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Features Section -->
-
-            <div class="w-[872px] h-[104px] absolute left-0 bottom-0 bg-white shadow-[0px_8px_40px_0px_rgba(0,0,0,0.08)] flex justify-end gap-5 flex-row items-center">
-                <div class="flex items-center gap-4 w-68">
-                    <img src="images/clock.png" alt="" class="h-12 w-12 block box-border">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] text-left leading-6 text-[#3f4255] grow-0 shrink basis-auto">
-                        delivery in all paris in less than 30 minutes
-                    </p>
-                </div>
-                <div class="flex items-center gap-4 w-52">
-                    <img src="images/delivery.png" alt="" class="h-12 w-12 block box-border">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[#3f4255] grow-0 shrink basis-auto">
-                        Free delivery from 29 euros
-                    </p>
-                </div>
-                <div class="flex items-center gap-4 w-65">
-                    <img src="images/paris.png" alt="" class="h-12 w-12 block">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] text-left leading-6 text-[#3f4255] max-w-55 ml-[-1px]">
-                        Only fresh <br>and French products
-                    </p>
-                </div>
-            </div>
-
-
-        </section>
-
-
-
-
-        <!-- Restaurants Section -->
-        <section class="container mx-auto max-w-[1256px] mt-12">
-            <div class="flex justify-between items-center">
-                <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Restaurants</h2>
-                <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
-                    show all
-                </button>
-            </div>
-
-            <!-- Карусель ресторанов -->
-            <div class="carousel mt-12 flex gap-[25px]">
-                <!-- Ресторан 1 -->
-                <div class="carousel-item w-[296px] flex flex-col">
-                    <img src="images/food1.png" alt="BURGER D'LiCg" class="w-full h-[184px] object-cover rounded-t">
-                    <img src="images/burger.svg" alt="Логотип BURGER D'LiCg" class="w-[296px] h-[112px]">
-                </div>
-
-                <!-- Ресторан 2 -->
-                <div class="carousel-item w-[296px] flex flex-col">
-                    <img src="images/food2.png" alt="IL PASTIFICIO" class="w-full h-[184px] object-cover rounded-t">
-                    <img src="images/il_paster.svg" alt="Логотип IL PASTIFICIO" class="w-[296px] h-[112px]">
-                </div>
-
-                <!-- Ресторан 3 -->
-                <div class="carousel-item w-[296px] flex flex-col">
-                    <img src="images/food3.png" alt="CHINA MAMA" class="w-full h-[184px] object-cover rounded-t">
-                    <img src="images/Believe.svg" alt="Логотип CHINA MAMA" class="w-[296px] h-[112px]">
-                </div>
-
-                <!-- Ресторан 4 -->
-                <div class="carousel-item w-[296px] flex flex-col">
-                    <img src="images/food4.png" alt="SUSHI MASTER" class="w-full h-[184px] object-cover rounded-t">
-                    <img src="images/vietnamese.svg" alt="Логотип SUSHI MASTER" class="w-[296px] h-[112px]">
-                </div>
-            </div>
-        </section>
-
-        <!-- Nearest Restaurants Section -->
-        <section class="mt-18 bg-gray-100 mx-0 h-74 h-max-74">
-            <div class="pt-23 mx-41 bg-gray-100 flex justify-between">
-                <div class="flex flex-col gap-9 bg-gray-100">
-                    <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 pl-2">Your nearest restaurants</h2>
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] max-w-95 box-border m-0 pl-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
-                </div>
-
-                <!-- форма ввода адреса -->
-                <form class="flex justify-between gap-2 bg-gray-100 box-border w-109 pr-2 mt-5 mb-8">
-                    <div class="flex items-center shadow-[0px_8px_40px_rgba(0,0,0,0.08)] [font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.35px] leading-6 bg-white text-[#9093a6] grow-0 shrink-0 basis-auto pl-4 py-2 w-84 rounded">
-                        <img src="images/loc1.svg" alt="Location" class="mr-2">
-                        <input type="text" placeholder="Enter delivery address" class="w-full focus:outline-none">
-                    </div>
-                    <button type="submit" class="bg-[#ffe145] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.px] leading-5 text-[#b79c10] grow-0 shrink-0 px-0 rounded w-22 ml-[-4px]">send</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Specialties Section -->
-        <section class="container mx-auto max-w-[1256px] mt-18">
-            <div class="flex justify-between items-center">
-                <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Specialities</h2>
-                <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
-                    show all
-                </button>
-            </div>
-
-            <!-- Карусель ресторанов -->
-            <div class="carousel-specialities flex justify-between items-center flex-row max-w-[1256px] grow-0 shrink-0 basis-auto box-border mt-12">
-                <!-- Speciality 1 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/bagel.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Bagel
-                    </p>
-                </div>
-
-                <!-- Speciality 2 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/burger2.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Burger
-                    </p>
-                </div>
-
-                <!-- Speciality 3 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/chicken.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Chicken
-                    </p>
-                </div>
-
-                <!-- Speciality 4 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/fish.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Fish
-                    </p>
-                </div>
-
-                <!-- Speciality 5 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/fishnchips.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Fish'Chips
-                    </p>
-                </div>
-
-                <!-- Speciality 6 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/vegan.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Salads
-                    </p>
-                </div>
-
-                <!-- Speciality 7 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/pizza.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Pizza
-                    </p>
-                </div>
-
-                <!-- Speciality 8 -->
-                <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
-                    <img src="images/raviolli.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
-                        Pasta
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Statistics Section -->
-        <section class="mt-18 [background:url('images/bg.png')_50%_/_cover_no-repeat] h-[284px] px-0 flex justify-center items-center ">
-            <!-- First 1 -->
-            <div class="flex flex-col items-center w-50 pt-8.5 pr-5.5">
-                <!-- Желтый круг (фон) -->
-                <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
-
-                <!-- Окружность с цифрой -->
-                <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
-                    <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
-                        1
-                    </div>
-                </div>
-                <!-- TEXT -->
-                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px]">
-                    kitchen
+        <!-- Features Section -->
+        <div class="w-[872px] h-[104px] absolute left-0 bottom-0 bg-white shadow-[0px_8px_40px_0px_rgba(0,0,0,0.08)] flex justify-end gap-5 flex-row items-center">
+            <div class="flex items-center gap-4 w-68">
+                <img src="images/clock.png" alt="" class="h-12 w-12 block box-border">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] text-left leading-6 text-[#3f4255] grow-0 shrink basis-auto">
+                    delivery in all paris in less than 30 minutes
                 </p>
             </div>
-
-            <!-- Second 11 -->
-            <div class="flex flex-col items-center w-50 pt-8.5 pr-2">
-                <!-- Желтый круг (фон) -->
-                <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
-
-                <!-- Окружность с цифрой -->
-                <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
-                    <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
-                        11
-                    </div>
-                </div>
-                <!-- TEXT -->
-                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">specialties</p>
-            </div>
-
-            <!-- Third 11 -->
-            <div class="flex flex-col items-center w-50 pt-8.5 pl-2">
-                <!-- Желтый круг (фон) -->
-                <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
-
-                <!-- Окружность с цифрой -->
-                <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
-                    <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
-                        11
-                    </div>
-                </div>
-
-                <!-- TEXT -->
-                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">restaurants</p>
-            </div>
-
-            <!-- 4th 1 -->
-            <div class="flex flex-col items-center w-50 pt-8.5 pl-6">
-                <!-- Желтый круг (фон) -->
-                <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
-
-                <!-- Окружность с цифрой -->
-                <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
-                    <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
-                        1
-                    </div>
-                </div>
-                <!-- TEXT -->
-                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">transport costs</p>
-            </div>
-        </section>
-
-        <!-- Map + INST Section  -->
-        <section class="box-border flex justify-start items-stretch flex-col grow-0 shrink-0 basis-auto px-[91px] py-[72px]">
-            <div class="[background:url('images/map.png')_50%_/_cover_no-repeat] h-[600px] max-w-[initial] box-border mr-[-22px] flex justify-start items-center flex-col grow-0 shrink-0 basis-auto pr-[188px] border-[none]">
-                <!-- Контейнер для карты -->
-                <div class="w-[440px] box-border pt-[67px] pb-[147px] relative">
-                    <!-- Основная карта -->
-                    <img src="images/delivary_map.png" class="h-[386px] max-w-[initial] w-[100.00%] block box-border" />
-
-                    <!-- Иконки локации -->
-                    <div class="absolute inset-0">
-                        <!-- Иконка 1 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[37.2%] left-[13.5%]" />
-
-                        <!-- Иконка 2 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[20%] left-[34%]" />
-
-                        <!-- Иконка 3 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[26.5%] left-[52.5%]" />
-
-                        <!-- Иконка 4 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[38.6%] left-[41.5%]" />
-
-                        <!-- Иконка 5 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[36%] left-[72.7%]" />
-
-                        <!-- Иконка 6 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[62.5%] left-[58%]" />
-
-                        <!-- Иконка 7 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[56.5%] left-[83.7%]" />
-
-                        <!-- Иконка 8 -->
-                        <img src="Images/loc_map.svg" alt="Location" class="absolute top-[13.3%] left-[85.2%]" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- INST -->
-            <div class="grow-0 shrink-0 basis-auto mt-21">
-                <p class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-[#313030] m-0 pl-[1px]">
-                    <span>#YellowKitchens </span>
-                    <span class="[font-family:Poppins,sans-serif] text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
+            <div class="flex items-center gap-4 w-52">
+                <img src="images/delivery.png" alt="" class="h-12 w-12 block box-border">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[#3f4255] grow-0 shrink basis-auto">
+                    Free delivery from 29 euros
                 </p>
-                <div class="flex justify-between items-center flex-row gap-6 w-[100.00%] box-border mt-8">
-                    <img src="images/Rectangle 10.png" class="h-[299px] max-w-[initial] object-cover w-[296px] box-border block rounded-md border-[none]" />
-                    <img src="images/Rectangle 11.png" class="h-[299px] max-w-[initial] object-cover w-[296px] box-border block rounded-md border-[none]" />
-                    <img src="images/Rectangle 12.png" class="h-[299px] max-w-[initial] object-cover w-[296px] box-border block rounded-md border-[none]" />
-                    <img src="images/Rectangle 13.png" class="h-[299px] max-w-[initial] object-cover w-[296px] box-border block rounded-md border-[none]" />
+            </div>
+            <div class="flex items-center gap-4 w-65">
+                <img src="images/paris.png" alt="" class="h-12 w-12 block">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] text-left leading-6 text-[#3f4255] max-w-55 ml-[-1px]">
+                    Only fresh <br>and French products
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Restaurants Section -->
+    <section class="container mx-auto max-w-[1256px] mt-12">
+        <div class="flex justify-between items-center">
+            <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Restaurants</h2>
+            <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
+                show all
+            </button>
+        </div>
+        <!-- Карусель ресторанов -->
+        <div class="carousel mt-12 flex gap-[25px]">
+            <!-- Ресторан 1 -->
+            <div class="carousel-item w-[296px] flex flex-col">
+                <img src="images/food1.png" alt="BURGER D'LiCg" class="w-full h-[184px] object-cover rounded-t">
+                <img src="images/burger.svg" alt="Логотип BURGER D'LiCg" class="w-[296px] h-[112px]">
+            </div>
+            <!-- Ресторан 2 -->
+            <div class="carousel-item w-[296px] flex flex-col">
+                <img src="images/food2.png" alt="IL PASTIFICIO" class="w-full h-[184px] object-cover rounded-t">
+                <img src="images/il_paster.svg" alt="Логотип IL PASTIFICIO" class="w-[296px] h-[112px]">
+            </div>
+            <!-- Ресторан 3 -->
+            <div class="carousel-item w-[296px] flex flex-col">
+                <img src="images/food3.png" alt="CHINA MAMA" class="w-full h-[184px] object-cover rounded-t">
+                <img src="images/Believe.svg" alt="Логотип CHINA MAMA" class="w-[296px] h-[112px]">
+            </div>
+            <!-- Ресторан 4 -->
+            <div class="carousel-item w-[296px] flex flex-col">
+                <img src="images/food4.png" alt="SUSHI MASTER" class="w-full h-[184px] object-cover rounded-t">
+                <img src="images/vietnamese.svg" alt="Логотип SUSHI MASTER" class="w-[296px] h-[112px]">
+            </div>
+        </div>
+    </section>
+
+    <!-- Nearest Restaurants Section -->
+    <section class="mt-18 bg-gray-100 mx-0 h-74 h-max-74">
+        <div class="pt-23 mx-41 bg-gray-100 flex justify-between">
+            <div class="flex flex-col gap-9 bg-gray-100">
+                <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 pl-2">Your nearest restaurants</h2>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] max-w-95 box-border m-0 pl-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
+            </div>
+            <!-- форма ввода адреса -->
+            <form class="flex justify-between gap-2 bg-gray-100 box-border w-109 pr-2 mt-5 mb-8">
+                <div class="flex items-center shadow-[0px_8px_40px_rgba(0,0,0,0.08)] [font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.35px] leading-6 bg-white text-[#9093a6] grow-0 shrink-0 basis-auto pl-4 py-2 w-84 rounded">
+                    <img src="images/loc1.svg" alt="Location" class="mr-2">
+                    <input type="text" placeholder="Enter delivery address" class="w-full focus:outline-none">
+                </div>
+                <button type="submit" class="bg-[#ffe145] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.px] leading-5 text-[#b79c10] grow-0 shrink-0 px-0 rounded w-22 ml-[-4px]">send</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Specialties Section -->
+    <section class="container mx-auto max-w-[1256px] mt-18">
+        <div class="flex justify-between items-center">
+            <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Specialities</h2>
+            <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
+                show all
+            </button>
+        </div>
+        <!-- Карусель ресторанов -->
+        <div class="carousel-specialities flex justify-between items-center flex-row max-w-[1256px] grow-0 shrink-0 basis-auto box-border mt-12">
+            <!-- Speciality 1 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/bagel.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Bagel
+                </p>
+            </div>
+            <!-- Speciality 2 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/burger2.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Burger
+                </p>
+            </div>
+            <!-- Speciality 3 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/chicken.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Chicken
+                </p>
+            </div>
+            <!-- Speciality 4 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/fish.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Fish
+                </p>
+            </div>
+            <!-- Speciality 5 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/fishnchips.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Fish'Chips
+                </p>
+            </div>
+            <!-- Speciality 6 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/vegan.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Salads
+                </p>
+            </div>
+            <!-- Speciality 7 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/pizza.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Pizza
+                </p>
+            </div>
+            <!-- Speciality 8 -->
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+                <img src="images/raviolli.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
+                    Pasta
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="mt-18 [background:url('images/bg.png')_50%_/_cover_no-repeat] h-[284px] px-0 flex justify-center items-center ">
+        <!-- First 1 -->
+        <div class="flex flex-col items-center w-50 pt-8.5 pr-5.5">
+            <!-- Желтый круг (фон) -->
+            <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
+            <!-- Окружность с цифрой -->
+            <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
+                <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
+                    1
                 </div>
             </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-[#3f4255] text-white mx-auto px-22 py-12 flex flex-col justify-between h-109.5">
-            <!-- Верхняя секция -->
-            <div class="flex justify-start">
-                <!-- Блок 1: Логотип и социальные иконки -->
-                <div class="box-border flex justify-start items-start flex-col gap-12 grow-0 shrink-0 basis-auto overflow-hidden pl-1">
-                    <img src="images/Logo2.svg" class="h-6 max-w-[initial] w-[184px] block grow-0 shrink-0 basis-auto box-border" />
-                    <div class="bg-[#d4d7e5] box-border h-px w-[296px] grow-0 shrink-0 basis-auto"></div>
-                    <div class="box-border flex justify-start items-start flex-row w-[174px] h-[28.5px] grow-0 shrink-0 basis-auto">
-                        <img src="images/app-img1-1.png" class="h-[27.5px] max-w-[initial] object-cover w-[79px] box-border block border-[none]" />
-                        <img src="images/app-img2-1.png" class="h-[27.5px] max-w-[initial] object-cover w-[86px] box-border block ml-[8.5px] border-[none]" />
-                    </div>
+            <!-- TEXT -->
+            <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px]">
+                kitchen
+            </p>
+        </div>
+        <!-- Second 11 -->
+        <div class="flex flex-col items-center w-50 pt-8.5 pr-2">
+            <!-- Желтый круг (фон) -->
+            <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
+            <!-- Окружность с цифрой -->
+            <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
+                <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
+                    11
                 </div>
+            </div>
+            <!-- TEXT -->
+            <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">specialties</p>
+        </div>
+        <!-- Third 11 -->
+        <div class="flex flex-col items-center w-50 pt-8.5 pl-2">
+            <!-- Желтый круг (фон) -->
+            <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
+            <!-- Окружность с цифрой -->
+            <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
+                <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
+                    11
+                </div>
+            </div>
+            <!-- TEXT -->
+            <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">restaurants</p>
+        </div>
+        <!-- 4th 1 -->
+        <div class="flex flex-col items-center w-50 pt-8.5 pl-6">
+            <!-- Желтый круг (фон) -->
+            <div class="absolute bg-[#FFE145] rounded-full w-32 h-32"></div>
+            <!-- Окружность с цифрой -->
+            <div class="relative bg-transparent border-1 border-[#B79C10] rounded-full w-32 h-32 flex justify-center items-center transform -translate-y-6">
+                <div class="[font-family:Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-[#3f4255] transform translate-y-2 -translate-x-1">
+                    1
+                </div>
+            </div>
+            <!-- TEXT -->
+            <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold text-center leading-8 text-[#3f4255] w-[227px] grow-0 shrink-0 basis-auto box-border m-0 p-0">transport costs</p>
+        </div>
+    </section>
 
-                <!-- Блок 2: About us -->
-                <div class="grow-0 shrink-0 ml-46">
-                    <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold leading-8 text-[white] m-0 p-0">
-                        About us
+    <!-- Map + INST Section  -->
+    <section class="box-border flex justify-start items-stretch flex-col grow-0 shrink-0 basis-auto px-[91px] py-[72px]">
+        <div class="[background:url('images/map.png')_50%_/_cover_no-repeat] h-[600px] max-w-[initial] box-border mr-[-22px] flex justify-start items-center flex-col grow-0 shrink-0 basis-auto pr-[188px] border-[none]">
+            <!-- Контейнер для карты -->
+            <div class="w-[440px] box-border pt-[67px] pb-[147px] relative">
+                <!-- Основная карта -->
+                <img src="images/delivary_map.png" class="h-[386px] max-w-[initial] w-[100.00%] block box-border" />
+                <!-- Иконки локации -->
+                <div class="absolute inset-0">
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[37.2%] left-[13.5%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[20%] left-[34%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[26.5%] left-[52.5%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[38.6%] left-[41.5%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[36%] left-[72.7%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[62.5%] left-[58%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[56.5%] left-[83.7%]" />
+                    <img src="Images/loc_map.svg" alt="Location" class="absolute top-[13.3%] left-[85.2%]" />
+                </div>
+            </div>
+        </div>
+
+        <!-- INST -->
+        <div class="grow-0 shrink-0 basis-auto mt-21">
+            <p class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-[#313030] m-0 pl-[1px]">
+                <span>#YellowKitchens </span>
+                <span class="[font-family:Poppins,sans-serif] text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full box-border mt-8">
+                <img src="images/Rectangle 10.png" class="w-full h-auto object-cover rounded-md border-[none]" />
+                <img src="images/Rectangle 11.png" class="w-full h-auto object-cover rounded-md border-[none]" />
+                <img src="images/Rectangle 12.png" class="w-full h-auto object-cover rounded-md border-[none]" />
+                <img src="images/Rectangle 13.png" class="w-full h-auto object-cover rounded-md border-[none]" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#3f4255] text-white mx-auto px-22 py-12 flex flex-col justify-between h-109.5">
+        <!-- Верхняя секция -->
+        <div class="flex justify-start">
+            <!-- Блок 1: Логотип и социальные иконки -->
+            <div class="box-border flex justify-start items-start flex-col gap-12 grow-0 shrink-0 basis-auto overflow-hidden pl-1">
+                <img src="images/Logo2.svg" class="h-6 max-w-[initial] w-[184px] block grow-0 shrink-0 basis-auto box-border" />
+                <div class="bg-[#d4d7e5] box-border h-px w-[296px] grow-0 shrink-0 basis-auto"></div>
+                <div class="box-border flex justify-start items-start flex-row w-[174px] h-[28.5px] grow-0 shrink-0 basis-auto">
+                    <img src="images/app-img1-1.png" class="h-[27.5px] max-w-[initial] object-cover w-[79px] box-border block border-[none]" />
+                    <img src="images/app-img2-1.png" class="h-[27.5px] max-w-[initial] object-cover w-[86px] box-border block ml-[8.5px] border-[none]" />
+                </div>
+            </div>
+            <!-- Блок 2: About us -->
+            <div class="grow-0 shrink-0 ml-46">
+                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold leading-8 text-[white] m-0 p-0">
+                    About us
+                </p>
+                <div class="box-border flex justify-start items-start flex-col gap-4 overflow-hidden mt-6">
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
+                        Concept
                     </p>
-                    <div class="box-border flex justify-start items-start flex-col gap-4 overflow-hidden mt-6">
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
+                        Franchise
+                    </p>
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
+                        Business
+                    </p>
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
+                        Restaurant signup
+                    </p>
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
+                        For Investors
+                    </p>
+                </div>
+            </div>
+            <!-- Блок 3: Get help -->
+            <div class="grow-0 shrink-0 basis-auto ml-21">
+                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold leading-8 text-[white] m-0 p-0">
+                    Get help
+                </p>
+                <div class="flex justify-start items-center flex-col mt-6">
+                    <div class="box-border flex justify-start items-start flex-col gap-4 grow-0 shrink-0 basis-auto overflow-hidden">
                         <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                            Concept
+                            Read FAQs
                         </p>
                         <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                            Franchise
+                            Restaurants
                         </p>
                         <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                            Business
+                            Specialities
                         </p>
                         <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                            Restaurant signup
+                            Sign up to deliver
                         </p>
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                            For Investors
+                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[67px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
+                            English
                         </p>
                     </div>
-                </div>
-
-                <!-- Блок 3: Get help -->
-                <div class="grow-0 shrink-0 basis-auto ml-21">
-                    <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold leading-8 text-[white] m-0 p-0">
-                        Get help
-                    </p>
-                    <div class="flex justify-start items-center flex-col mt-6">
-                        <div class="box-border flex justify-start items-start flex-col gap-4 grow-0 shrink-0 basis-auto overflow-hidden">
-                            <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                                Read FAQs
-                            </p>
-                            <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                                Restaurants
-                            </p>
-                            <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                                Specialities
-                            </p>
-                            <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] grow-0 shrink-0 basis-auto m-0 p-0">
-                                Sign up to deliver
-                            </p>
-                            <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[67px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
-                                English
-                            </p>
-                        </div>
-                        <div class="w-3 h-3 text-[#d4d7e6] flex mt-[-16.5px] grow-0 shrink-0 basis-auto">
-                            <svg viewBox="0 0 12 12" x="0" y="0" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g id="arrow/line/down" xmlns="http://www.w3.org/2000/svg">
-                                    <g id="Outline 1">
-                                        <path id="Vector" d="M10.59,2.2949l-4.59,4.58l-4.59,-4.58l-1.41,1.41l6,6l6,-6z" fill="currentColor" />
-                                    </g>
+                    <div class="w-3 h-3 text-[#d4d7e6] flex mt-[-16.5px] grow-0 shrink-0 basis-auto">
+                        <svg viewBox="0 0 12 12" x="0" y="0" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="arrow/line/down" xmlns="http://www.w3.org/2000/svg">
+                                <g id="Outline 1">
+                                    <path id="Vector" d="M10.59,2.2949l-4.59,4.58l-4.59,-4.58l-1.41,1.41l6,6l6,-6z" fill="currentColor" />
                                 </g>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Блок 4: Contact us -->
-                <div class="grow-0 shrink-0 basis-auto ml-22">
-                    <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold leading-8 text-[white] m-0 p-0">
-                        Contact us
-                    </p>
-                    <div class="box-border flex justify-start items-start flex-col gap-4 overflow-hidden mt-6">
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[213px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
-                            Yellow kitchen Paris 11
-                        </p>
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[297px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
-                            69 avenue de la Republique 75011 Paris
-                        </p>
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[297px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
-                            0800 111 126
-                        </p>
-                        <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[297px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
-                            contact@yellowkitchens.com
-                        </p>
+                            </g>
+                        </svg>
                     </div>
                 </div>
             </div>
-
-            <!-- Нижняя секция -->
-            <div class="flex justify-between items-center">
-                <!-- Первая секция: Логотипы соцсетей -->
-                <div class="flex gap-6 pl-1">
-                    <a href="#" class="hover:text-yellow-500">
-                        <img src="Images/insta.svg" alt="Instagram" class="h-6 w-6">
-                    </a>
-                    <a href="#" class="hover:text-yellow-500">
-                        <img src="Images/twitter.svg" alt="Twitter" class="h-6 w-6">
-                    </a>
-                    <a href="#" class="hover:text-yellow-500">
-                        <img src="Images/fb.svg" alt="Facebook" class="h-6 w-6">
-                    </a>
-                </div>
-
-                <!-- Вторая секция: Текстовые ссылки -->
-                <div class="flex justify-start items-center flex-row gap-[58px] grow-0 shrink-0 basis-auto">
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0">
-                        Privacy Policy
+            <!-- Блок 4: Contact us -->
+            <div class="grow-0 shrink-0 basis-auto ml-22">
+                <p class="[font-family:Poppins,sans-serif] text-2xl font-semibold leading-8 text-[white] m-0 p-0">
+                    Contact us
+                </p>
+                <div class="box-border flex justify-start items-start flex-col gap-4 overflow-hidden mt-6">
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[213px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
+                        Yellow kitchen Paris 11
                     </p>
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0">
-                        Terms
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[297px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
+                        69 avenue de la Republique 75011 Paris
                     </p>
-                    <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0">
-                        © 2020 Yellow kitchen
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[297px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
+                        0800 111 126
+                    </p>
+                    <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[297px] grow-0 shrink-0 basis-auto box-border m-0 p-0">
+                        contact@yellowkitchens.com
                     </p>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+        <!-- нижняя секция иконки и копирайты -->
+        <div class="flex justify-between items-center">
+            <!-- Первая секция: Логотипы соцсетей -->
+            <div class="flex gap-6 pl-1">
+                <a href="#" class="hover:text-yellow-500">
+                    <img src="Images/insta.svg" alt="Instagram" class="h-6 w-6">
+                </a>
+                <a href="#" class="hover:text-yellow-500">
+                    <img src="Images/twitter.svg" alt="Twitter" class="h-6 w-6">
+                </a>
+                <a href="#" class="hover:text-yellow-500">
+                    <img src="Images/fb.svg" alt="Facebook" class="h-6 w-6">
+                </a>
+            </div>
+            <!-- Вторая секция: Текстовые ссылки -->
+            <div class="flex justify-start items-center flex-row gap-[58px] grow-0 shrink-0 basis-auto">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0">
+                    Privacy Policy
+                </p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0">
+                    Terms
+                </p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0">
+                    © 2020 Yellow kitchen
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
