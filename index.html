@@ -16,7 +16,7 @@
 
 </head>
 
-<body class="bg-gray-100 max-w-[320px] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1440px] mx-10 md:mx-auto md:px-0">
+<body class="bg-gray-100 max-w-[320px] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1440px] md:mx-auto md:px-0">
     <!-- Header -->
     <header class="bg-white flex justify-between items-center py-3 mx-auto md:px-23">
         <!-- Логотип -->
@@ -104,24 +104,24 @@
             </button>
         </div>
         <!-- Карусель ресторанов -->
-        <div class="carousel mt-12 flex gap-[25px]">
+        <div class="flex-col md:carousel md:flex-row mt-12 flex gap-[25px]">
             <!-- Ресторан 1 -->
-            <div class="carousel-item w-[296px] flex flex-col">
+            <div class="md:carousel-item w-[296px] flex flex-col">
                 <img src="images/food1.png" alt="BURGER D'LiCg" class="w-full h-[184px] object-cover rounded-t">
                 <img src="images/burger.svg" alt="Логотип BURGER D'LiCg" class="w-[296px] h-[112px]">
             </div>
             <!-- Ресторан 2 -->
-            <div class="carousel-item w-[296px] flex flex-col">
+            <div class="md:carousel-item w-[296px] flex flex-col">
                 <img src="images/food2.png" alt="IL PASTIFICIO" class="w-full h-[184px] object-cover rounded-t">
                 <img src="images/il_paster.svg" alt="Логотип IL PASTIFICIO" class="w-[296px] h-[112px]">
             </div>
             <!-- Ресторан 3 -->
-            <div class="carousel-item w-[296px] flex flex-col">
+            <div class="md:carousel-item w-[296px] flex flex-col">
                 <img src="images/food3.png" alt="CHINA MAMA" class="w-full h-[184px] object-cover rounded-t">
                 <img src="images/Believe.svg" alt="Логотип CHINA MAMA" class="w-[296px] h-[112px]">
             </div>
             <!-- Ресторан 4 -->
-            <div class="carousel-item w-[296px] flex flex-col">
+            <div class="md:carousel-item w-[296px] flex flex-col">
                 <img src="images/food4.png" alt="SUSHI MASTER" class="w-full h-[184px] object-cover rounded-t">
                 <img src="images/vietnamese.svg" alt="Логотип SUSHI MASTER" class="w-[296px] h-[112px]">
             </div>
@@ -129,14 +129,14 @@
     </section>
 
     <!-- Nearest Restaurants Section -->
-    <section class="xl:mt-18 bg-gray-100 mx-0 xl:h-74 md:h-max-74">
-        <div class="xl:pt-23 xl:mx-41 bg-gray-100 flex flex-col xl:flex-row justify-between">
-            <div class="flex flex-wrap flex-row xl:flex-col  xl:gap-9 bg-gray-100">
+    <section class="mt-18 bg-gray-100 mx-0 xl:h-74 md:h-max-74">
+        <div class="pt-23 xl:mx-41 bg-gray-100 flex flex-col xl:flex-row justify-between">
+            <div class="flex flex-wrap flex-col gap-2  xl:gap-9 bg-gray-100">
                 <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 pl-2">Your nearest restaurants</h2>
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] xl:max-w-95 box-border m-0 pl-2">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
             </div>
             <!-- форма ввода адреса -->
-            <form class="flex justify-between gap-2 bg-gray-100 box-border w-109 pr-2 mt-5 mb-8">
+            <form class="flex justify-between gap-2 bg-gray-100 box-border w-50 md:w-109 pr-2 mt-5 mb-8">
                 <div class="flex items-center shadow-[0px_8px_40px_rgba(0,0,0,0.08)] [font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.35px] leading-6 bg-white text-[#9093a6] grow-0 shrink-0 basis-auto pl-4 py-2 w-84 rounded">
                     <img src="images/loc1.svg" alt="Location" class="mr-2">
                     <input type="text" placeholder="Enter delivery address" class="w-full focus:outline-none">
@@ -148,65 +148,65 @@
 
     <!-- Specialties Section -->
     <section class="container mx-auto max-w-[1256px] md:mt-18">
-        <div class="flex-row md:flex-col justify-between items-center">
+        <div class="flex justify-between items-center">
             <h2 class="[font-family:Poppins,sans-serif] text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0">Specialities</h2>
             <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
                 show all
             </button>
         </div>
         <!-- Карусель ресторанов -->
-        <div class="carousel-specialities flex justify-between items-center flex-row max-w-[1256px] grow-0 shrink-0 basis-auto box-border mt-12">
+        <div class="carousel-specialities flex flex-wrap justify-between items-center max-w-[1256px] grow-0 shrink-0 basis-auto box-border mt-12">
             <!-- Speciality 1 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/bagel.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Bagel
                 </p>
             </div>
             <!-- Speciality 2 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/burger2.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Burger
                 </p>
             </div>
             <!-- Speciality 3 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/chicken.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Chicken
                 </p>
             </div>
             <!-- Speciality 4 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/fish.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Fish
                 </p>
             </div>
             <!-- Speciality 5 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/fishnchips.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Fish'Chips
                 </p>
             </div>
             <!-- Speciality 6 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/vegan.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Salads
                 </p>
             </div>
             <!-- Speciality 7 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/pizza.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Pizza
                 </p>
             </div>
             <!-- Speciality 8 -->
-            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[136px] h-[136px]">
+            <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md w-[48%] xl:w-[136px] h-[136px]">
                 <img src="images/raviolli.svg" alt="Логотип BURGER D'LiCg" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6">
                 <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6">
                     Pasta
@@ -274,12 +274,12 @@
     </section>
 
     <!-- Map + INST Section  -->
-    <section class="box-border flex justify-start items-stretch flex-col grow-0 shrink-0 basis-auto px-[91px] py-[72px]">
-        <div class="[background:url('images/map.png')_50%_/_cover_no-repeat] h-[600px] max-w-[initial] box-border mr-[-22px] flex justify-start items-center flex-col grow-0 shrink-0 basis-auto pr-[188px] border-[none]">
+    <section class="box-border flex justify-start items-stretch flex-col grow-0 shrink-0 basis-auto md:px-[91px] md:py-[72px]">
+        <div class="[background:url('images/map.png')_50%_/_cover_no-repeat] md:h-[600px] max-w-[initial] box-border md:mr-[-22px] flex justify-start items-center flex-col grow-0 shrink-0 basis-auto pr-[188px] border-[none]">
             <!-- Контейнер для карты -->
-            <div class="w-[440px] box-border pt-[67px] pb-[147px] relative">
+            <div class="md:w-[440px] box-border pt-[67px] md:pb-[147px] relative">
                 <!-- Основная карта -->
-                <img src="images/delivary_map.png" class="h-[386px] max-w-[initial] w-[100.00%] block box-border" />
+                <img src="images/delivary_map.png" class="md:h-[386px] max-w-[initial] w-[100.00%] block box-border" />
                 <!-- Иконки локации -->
                 <div class="absolute inset-0">
                     <img src="Images/loc_map.svg" alt="Location" class="absolute top-[37.2%] left-[13.5%]" />
