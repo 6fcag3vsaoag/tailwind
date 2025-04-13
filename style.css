@@ -266,6 +266,9 @@
   .mx-2 {
     margin-inline: calc(var(--spacing) * 2);
   }
+  .mx-5 {
+    margin-inline: calc(var(--spacing) * 5);
+  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -337,6 +340,9 @@
   }
   .h-\[112px\] {
     height: 112px;
+  }
+  .h-\[120px\] {
+    height: 120px;
   }
   .h-\[136px\] {
     height: 136px;
@@ -458,6 +464,9 @@
   }
   .flex-col {
     flex-direction: column;
+  }
+  .flex-nowrap {
+    flex-wrap: nowrap;
   }
   .flex-wrap {
     flex-wrap: wrap;
@@ -585,6 +594,9 @@
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
+  }
+  .py-5 {
+    padding-block: calc(var(--spacing) * 5);
   }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
@@ -934,6 +946,11 @@
       height: calc(var(--spacing) * 12);
     }
   }
+  .md\:h-\[170px\] {
+    @media (width >= 48rem) {
+      height: 170px;
+    }
+  }
   .md\:h-\[386px\] {
     @media (width >= 48rem) {
       height: 386px;
@@ -1027,6 +1044,11 @@
   .md\:px-\[91px\] {
     @media (width >= 48rem) {
       padding-inline: 91px;
+    }
+  }
+  .md\:py-10 {
+    @media (width >= 48rem) {
+      padding-block: calc(var(--spacing) * 10);
     }
   }
   .md\:py-\[72px\] {
@@ -1230,6 +1252,11 @@
   .lg\:px-35 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 35);
+    }
+  }
+  .lg\:py-0 {
+    @media (width >= 64rem) {
+      padding-block: calc(var(--spacing) * 0);
     }
   }
   .lg\:py-16 {
