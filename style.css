@@ -14,8 +14,6 @@
     --spacing: 0.25rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
-    --text-sm: 0.875rem;
-    --text-sm--line-height: calc(1.25 / 0.875);
     --text-base: 1rem;
     --text-base--line-height: calc(1.5 / 1);
     --text-xl: 1.25rem;
@@ -492,6 +490,9 @@
   .gap-12 {
     gap: calc(var(--spacing) * 12);
   }
+  .gap-14 {
+    gap: calc(var(--spacing) * 14);
+  }
   .gap-\[25px\] {
     gap: 25px;
   }
@@ -583,9 +584,6 @@
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
   }
-  .px-15 {
-    padding-inline: calc(var(--spacing) * 15);
-  }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
@@ -613,8 +611,14 @@
   .pt-\[67px\] {
     padding-top: 67px;
   }
+  .pr-1 {
+    padding-right: calc(var(--spacing) * 1);
+  }
   .pr-2 {
     padding-right: calc(var(--spacing) * 2);
+  }
+  .pr-14 {
+    padding-right: calc(var(--spacing) * 14);
   }
   .pr-\[188px\] {
     padding-right: 188px;
@@ -639,6 +643,9 @@
   }
   .pl-9 {
     padding-left: calc(var(--spacing) * 9);
+  }
+  .pl-15 {
+    padding-left: calc(var(--spacing) * 15);
   }
   .pl-\[1px\] {
     padding-left: 1px;
@@ -853,11 +860,6 @@
       flex-direction: row;
     }
   }
-  .sm\:gap-8 {
-    @media (width >= 40rem) {
-      gap: calc(var(--spacing) * 8);
-    }
-  }
   .sm\:px-8 {
     @media (width >= 40rem) {
       padding-inline: calc(var(--spacing) * 8);
@@ -866,12 +868,6 @@
   .sm\:px-15 {
     @media (width >= 40rem) {
       padding-inline: calc(var(--spacing) * 15);
-    }
-  }
-  .sm\:text-sm {
-    @media (width >= 40rem) {
-      font-size: var(--text-sm);
-      line-height: var(--tw-leading, var(--text-sm--line-height));
     }
   }
   .sm\:text-\[30px\] {
