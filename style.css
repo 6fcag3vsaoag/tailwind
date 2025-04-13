@@ -487,14 +487,11 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
-  }
-  .gap-12 {
-    gap: calc(var(--spacing) * 12);
-  }
-  .gap-14 {
-    gap: calc(var(--spacing) * 14);
   }
   .gap-\[25px\] {
     gap: 25px;
@@ -1328,6 +1325,11 @@
       gap: calc(var(--spacing) * 5);
     }
   }
+  .lg\:gap-14 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 14);
+    }
+  }
   .lg\:px-35 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 35);
@@ -1487,6 +1489,11 @@
   .xl\:gap-9 {
     @media (width >= 80rem) {
       gap: calc(var(--spacing) * 9);
+    }
+  }
+  .xl\:gap-12 {
+    @media (width >= 80rem) {
+      gap: calc(var(--spacing) * 12);
     }
   }
   .xl\:px-0 {
