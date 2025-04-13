@@ -299,9 +299,6 @@
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
-  .ml-\[-1px\] {
-    margin-left: -1px;
-  }
   .ml-\[-4px\] {
     margin-left: -4px;
   }
@@ -374,17 +371,8 @@
   .w-50 {
     width: calc(var(--spacing) * 50);
   }
-  .w-52 {
-    width: calc(var(--spacing) * 52);
-  }
   .w-54 {
     width: calc(var(--spacing) * 54);
-  }
-  .w-65 {
-    width: calc(var(--spacing) * 65);
-  }
-  .w-68 {
-    width: calc(var(--spacing) * 68);
   }
   .w-\[100\.00\%\] {
     width: 100.00%;
@@ -406,9 +394,6 @@
   }
   .w-full {
     width: 100%;
-  }
-  .max-w-55 {
-    max-width: calc(var(--spacing) * 55);
   }
   .max-w-\[318px\] {
     max-width: 318px;
@@ -582,9 +567,6 @@
   }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
-  }
-  .px-2 {
-    padding-inline: calc(var(--spacing) * 2);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
@@ -931,6 +913,16 @@
       margin-left: calc(var(--spacing) * 1);
     }
   }
+  .md\:ml-\[-1px\] {
+    @media (width >= 48rem) {
+      margin-left: -1px;
+    }
+  }
+  .md\:block {
+    @media (width >= 48rem) {
+      display: block;
+    }
+  }
   .md\:flex {
     @media (width >= 48rem) {
       display: flex;
@@ -966,6 +958,21 @@
       width: calc(var(--spacing) * 12);
     }
   }
+  .md\:w-52 {
+    @media (width >= 48rem) {
+      width: calc(var(--spacing) * 52);
+    }
+  }
+  .md\:w-65 {
+    @media (width >= 48rem) {
+      width: calc(var(--spacing) * 65);
+    }
+  }
+  .md\:w-68 {
+    @media (width >= 48rem) {
+      width: calc(var(--spacing) * 68);
+    }
+  }
   .md\:w-84 {
     @media (width >= 48rem) {
       width: calc(var(--spacing) * 84);
@@ -989,6 +996,11 @@
   .md\:w-full {
     @media (width >= 48rem) {
       width: 100%;
+    }
+  }
+  .md\:max-w-55 {
+    @media (width >= 48rem) {
+      max-width: calc(var(--spacing) * 55);
     }
   }
   .md\:max-w-\[740px\] {
@@ -1079,6 +1091,11 @@
   .md\:pl-6 {
     @media (width >= 48rem) {
       padding-left: calc(var(--spacing) * 6);
+    }
+  }
+  .md\:text-left {
+    @media (width >= 48rem) {
+      text-align: left;
     }
   }
   .md\:text-2xl {
