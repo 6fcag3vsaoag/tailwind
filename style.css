@@ -408,6 +408,9 @@
   .min-w-\[118px\] {
     min-width: 118px;
   }
+  .min-w-\[320px\] {
+    min-width: 320px;
+  }
   .shrink {
     flex-shrink: 1;
   }
@@ -578,8 +581,8 @@
   .px-0 {
     padding-inline: calc(var(--spacing) * 0);
   }
-  .px-1 {
-    padding-inline: calc(var(--spacing) * 1);
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
@@ -845,9 +848,9 @@
       margin-bottom: calc(var(--spacing) * 0);
     }
   }
-  .sm\:max-w-\[640px\] {
+  .sm\:min-w-\[640px\] {
     @media (width >= 40rem) {
-      max-width: 640px;
+      min-width: 640px;
     }
   }
   .sm\:grid-cols-2 {
@@ -1025,9 +1028,14 @@
       max-width: 740px;
     }
   }
-  .md\:max-w-\[768px\] {
+  .md\:min-w-\[768px\] {
     @media (width >= 48rem) {
-      max-width: 768px;
+      min-width: 768px;
+    }
+  }
+  .md\:grid-cols-2 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   .md\:flex-row {
@@ -1053,11 +1061,6 @@
   .md\:p-0 {
     @media (width >= 48rem) {
       padding: calc(var(--spacing) * 0);
-    }
-  }
-  .md\:px-0 {
-    @media (width >= 48rem) {
-      padding-inline: calc(var(--spacing) * 0);
     }
   }
   .md\:px-23 {
@@ -1285,24 +1288,19 @@
       max-width: 1000px;
     }
   }
-  .lg\:max-w-\[1024px\] {
-    @media (width >= 64rem) {
-      max-width: 1024px;
-    }
-  }
   .lg\:min-w-120 {
     @media (width >= 64rem) {
       min-width: calc(var(--spacing) * 120);
     }
   }
+  .lg\:min-w-\[1024px\] {
+    @media (width >= 64rem) {
+      min-width: 1024px;
+    }
+  }
   .lg\:grid-cols-4 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-  .lg\:grid-cols-\[25fr_20fr_20fr_35fr\] {
-    @media (width >= 64rem) {
-      grid-template-columns: 25fr 20fr 20fr 35fr;
     }
   }
   .lg\:flex-row {
@@ -1479,6 +1477,11 @@
   .xl\:max-w-\[1440px\] {
     @media (width >= 80rem) {
       max-width: 1440px;
+    }
+  }
+  .xl\:grid-cols-\[25fr_20fr_20fr_35fr\] {
+    @media (width >= 80rem) {
+      grid-template-columns: 25fr 20fr 20fr 35fr;
     }
   }
   .xl\:gap-9 {
