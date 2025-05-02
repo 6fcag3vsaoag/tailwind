@@ -1139,6 +1139,14 @@
       }
     }
   }
+  .hover\:translate-x-4 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-translate-x: calc(var(--spacing) * 4);
+        translate: var(--tw-translate-x) var(--tw-translate-y);
+      }
+    }
+  }
   .hover\:translate-y-0 {
     &:hover {
       @media (hover: hover) {
@@ -1237,6 +1245,13 @@
       }
     }
   }
+  .hover\:animate-pulse {
+    &:hover {
+      @media (hover: hover) {
+        animation: var(--animate-pulse);
+      }
+    }
+  }
   .hover\:border-yellow-600 {
     &:hover {
       @media (hover: hover) {
@@ -1255,6 +1270,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-yellow-500);
+      }
+    }
+  }
+  .hover\:bg-yellow-600 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-yellow-600);
       }
     }
   }
