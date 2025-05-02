@@ -54,7 +54,7 @@
         <div class="flex flex-col lg:container xl:mx-auto xl:px-6 lg:absolute lg:top-1 lg:left-1 xl:top-14 xl:left-11.5">
             <div class="mt-5 lg:mt-10 h-[120px] md:h-[170px] w-auto xl:w-[540px] xl:h-[320px] flex flex-col justify-between p-0">
                 <!-- Верхняя часть: текст -->
-                <h1 class="[font-family:Poppins,sans-serif] text-[19px] sm:text-[30px] lg:text-[58px] font-light tracking-[2.90px] text-center lg:text-left md:leading-[64px] text-[#3f4255] lg:max-w-[539px] box-border md:pl-6 md:pt-6 transition-all duration-700 ease-in-out hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">Your Food court at home</h1>
+                <h1 class="[font-family:Poppins,sans-serif] text-[19px] sm:text-[30px] lg:text-[58px] font-light tracking-[2.90px] text-center lg:text-left md:leading-[64px] text-[#3f4255] lg:max-w-[539px] box-border md:pl-6 md:pt-6 transition-all duration-700 ease-in-out hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white hover:skew-y-6">Your Food court at home</h1>
                 <!-- Нижняя часть: кнопки -->
                 <div class="flex items-center justify-center lg:justify-start pl-5.5 pb-2 lg:w-[300px]">
                     <div class="flex gap-6">
@@ -97,34 +97,32 @@
     </section>
 
     <!-- Restaurants Section -->
-    <section class="bg-white container mx-auto max-w-[318px]  md:max-w-[740px] lg:max-w-[1000px] xl:max-w-[1256px] mt-5 lg:mt-12">
+    <section class="bg-white container mx-auto max-w-[318px] md:max-w-[740px] lg:max-w-[1000px] xl:max-w-[1256px] mt-5 lg:mt-12">
         <div class="flex justify-between items-center px-4 sm:px-15 md:px-25 lg:px-35 xl:px-0">
-            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto md:m-0 md:p-0">Restaurants</h2>
-            <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none]">
-                show all
-            </button>
+            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto md:m-0 md:p-0 transition-all duration-700 ease-in-out hover:skew-y-6  hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">Restaurants</h2>
+            <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none] transition-all duration-500 ease-in-out hover:bg-yellow-500 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50">show all</button>
         </div>
         <!-- Карусель ресторанов -->
         <div class="flex-col bg-white md:carousel md:flex-row mt-12 flex gap-[25px]">
             <!-- Ресторан 1 -->
-            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto">
-                <img src="images/food1.png" alt="BURGER D'LiCg" class="w-full h-[184px] object-cover rounded-t">
-                <img src="images/burger.svg" alt="Логотип BURGER D'LiCg" class="w-[296px] h-[112px]">
+            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto transition-all duration-700 ease-in-out hover:scale-105 relative after:content-['New!'] after:absolute after:top-2 after:right-2 after:bg-yellow-500 after:text-white after:rounded after:px-2 after:text-xs after:transition-opacity after:duration-500 after:ease-in-out hover:after:opacity-0">
+                <img src="images/food1.png" alt="BURGER D'LiCg" class="w-full h-[184px] object-cover rounded-t transition-all duration-500 ease-in-out hover:blur-sm">
+                <img src="images/burger.svg" alt="Логотип BURGER D'LiCg" class="w-[296px] h-[112px] transition-transform duration-500 ease-in-out hover:scale-110">
             </div>
             <!-- Ресторан 2 -->
-            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto">
-                <img src="images/food2.png" alt="IL PASTIFICIO" class="w-full h-[184px] object-cover rounded-t">
-                <img src="images/il_paster.svg" alt="Логотип IL PASTIFICIO" class="w-[296px] h-[112px]">
+            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto transition-all duration-700 ease-in-out hover:scale-105 relative after:content-['Popular'] after:absolute after:top-2 after:right-2 after:bg-yellow-500 after:text-white after:rounded after:px-2 after:text-xs after:transition-opacity after:duration-500 after:ease-in-out hover:after:opacity-0">
+                <img src="images/food2.png" alt="IL PASTIFICIO" class="w-full h-[184px] object-cover rounded-t transition-all duration-500 ease-in-out hover:blur-sm">
+                <img src="images/il_paster.svg" alt="Логотип IL PASTIFICIO" class="w-[296px] h-[112px] transition-transform duration-500 ease-in-out hover:scale-110">
             </div>
             <!-- Ресторан 3 -->
-            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto">
-                <img src="images/food3.png" alt="CHINA MAMA" class="w-full h-[184px] object-cover rounded-t">
-                <img src="images/Believe.svg" alt="Логотип CHINA MAMA" class="w-[296px] h-[112px]">
+            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto transition-all duration-700 ease-in-out hover:scale-105 relative after:content-['Top'] after:absolute after:top-2 after:right-2 after:bg-yellow-500 after:text-white after:rounded after:px-2 after:text-xs after:transition-opacity after:duration-500 after:ease-in-out hover:after:opacity-0">
+                <img src="images/food3.png" alt="CHINA MAMA" class="w-full h-[184px] object-cover rounded-t transition-all duration-500 ease-in-out hover:blur-sm">
+                <img src="images/Believe.svg" alt="Логотип CHINA MAMA" class="w-[296px] h-[112px] transition-transform duration-500 ease-in-out hover:scale-110">
             </div>
             <!-- Ресторан 4 -->
-            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto">
-                <img src="images/food4.png" alt="SUSHI MASTER" class="w-full h-[184px] object-cover rounded-t">
-                <img src="images/vietnamese.svg" alt="Логотип SUSHI MASTER" class="w-[296px] h-[112px]">
+            <div class="md:carousel-item w-full h-auto xl:w-[296px] flex flex-col mx-auto transition-all duration-700 ease-in-out hover:scale-105 relative after:content-['Sushi'] after:absolute after:top-2 after:right-2 after:bg-yellow-500 after:text-white after:rounded after:px-2 after:text-xs after:transition-opacity after:duration-500 after:ease-in-out hover:after:opacity-0">
+                <img src="images/food4.png" alt="SUSHI MASTER" class="w-full h-[184px] object-cover rounded-t transition-all duration-500 ease-in-out hover:blur-sm">
+                <img src="images/vietnamese.svg" alt="Логотип SUSHI MASTER" class="w-[296px] h-[112px] transition-transform duration-500 ease-in-out hover:scale-110">
             </div>
         </div>
     </section>

@@ -36,6 +36,7 @@
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     --animate-bounce: bounce 1s infinite;
+    --blur-sm: 8px;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -966,6 +967,18 @@
       position: absolute;
     }
   }
+  .after\:top-2 {
+    &::after {
+      content: var(--tw-content);
+      top: calc(var(--spacing) * 2);
+    }
+  }
+  .after\:right-2 {
+    &::after {
+      content: var(--tw-content);
+      right: calc(var(--spacing) * 2);
+    }
+  }
   .after\:-bottom-1 {
     &::after {
       content: var(--tw-content);
@@ -1020,10 +1033,37 @@
       background-color: var(--color-yellow-500);
     }
   }
+  .after\:px-2 {
+    &::after {
+      content: var(--tw-content);
+      padding-inline: calc(var(--spacing) * 2);
+    }
+  }
+  .after\:text-xs {
+    &::after {
+      content: var(--tw-content);
+      font-size: var(--text-xs);
+      line-height: var(--tw-leading, var(--text-xs--line-height));
+    }
+  }
+  .after\:text-white {
+    &::after {
+      content: var(--tw-content);
+      color: var(--color-white);
+    }
+  }
   .after\:transition-all {
     &::after {
       content: var(--tw-content);
       transition-property: all;
+      transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+      transition-duration: var(--tw-duration, var(--default-transition-duration));
+    }
+  }
+  .after\:transition-opacity {
+    &::after {
+      content: var(--tw-content);
+      transition-property: opacity;
       transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
       transition-duration: var(--tw-duration, var(--default-transition-duration));
     }
@@ -1033,6 +1073,13 @@
       content: var(--tw-content);
       --tw-duration: 300ms;
       transition-duration: 300ms;
+    }
+  }
+  .after\:duration-500 {
+    &::after {
+      content: var(--tw-content);
+      --tw-duration: 500ms;
+      transition-duration: 500ms;
     }
   }
   .after\:ease-in-out {
@@ -1046,6 +1093,34 @@
     &::after {
       content: var(--tw-content);
       --tw-content: '';
+      content: var(--tw-content);
+    }
+  }
+  .after\:content-\[\'New\!\'\] {
+    &::after {
+      content: var(--tw-content);
+      --tw-content: 'New!';
+      content: var(--tw-content);
+    }
+  }
+  .after\:content-\[\'Popular\'\] {
+    &::after {
+      content: var(--tw-content);
+      --tw-content: 'Popular';
+      content: var(--tw-content);
+    }
+  }
+  .after\:content-\[\'Sushi\'\] {
+    &::after {
+      content: var(--tw-content);
+      --tw-content: 'Sushi';
+      content: var(--tw-content);
+    }
+  }
+  .after\:content-\[\'Top\'\] {
+    &::after {
+      content: var(--tw-content);
+      --tw-content: 'Top';
       content: var(--tw-content);
     }
   }
@@ -1077,6 +1152,16 @@
       @media (hover: hover) {
         --tw-translate-y: calc(var(--spacing) * 2);
         translate: var(--tw-translate-x) var(--tw-translate-y);
+      }
+    }
+  }
+  .hover\:scale-105 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-scale-x: 105%;
+        --tw-scale-y: 105%;
+        --tw-scale-z: 105%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
       }
     }
   }
@@ -1137,6 +1222,14 @@
       }
     }
   }
+  .hover\:skew-y-6 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-skew-y: skewY(6deg);
+        transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
+      }
+    }
+  }
   .hover\:animate-bounce {
     &:hover {
       @media (hover: hover) {
@@ -1155,6 +1248,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gray-100);
+      }
+    }
+  }
+  .hover\:bg-yellow-500 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-yellow-500);
       }
     }
   }
@@ -1233,6 +1333,14 @@
       }
     }
   }
+  .hover\:blur-sm {
+    &:hover {
+      @media (hover: hover) {
+        --tw-blur: blur(var(--blur-sm));
+        filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+      }
+    }
+  }
   .hover\:brightness-150 {
     &:hover {
       @media (hover: hover) {
@@ -1308,6 +1416,16 @@
         &::after {
           content: var(--tw-content);
           width: 100%;
+        }
+      }
+    }
+  }
+  .hover\:after\:opacity-0 {
+    &:hover {
+      @media (hover: hover) {
+        &::after {
+          content: var(--tw-content);
+          opacity: 0%;
         }
       }
     }
