@@ -1193,6 +1193,13 @@
       }
     }
   }
+  .hover\:rotate-3 {
+    &:hover {
+      @media (hover: hover) {
+        rotate: 3deg;
+      }
+    }
+  }
   .hover\:rotate-5 {
     &:hover {
       @media (hover: hover) {
@@ -1322,6 +1329,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-yellow-900);
+      }
+    }
+  }
+  .hover\:opacity-70 {
+    &:hover {
+      @media (hover: hover) {
+        opacity: 70%;
       }
     }
   }
