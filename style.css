@@ -1662,9 +1662,9 @@
       height: 170px;
     }
   }
-  .md\:h-\[386px\] {
+  .md\:h-\[450px\] {
     @media (width >= 48rem) {
-      height: 386px;
+      height: 450px;
     }
   }
   .md\:h-\[600px\] {
@@ -2205,6 +2205,26 @@
   .xl\:max-w-\[1256px\] {
     @media (width >= 80rem) {
       max-width: 1256px;
+    }
+  }
+  .xl\:-translate-x-7 {
+    @media (width >= 80rem) {
+      --tw-translate-x: calc(var(--spacing) * -7);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .xl\:-translate-y-6 {
+    @media (width >= 80rem) {
+      --tw-translate-y: calc(var(--spacing) * -6);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .xl\:scale-120 {
+    @media (width >= 80rem) {
+      --tw-scale-x: 120%;
+      --tw-scale-y: 120%;
+      --tw-scale-z: 120%;
+      scale: var(--tw-scale-x) var(--tw-scale-y);
     }
   }
   .xl\:grid-cols-\[25fr_20fr_20fr_35fr\] {
