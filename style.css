@@ -213,14 +213,14 @@
   .top-\[26\.5\%\] {
     top: 26.5%;
   }
-  .top-\[36\%\] {
-    top: 36%;
-  }
   .top-\[37\.2\%\] {
     top: 37.2%;
   }
   .top-\[38\.6\%\] {
     top: 38.6%;
+  }
+  .top-\[42\%\] {
+    top: 42%;
   }
   .top-\[56\.5\%\] {
     top: 56.5%;
@@ -237,8 +237,11 @@
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
-  .left-\[13\.5\%\] {
-    left: 13.5%;
+  .left-\[30\%\] {
+    left: 30%;
+  }
+  .left-\[33\%\] {
+    left: 33%;
   }
   .left-\[34\%\] {
     left: 34%;
@@ -246,20 +249,17 @@
   .left-\[41\.5\%\] {
     left: 41.5%;
   }
+  .left-\[44\%\] {
+    left: 44%;
+  }
+  .left-\[45\%\] {
+    left: 45%;
+  }
+  .left-\[52\%\] {
+    left: 52%;
+  }
   .left-\[52\.5\%\] {
     left: 52.5%;
-  }
-  .left-\[58\%\] {
-    left: 58%;
-  }
-  .left-\[72\.7\%\] {
-    left: 72.7%;
-  }
-  .left-\[83\.7\%\] {
-    left: 83.7%;
-  }
-  .left-\[85\.2\%\] {
-    left: 85.2%;
   }
   .container {
     width: 100%;
@@ -366,9 +366,6 @@
   .h-\[136px\] {
     height: 136px;
   }
-  .h-\[183px\] {
-    height: 183px;
-  }
   .h-\[184px\] {
     height: 184px;
   }
@@ -402,9 +399,6 @@
   .w-54 {
     width: calc(var(--spacing) * 54);
   }
-  .w-\[100\.00\%\] {
-    width: 100.00%;
-  }
   .w-\[117px\] {
     width: 117px;
   }
@@ -413,9 +407,6 @@
   }
   .w-\[213px\] {
     width: 213px;
-  }
-  .w-\[255px\] {
-    width: 255px;
   }
   .w-\[296px\] {
     width: 296px;
@@ -689,9 +680,6 @@
   .pt-8\.5 {
     padding-top: calc(var(--spacing) * 8.5);
   }
-  .pt-14 {
-    padding-top: calc(var(--spacing) * 14);
-  }
   .pt-\[18px\] {
     padding-top: 18px;
   }
@@ -704,12 +692,6 @@
   .pr-14 {
     padding-right: calc(var(--spacing) * 14);
   }
-  .pr-\[95px\] {
-    padding-right: 95px;
-  }
-  .pb-0 {
-    padding-bottom: calc(var(--spacing) * 0);
-  }
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
   }
@@ -718,9 +700,6 @@
   }
   .pl-1 {
     padding-left: calc(var(--spacing) * 1);
-  }
-  .pl-2 {
-    padding-left: calc(var(--spacing) * 2);
   }
   .pl-5\.5 {
     padding-left: calc(var(--spacing) * 5.5);
@@ -965,8 +944,8 @@
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
   }
-  .\[background\:url\(\'images\/map\.png\'\)_50\%_\/_cover_no-repeat\] {
-    background: url('images/map.png') 50% / cover no-repeat;
+  .\[background\:url\(\'images\/Background\.png\'\)_50\%_\/_cover_no-repeat\] {
+    background: url('images/Background.png') 50% / cover no-repeat;
   }
   .before\:absolute {
     &::before {
@@ -1662,11 +1641,6 @@
       height: 170px;
     }
   }
-  .md\:h-\[450px\] {
-    @media (width >= 48rem) {
-      height: 450px;
-    }
-  }
   .md\:h-\[600px\] {
     @media (width >= 48rem) {
       height: 600px;
@@ -1710,11 +1684,6 @@
   .md\:w-\[48\%\] {
     @media (width >= 48rem) {
       width: 48%;
-    }
-  }
-  .md\:w-\[440px\] {
-    @media (width >= 48rem) {
-      width: 440px;
     }
   }
   .md\:w-full {
@@ -1785,26 +1754,6 @@
   .md\:pt-10 {
     @media (width >= 48rem) {
       padding-top: calc(var(--spacing) * 10);
-    }
-  }
-  .md\:pt-\[67px\] {
-    @media (width >= 48rem) {
-      padding-top: 67px;
-    }
-  }
-  .md\:pr-\[188px\] {
-    @media (width >= 48rem) {
-      padding-right: 188px;
-    }
-  }
-  .md\:pb-\[147px\] {
-    @media (width >= 48rem) {
-      padding-bottom: 147px;
-    }
-  }
-  .md\:pl-0 {
-    @media (width >= 48rem) {
-      padding-left: calc(var(--spacing) * 0);
     }
   }
   .md\:pl-4 {
@@ -2152,11 +2101,6 @@
       margin-inline: auto;
     }
   }
-  .xl\:mr-\[-22px\] {
-    @media (width >= 80rem) {
-      margin-right: -22px;
-    }
-  }
   .xl\:h-74 {
     @media (width >= 80rem) {
       height: calc(var(--spacing) * 74);
@@ -2205,26 +2149,6 @@
   .xl\:max-w-\[1256px\] {
     @media (width >= 80rem) {
       max-width: 1256px;
-    }
-  }
-  .xl\:-translate-x-7 {
-    @media (width >= 80rem) {
-      --tw-translate-x: calc(var(--spacing) * -7);
-      translate: var(--tw-translate-x) var(--tw-translate-y);
-    }
-  }
-  .xl\:-translate-y-6 {
-    @media (width >= 80rem) {
-      --tw-translate-y: calc(var(--spacing) * -6);
-      translate: var(--tw-translate-x) var(--tw-translate-y);
-    }
-  }
-  .xl\:scale-120 {
-    @media (width >= 80rem) {
-      --tw-scale-x: 120%;
-      --tw-scale-y: 120%;
-      --tw-scale-z: 120%;
-      scale: var(--tw-scale-x) var(--tw-scale-y);
     }
   }
   .xl\:grid-cols-\[25fr_20fr_20fr_35fr\] {
