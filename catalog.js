@@ -134,3 +134,41 @@ const dishes = [{
         rating: 4.4
     }
 ];
+
+const catalogContainer = document.getElementById('catalog-container');
+const searchInput = document.getElementById('search-input');
+const sortSelect = document.getElementById('sort-select');
+const categoryButtons = document.querySelectorAll('.category-filter');
+const arrayMethodButtons = document.querySelectorAll('.array-method');
+
+let currentCategory = 'all';
+let currentDishes = [...dishes];
+
+
+function renderCatalog(dishesToRender) {
+    catalogContainer.innerHTML = '';
+    if (dishesToRender.length === 0) {
+        catalogContainer.innerHTML = '<p class="no-results">No dishes found</p>';
+        return;
+    }
+    dishesToRender.forEach(dish => {
+        const card = document.createElement('div');
+        card.className = 'dish-card';
+        card.innerHTML = `
+            <img src="${dish.image}" alt="${dish.name}">
+            <div class="info">
+                <h3>${dish.name}</h3>
+                <p>${dish.description}</p>
+                <p class="price">€${dish.price.toFixed(2)}</p>
+                <p>Rating: ${dish.rating}</p>
+                <p>Category: ${dish.category}</p>
+            </div>
+        `;
+        catalogContainer.appendChild(card);
+    });
+}
+
+
+
+// Initial render
+renderCatalog(dishes);
