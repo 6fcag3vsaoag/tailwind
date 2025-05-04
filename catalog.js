@@ -144,24 +144,23 @@ const arrayMethodButtons = document.querySelectorAll('.array-method');
 let currentCategory = 'all';
 let currentDishes = [...dishes];
 
-
 function renderCatalog(dishesToRender) {
     catalogContainer.innerHTML = '';
     if (dishesToRender.length === 0) {
-        catalogContainer.innerHTML = '<p class="no-results">No dishes found</p>';
+        catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>';
         return;
     }
     dishesToRender.forEach(dish => {
         const card = document.createElement('div');
-        card.className = 'dish-card';
+        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
         card.innerHTML = `
-            <img src="${dish.image}" alt="${dish.name}">
-            <div class="info">
-                <h3>${dish.name}</h3>
-                <p>${dish.description}</p>
-                <p class="price">€${dish.price.toFixed(2)}</p>
-                <p>Rating: ${dish.rating}</p>
-                <p>Category: ${dish.category}</p>
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
+            <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+                <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
+                <p class="text-sm mb-2">${dish.description}</p>
+                <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
+                <p class="text-sm mb-2">Rating: ${dish.rating}</p>
+                <p class="text-sm">Category: ${dish.category}</p>
             </div>
         `;
         catalogContainer.appendChild(card);
@@ -230,7 +229,7 @@ arrayMethodButtons.forEach(button => {
             alert(`Total price of all dishes: €${totalPrice.toFixed(2)}`);
             renderCatalog(dishes);
         } else if (method === 'sort') {
-            result = [...dishes].sort((a, b) => b.price - a.price);
+            result = [...dishes].sort((a, b) => b.price - b.price);
             renderCatalog(result);
         } else if (method === 'slice') {
             result = dishes.slice(0, 5);
