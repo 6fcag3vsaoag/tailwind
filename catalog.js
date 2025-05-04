@@ -135,136 +135,157 @@ const dishes = [{
     }
 ];
 
-const catalogContainer = document.getElementById('catalog-container');
-const searchInput = document.getElementById('search-input');
-const sortSelect = document.getElementById('sort-select');
-const categoryButtons = document.querySelectorAll('.category-filter');
-const arrayMethodButtons = document.querySelectorAll('.array-method');
+/* Получение DOM-элементов для работы с каталогом */
+const catalogContainer = document.getElementById('catalog-container'); // Контейнер для карточек блюд
+const searchInput = document.getElementById('search-input'); // Поле ввода для поиска
+const sortSelect = document.getElementById('sort-select'); // Выпадающий список для сортировки
+const categoryButtons = document.querySelectorAll('.category-filter'); // Кнопки фильтрации по категориям
+const arrayMethodButtons = document.querySelectorAll('.array-method'); // Кнопки для методов массивов
 
-let currentCategory = 'all';
-let currentDishes = [...dishes];
+/* Переменные для хранения текущей категории и списка блюд */
+let currentCategory = 'all'; // Текущая выбранная категория (по умолчанию все)
+let currentDishes = [...dishes]; // Копия массива блюд для фильтрации и сортировки
 
+/* Функция для отображения карточек блюд в каталоге */
 function renderCatalog(dishesToRender) {
-    catalogContainer.innerHTML = '';
+    catalogContainer.innerHTML = ''; // Очистка контейнера перед отрисовкой
+    /* Проверка, есть ли блюда для отображения */
     if (dishesToRender.length === 0) {
-        catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>';
+        catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>'; // Сообщение, если блюд нет
         return;
     }
+    /* Создание карточки для каждого блюда */
     dishesToRender.forEach(dish => {
-        const card = document.createElement('div');
-        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
+        const card = document.createElement('div'); // Создание элемента карточки
+        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50'; // Стили карточки с Tailwind
         card.innerHTML = `
-            <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
-            <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
-                <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
-                <p class="text-sm mb-2">${dish.description}</p>
-                <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
-                <p class="text-sm mb-2">Rating: ${dish.rating}</p>
-                <p class="text-sm">Category: ${dish.category}</p>
-            </div>
-        `;
-        catalogContainer.appendChild(card);
+        <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm"> <!-- Изображение блюда -->
+        <div class="p-4 font-['Martel_Sans'] text-[#3f4255]"> <!-- Контейнер информации -->
+            <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3> <!-- Название блюда -->
+            <p class="text-sm mb-2">${dish.description}</p> <!-- Описание блюда -->
+            <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p> <!-- Цена блюда -->
+            <p class="text-sm mb-2">Rating: ${dish.rating}</p> <!-- Рейтинг блюда -->
+            <p class="text-sm">Category: ${dish.category}</p> <!-- Категория блюда -->
+        </div>
+    `;
+        catalogContainer.appendChild(card); // Добавление карточки в контейнер
     });
 }
 
+/* Функция для фильтрации и сортировки блюд */
 function filterAndSort() {
-    let filteredDishes = [...dishes];
+    let filteredDishes = [...dishes]; // Копия исходного массива блюд
 
-    // Search
-    const searchTerm = searchInput.value.toLowerCase();
+    // Поиск по названию или описанию
+    const searchTerm = searchInput.value.toLowerCase(); // Получение поискового запроса
     if (searchTerm) {
         filteredDishes = filteredDishes.filter(dish =>
             dish.name.toLowerCase().includes(searchTerm) ||
             dish.description.toLowerCase().includes(searchTerm)
-        );
+        ); // Фильтрация по поисковому запросу
     }
 
-    // Category filter
+    // Фильтрация по категории
     if (currentCategory !== 'all') {
-        filteredDishes = filteredDishes.filter(dish => dish.category === currentCategory);
+        filteredDishes = filteredDishes.filter(dish => dish.category === currentCategory); // Оставляем только блюда выбранной категории
     }
 
-    // Sort
-    const sortBy = sortSelect.value;
+    // Сортировка
+    const sortBy = sortSelect.value; // Получение выбранного типа сортировки
     if (sortBy === 'name') {
-        filteredDishes.sort((a, b) => a.name.localeCompare(b.name));
+        filteredDishes.sort((a, b) => a.name.localeCompare(b.name)); // Сортировка по названию (A-Z)
     } else if (sortBy === 'price') {
-        filteredDishes.sort((a, b) => a.price - b.price);
+        filteredDishes.sort((a, b) => a.price - b.price); // Сортировка по цене (по возрастанию)
     } else if (sortBy === 'rating') {
-        filteredDishes.sort((a, b) => b.rating - a.rating);
+        filteredDishes.sort((a, b) => b.rating - a.rating); // Сортировка по рейтингу (по убыванию)
     }
 
-    currentDishes = filteredDishes;
-    renderCatalog(filteredDishes);
+    currentDishes = filteredDishes; // Сохранение отфильтрованного списка
+    renderCatalog(filteredDishes); // Отрисовка отфильтрованных блюд
 }
 
-searchInput.addEventListener('input', filterAndSort);
-sortSelect.addEventListener('change', filterAndSort);
+/* Обработчик событий для поля поиска */
+searchInput.addEventListener('input', filterAndSort); // Вызов фильтрации при вводе текста
 
+/* Обработчик событий для выпадающего списка сортировки */
+sortSelect.addEventListener('change', filterAndSort); // Вызов сортировки при выборе варианта
+
+/* Обработчик событий для кнопок категорий */
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        currentCategory = button.dataset.category;
-        filterAndSort();
+        categoryButtons.forEach(btn => btn.classList.remove('active')); // Снятие активного состояния со всех кнопок
+        button.classList.add('active'); // Установка активного состояния для нажатой кнопки
+        currentCategory = button.dataset.category; // Сохранение выбранной категории
+        filterAndSort(); // Вызов фильтрации и сортировки
     });
 });
 
+/* Обработчик событий для кнопок 10 методов для массивов */
 arrayMethodButtons.forEach(button => {
     button.addEventListener('click', () => {
-        const method = button.dataset.method;
-        let result = [];
+        const method = button.dataset.method; // Получение метода из data-method
+        let result = []; // Массив для результатов обработки
 
+        /* map в верхний регистр */
         if (method === 'map') {
             result = dishes.map(dish => ({
                 ...dish,
                 name: dish.name.toUpperCase()
             }));
-            renderCatalog(result);
+            renderCatalog(result); // Отрисовка результата
+            /* фильтрация дешевле 20 евро */
         } else if (method === 'filter') {
             result = dishes.filter(dish => dish.price < 20);
             renderCatalog(result);
+            /* reduc: подсчет общей стоимости */
         } else if (method === 'reduce') {
             const totalPrice = dishes.reduce((sum, dish) => sum + dish.price, 0);
             alert(`Total price of all dishes: €${totalPrice.toFixed(2)}`);
-            renderCatalog(dishes);
+            renderCatalog(dishes); // Отрисовка исходного списка
+            /* сортировка блюд по цене убывание*/
         } else if (method === 'sort') {
             result = [...dishes].sort((a, b) => b.price - b.price);
             renderCatalog(result);
+            /* slice: выбор первых 5 блюд */
         } else if (method === 'slice') {
             result = dishes.slice(0, 5);
             renderCatalog(result);
+            /* find: поиск рейтингом 5 */
         } else if (method === 'find') {
             const found = dishes.find(dish => dish.rating === 5);
-            renderCatalog(found ? [found] : []);
+            renderCatalog(found ? [found] : []); // Отрисовка найденного блюда или пустого списка
+            /* some: есть ли блюда дешевле 10 евро??? */
         } else if (method === 'some') {
             const hasCheap = dishes.some(dish => dish.price < 10);
-            alert(`Are there dishes under €10? ${hasCheap}`);
+            alert(`Are there dishes under €10? ${hasCheap}`); // Вывод результата проверки
             renderCatalog(dishes);
+            /* every: проверка, имеют ли все блюда рейтинг выше 3??? */
         } else if (method === 'every') {
             const allHighRated = dishes.every(dish => dish.rating > 3);
-            alert(`Are all dishes rated above 3? ${allHighRated}`);
+            alert(`Are all dishes rated above 3? ${allHighRated}`); // Вывод результата проверки
             renderCatalog(dishes);
+            /* forEach: сбор и вывод названий всех блюд алертом */
         } else if (method === 'forEach') {
             let names = '';
             dishes.forEach(dish => names += dish.name + '\n');
-            alert(`Dish names:\n${names}`);
+            alert(`Dish names:\n${names}`); // Вывод списка названий
             renderCatalog(dishes);
+            /* Обработка метода concat: добавление нового блюда к списку */
         } else if (method === 'concat') {
             const newDish = {
                 id: 16,
-                name: "Sample Dish",
-                description: "A sample dish.",
+                name: "Concat Dish",
+                description: "Conctat Added",
                 price: 9.99,
                 category: "Sample",
                 image: "images/food4.png",
-                rating: 4.0
+                rating: 5.0
             };
-            result = dishes.concat(newDish);
-            renderCatalog(result);
+            result = dishes.concat(newDish); // Добавление нового блюда
+            renderCatalog(result); // Отрисовка обновленного списка
         }
     });
 });
 
-// Initial render
+
 renderCatalog(dishes);
