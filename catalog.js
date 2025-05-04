@@ -168,7 +168,104 @@ function renderCatalog(dishesToRender) {
     });
 }
 
+function filterAndSort() {
+    let filteredDishes = [...dishes];
 
+    // Search
+    const searchTerm = searchInput.value.toLowerCase();
+    if (searchTerm) {
+        filteredDishes = filteredDishes.filter(dish =>
+            dish.name.toLowerCase().includes(searchTerm) ||
+            dish.description.toLowerCase().includes(searchTerm)
+        );
+    }
+
+    // Category filter
+    if (currentCategory !== 'all') {
+        filteredDishes = filteredDishes.filter(dish => dish.category === currentCategory);
+    }
+
+    // Sort
+    const sortBy = sortSelect.value;
+    if (sortBy === 'name') {
+        filteredDishes.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'price') {
+        filteredDishes.sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'rating') {
+        filteredDishes.sort((a, b) => b.rating - a.rating);
+    }
+
+    currentDishes = filteredDishes;
+    renderCatalog(filteredDishes);
+}
+
+searchInput.addEventListener('input', filterAndSort);
+sortSelect.addEventListener('change', filterAndSort);
+
+categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentCategory = button.dataset.category;
+        filterAndSort();
+    });
+});
+
+arrayMethodButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const method = button.dataset.method;
+        let result = [];
+
+        if (method === 'map') {
+            result = dishes.map(dish => ({
+                ...dish,
+                name: dish.name.toUpperCase()
+            }));
+            renderCatalog(result);
+        } else if (method === 'filter') {
+            result = dishes.filter(dish => dish.price < 20);
+            renderCatalog(result);
+        } else if (method === 'reduce') {
+            const totalPrice = dishes.reduce((sum, dish) => sum + dish.price, 0);
+            alert(`Total price of all dishes: €${totalPrice.toFixed(2)}`);
+            renderCatalog(dishes);
+        } else if (method === 'sort') {
+            result = [...dishes].sort((a, b) => b.price - a.price);
+            renderCatalog(result);
+        } else if (method === 'slice') {
+            result = dishes.slice(0, 5);
+            renderCatalog(result);
+        } else if (method === 'find') {
+            const found = dishes.find(dish => dish.rating === 5);
+            renderCatalog(found ? [found] : []);
+        } else if (method === 'some') {
+            const hasCheap = dishes.some(dish => dish.price < 10);
+            alert(`Are there dishes under €10? ${hasCheap}`);
+            renderCatalog(dishes);
+        } else if (method === 'every') {
+            const allHighRated = dishes.every(dish => dish.rating > 3);
+            alert(`Are all dishes rated above 3? ${allHighRated}`);
+            renderCatalog(dishes);
+        } else if (method === 'forEach') {
+            let names = '';
+            dishes.forEach(dish => names += dish.name + '\n');
+            alert(`Dish names:\n${names}`);
+            renderCatalog(dishes);
+        } else if (method === 'concat') {
+            const newDish = {
+                id: 16,
+                name: "Sample Dish",
+                description: "A sample dish.",
+                price: 9.99,
+                category: "Sample",
+                image: "images/food4.png",
+                rating: 4.0
+            };
+            result = dishes.concat(newDish);
+            renderCatalog(result);
+        }
+    });
+});
 
 // Initial render
 renderCatalog(dishes);
