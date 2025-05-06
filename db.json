@@ -136,16 +136,7 @@
       "rating": 4.4
     }
   ],
-  "favorites": [
-    {
-      "dishId": 1,
-      "id": 2
-    },
-    {
-      "dishId": 4,
-      "id": 3
-    }
-  ],
+  "favorites": [],
   "cart": [
     {
       "dishId": 3,

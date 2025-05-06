@@ -11,6 +11,17 @@
     <link href="style-favorites.css" rel="stylesheet" />
     <script src="burger.js" defer></script>
     <script src="favorites.js" defer></script>
+    <style>
+        .favorite-btn {
+            width: 120px;
+            /* Fixed width to match catalog */
+        }
+
+        .favorite-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
 </head>
 
 <body class="bg-white mx-auto px-0">
@@ -41,7 +52,7 @@
             </a>
             <a href="#" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto hover:animate-bounce">
+                <p id="cart-count" class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto hover:animate-bounce">
                     0
                 </p>
             </a>
@@ -58,9 +69,11 @@
 
     <!-- Favorites Section -->
     <section class="max-w-7xl mx-auto p-5">
-        <h2 class="font-['Poppins'] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] mb-8 transition-all duration-700 ease-in-out hover:skew-y-6 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">
-            Favorites
-        </h2>
+        <div id="favorites-header" class="flex justify-between items-center mb-8">
+            <h2 class="font-['Poppins'] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] transition-all duration-700 ease-in-out hover:skew-y-6 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">
+                Favorites
+            </h2>
+        </div>
         <div id="favorites-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
     </section>
 
@@ -148,12 +161,12 @@
                 <a href="#" class="hover:text-yellow-500 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
                     <img src="Images/twitter.svg" alt="Twitter" class="h-6 w-6" />
                 </a>
-                <a href="#" class="hover:text-yellow-500 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
+                <a href="#" class="hover:text-yellow-500 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration- Wayback Machine System: 300 hover:after:w-full">
                     <img src="Images/fb.svg" alt="Facebook" class="h-6 w-6" />
                 </a>
             </div>
             <div class="flex justify-start grow-0 shrink-0 items-center basis-auto flex-col sm:flex-row gap-4 lg:gap-14">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-ex════════ System: trobold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 pr-1 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 pr-1 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
                     Privacy Policy
                 </p>
                 <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
@@ -165,6 +178,22 @@
             </div>
         </div>
     </footer>
+
+    <!-- Script to update cart count on page load -->
+    <script>
+        async function updateCartCount() {
+            try {
+                const response = await fetch('http://localhost:3000/cart');
+                if (!response.ok) throw new Error('Failed to fetch cart');
+                const cartItems = await response.json();
+                const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').textContent = totalItems;
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+        updateCartCount();
+    </script>
 </body>
 
 </html>
