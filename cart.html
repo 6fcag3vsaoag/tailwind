@@ -11,6 +11,12 @@
     <link href="style-cart.css" rel="stylesheet" />
     <script src="burger.js" defer></script>
     <script src="cart.js" defer></script>
+    <style>
+        .remove-btn {
+            width: 120px;
+            /* Fixed width to match catalog and favorites */
+        }
+    </style>
 </head>
 
 <body class="bg-white mx-auto px-0">
@@ -41,7 +47,7 @@
             </a>
             <a href="#" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto hover:animate-bounce">
+                <p id="cart-count" class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto hover:animate-bounce">
                     0
                 </p>
             </a>
@@ -58,14 +64,18 @@
 
     <!-- Cart Section -->
     <section class="max-w-7xl mx-auto p-5">
-        <h2 class="font-['Poppins'] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] mb-8 transition-all duration-700 ease-in-out hover:skew-y-6 hover:bg-gradient-to-r hover:from-yellow-400 hover:-to-yellow-600 hover:text-white">
-            Cart
-        </h2>
+        <div id="cart-header" class="flex justify-between items-center mb-8">
+            <h2 class="font-['Poppins'] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] transition-all duration-700 ease-in-out hover:skew-y-6 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">
+                Cart
+            </h2>
+        </div>
         <div id="cart-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
-        <div id="total-price" class="font-['Poppins'] text-xl font-bold text-[#3f4255] mt-8 text-right"></div>
-        <button id="checkout-btn" class="bg-yellow-500 text-white px-4 py-2 rounded mt-4 font-['Martel_Sans'] font-bold hover:bg-yellow-600 transition-all duration-300 ease-in-out">
-            Checkout
-        </button>
+        <div class="flex justify-end items-center gap-4 mt-8">
+            <div id="total-price" class="font-['Poppins'] text-xl font-bold text-[#3f4255]"></div>
+            <button id="checkout-btn" class="bg-yellow-500 text-white px-4 py-2 rounded font-['Martel_Sans'] font-bold hover:bg-yellow-600 transition-all duration-300 ease-in-out">
+                Checkout
+            </button>
+        </div>
     </section>
 
     <!-- Footer -->
@@ -73,7 +83,7 @@
         <div class="grid grid-cols-1 mx-auto md:grid-cols-2 xl:grid-cols-[25fr_20fr_20fr_35fr] gap-6 lg:min-h-70">
             <div class="flex flex-col gap-5 xl:gap-12 lg:pl-15 lg:min-w-120">
                 <img src="images/Logo2.svg" alt="Logo" class="h-6 w-auto lg:-ml-29.5 transition-all duration-300 ease-in-out hover:scale-110 hover:rotate-5 hover:hue-rotate-15 hover:brightness-150 hover:saturate-150" />
-                <div class="bg-[#d4d7e5] h-pxTpx-2"></div>
+                <div class="bg-[#d4d7e5] h-px lg:w-74"></div>
                 <div class="flex gap-2 justify-center lg:justify-start">
                     <img src="images/app-img1-1.png" alt="App 1" class="h-7.3 w-auto hover:animate-bounce" />
                     <img src="images/app-img2-1.png" alt="App 2" class="h-7.3 w-auto hover:animate-bounce" />
@@ -169,6 +179,22 @@
             </div>
         </div>
     </footer>
+
+    <!-- Script to update cart count on page load -->
+    <script>
+        async function updateCartCount() {
+            try {
+                const response = await fetch('http://localhost:3000/cart');
+                if (!response.ok) throw new Error('Failed to fetch cart');
+                const cartItems = await response.json();
+                const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').textContent = totalItems;
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+        updateCartCount();
+    </script>
 </body>
 
 </html>

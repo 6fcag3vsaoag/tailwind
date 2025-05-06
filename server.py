@@ -156,6 +156,13 @@ def delete_cart_item(id):
     save_db(db)
     return jsonify({"message": "Cart item deleted"}), 200
 
+@app.route('/cart/clear', methods=['DELETE'])
+def clear_cart():
+    db = load_db()
+    db['cart'] = []
+    save_db(db)
+    return jsonify({"message": "Cart cleared"}), 200
+
 @app.route('/cart', methods=['GET'])
 def get_cart_by_dish_id():
     db = load_db()
