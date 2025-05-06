@@ -144,10 +144,6 @@
     {
       "dishId": 4,
       "id": 3
-    },
-    {
-      "dishId": 2,
-      "id": 4
     }
   ],
   "cart": [
@@ -185,6 +181,11 @@
       "dishId": 1,
       "quantity": 1,
       "id": 7
+    },
+    {
+      "dishId": 4,
+      "quantity": 999,
+      "id": 8
     }
   ]
 }

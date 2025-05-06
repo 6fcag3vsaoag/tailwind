@@ -9,6 +9,7 @@ const priceMaxInput = document.getElementById('price-max');
 const ratingMinInput = document.getElementById('rating-min');
 const ratingMaxInput = document.getElementById('rating-max');
 const paginationContainer = document.getElementById('pagination-container');
+const cartCountElement = document.getElementById('cart-count');
 
 let currentCategory = 'all';
 let currentPage = 1;
@@ -52,6 +53,23 @@ async function fetchFavorites() {
         console.error('Error fetching favorites:', error);
         return [];
     }
+}
+
+async function fetchCart() {
+    try {
+        const response = await fetch(`${baseUrl}/cart`);
+        if (!response.ok) throw new Error('Failed to fetch cart');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching cart:', error);
+        return [];
+    }
+}
+
+async function updateCartCount() {
+    const cartItems = await fetchCart();
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    cartCountElement.textContent = totalItems;
 }
 
 async function toggleFavorite(dishId) {
@@ -101,6 +119,7 @@ async function addToCart(dishId, quantity) {
         });
         if (response.ok) {
             alert(`Added ${quantity} item(s) to cart!`);
+            await updateCartCount(); // Update cart count after adding
         }
     } catch (error) {
         console.error('Error adding to cart:', error);
@@ -132,7 +151,7 @@ function renderCatalog(dishes) {
                 <p class="text-sm mb-2">Rating: ${dish.rating}</p>
                 <p class="text-sm">Category: ${dish.category}</p>
                 <div class="flex justify-between items-center gap-2 mt-2">
-                    <button class="favorite-btn flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded" data-id="${dish.id}">
+                    <button class="favorite-btn flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded w-[120px]" data-id="${dish.id}">
                         <svg class="w-4 h-4 ${isFavorite ? 'fill-red-500' : 'fill-white'}" viewBox="0 0 24 24">
                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
@@ -319,6 +338,7 @@ async function init() {
         }
     });
     filterAndSort();
+    await updateCartCount(); // Initialize cart count on page load
 }
 
 init();
