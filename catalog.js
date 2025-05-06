@@ -1,291 +1,297 @@
-const dishes = [{
-        id: 1,
-        name: "Classic Cheeseburger",
-        description: "Juicy beef patty with cheddar cheese, lettuce, and tomato.",
-        price: 12.99,
-        category: "Burger",
-        image: "images/food1.png",
-        rating: 4.5
-    },
-    {
-        id: 2,
-        name: "Spaghetti Carbonara",
-        description: "Creamy pasta with pancetta, parmesan, and egg yolk.",
-        price: 15.50,
-        category: "Pasta",
-        image: "images/food2.png",
-        rating: 4.8
-    },
-    {
-        id: 3,
-        name: "California Roll",
-        description: "Sushi roll with crab, avocado, and cucumber.",
-        price: 10.99,
-        category: "Sushi",
-        image: "images/food3.png",
-        rating: 4.2
-    },
-    {
-        id: 4,
-        name: "Margherita Pizza",
-        description: "Classic pizza with tomato, mozzarella, and basil.",
-        price: 13.75,
-        category: "Pizza",
-        image: "images/food4.png",
-        rating: 4.7
-    },
-    {
-        id: 5,
-        name: "Caesar Salad",
-        description: "Crisp romaine lettuce with croutons and Caesar dressing.",
-        price: 8.99,
-        category: "Salad",
-        image: "images/food1.png",
-        rating: 4.0
-    },
-    {
-        id: 6,
-        name: "BBQ Bacon Burger",
-        description: "Beef patty with BBQ sauce, bacon, and onion rings.",
-        price: 14.25,
-        category: "Burger",
-        image: "images/food2.png",
-        rating: 4.6
-    },
-    {
-        id: 7,
-        name: "Fusilli Pesto",
-        description: "Spiral pasta with fresh basil pesto and pine nuts.",
-        price: 14.00,
-        category: "Pasta",
-        image: "images/food3.png",
-        rating: 4.3
-    },
-    {
-        id: 8,
-        name: "Spicy Tuna Roll",
-        description: "Sushi roll with spicy tuna and seaweed.",
-        price: 11.50,
-        category: "Sushi",
-        image: "images/food4.png",
-        rating: 4.4
-    },
-    {
-        id: 9,
-        name: "Pepperoni Pizza",
-        description: "Pizza with spicy pepperoni and mozzarella.",
-        price: 15.00,
-        category: "Pizza",
-        image: "images/food1.png",
-        rating: 4.9
-    },
-    {
-        id: 10,
-        name: "Greek Salad",
-        description: "Feta cheese, olives, cucumber, and red onion.",
-        price: 9.50,
-        category: "Salad",
-        image: "images/food2.png",
-        rating: 4.1
-    },
-    {
-        id: 11,
-        name: "Mushroom Swiss Burger",
-        description: "Beef patty with sautéed mushrooms and Swiss cheese.",
-        price: 13.99,
-        category: "Burger",
-        image: "images/food3.png",
-        rating: 4.5
-    },
-    {
-        id: 12,
-        name: "Lasagna Bolognese",
-        description: "Layered pasta with meat sauce and béchamel.",
-        price: 16.75,
-        category: "Pasta",
-        image: "images/food4.png",
-        rating: 4.8
-    },
-    {
-        id: 13,
-        name: "Dragon Roll",
-        description: "Sushi roll with eel, avocado, and tobiko.",
-        price: 12.25,
-        category: "Sushi",
-        image: "images/food1.png",
-        rating: 4.6
-    },
-    {
-        id: 14,
-        name: "Veggie Pizza",
-        description: "Pizza with bell peppers, mushrooms, and olives.",
-        price: 14.50,
-        category: "Pizza",
-        image: "images/food2.png",
-        rating: 4.3
-    },
-    {
-        id: 15,
-        name: "Cobb Salad",
-        description: "Grilled chicken, bacon, egg, and avocado.",
-        price: 10.75,
-        category: "Salad",
-        image: "images/food3.png",
-        rating: 4.4
+const catalogContainer = document.getElementById('catalog-container');
+const searchInput = document.getElementById('search-input');
+const sortSelect = document.getElementById('sort-select');
+const categoryButtons = document.querySelectorAll('.category-filter');
+const arrayMethodButtons = document.querySelectorAll('.array-method');
+const priceMinInput = document.createElement('input');
+const priceMaxInput = document.createElement('input');
+const ratingMinInput = document.createElement('input');
+const ratingMaxInput = document.createElement('input');
+const paginationContainer = document.createElement('div');
+
+let currentCategory = 'all';
+let currentPage = 1;
+const itemsPerPage = 4;
+const baseUrl = 'http://localhost:3000';
+
+priceMinInput.type = 'number';
+priceMinInput.placeholder = 'Min Price';
+priceMinInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
+priceMaxInput.type = 'number';
+priceMaxInput.placeholder = 'Max Price';
+priceMaxInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
+ratingMinInput.type = 'number';
+ratingMinInput.placeholder = 'Min Rating';
+ratingMinInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
+ratingMaxInput.type = 'number';
+ratingMaxInput.placeholder = 'Max Rating';
+ratingMaxInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
+
+const filterContainer = document.querySelector('.flex.flex-wrap.gap-5.mb-5');
+filterContainer.appendChild(priceMinInput);
+filterContainer.appendChild(priceMaxInput);
+filterContainer.appendChild(ratingMinInput);
+filterContainer.appendChild(ratingMaxInput);
+
+paginationContainer.className = 'flex justify-center gap-4 mt-8';
+catalogContainer.parentElement.appendChild(paginationContainer);
+
+async function fetchDishes(params = {}) {
+    try {
+        const query = new URLSearchParams({
+            _page: currentPage,
+            _limit: itemsPerPage,
+            ...params
+        }).toString();
+        console.log('Fetching dishes with URL:', `${baseUrl}/dishes?${query}`);
+        const response = await fetch(`${baseUrl}/dishes?${query}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const totalItems = parseInt(response.headers.get('X-Total-Count') || 0);
+        const data = await response.json();
+        console.log('Fetched dishes:', data, 'Total items:', totalItems);
+        return {
+            data,
+            totalItems
+        };
+    } catch (error) {
+        console.error('Error fetching dishes:', error);
+        return {
+            data: [],
+            totalItems: 0
+        };
     }
-];
+}
 
-/* Получение DOM-элементов для работы с каталогом */
-const catalogContainer = document.getElementById('catalog-container'); // Контейнер для карточек блюд
-const searchInput = document.getElementById('search-input'); // Поле ввода для поиска
-const sortSelect = document.getElementById('sort-select'); // Выпадающий список для сортировки
-const categoryButtons = document.querySelectorAll('.category-filter'); // Кнопки фильтрации по категориям
-const arrayMethodButtons = document.querySelectorAll('.array-method'); // Кнопки для методов массивов
+async function addToFavorites(dishId) {
+    try {
+        const response = await fetch(`${baseUrl}/favorites`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                dishId
+            })
+        });
+        if (response.ok) {
+            alert('Added to favorites!');
+        }
+    } catch (error) {
+        console.error('Error adding to favorites:', error);
+    }
+}
 
-/* Переменные для хранения текущей категории и списка блюд */
-let currentCategory = 'all'; // Текущая выбранная категория (по умолчанию все)
-let currentDishes = [...dishes]; // Копия массива блюд для фильтрации и сортировки
+async function addToCart(dishId) {
+    try {
+        const response = await fetch(`${baseUrl}/cart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                dishId,
+                quantity: 1
+            })
+        });
+        if (response.ok) {
+            alert('Added to cart!');
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+    }
+}
 
-/* Функция для отображения карточек блюд в каталоге */
-function renderCatalog(dishesToRender) {
-    catalogContainer.innerHTML = ''; // Очистка контейнера перед отрисовкой
-    /* Проверка, есть ли блюда для отображения */
-    if (dishesToRender.length === 0) {
-        catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>'; // Сообщение, если блюд нет
+function renderCatalog(dishes) {
+    console.log('Rendering catalog with dishes:', dishes);
+    catalogContainer.innerHTML = '';
+    if (dishes.length === 0) {
+        catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>';
         return;
     }
-    /* Создание карточки для каждого блюда */
-    dishesToRender.forEach(dish => {
-        const card = document.createElement('div'); // Создание элемента карточки
-        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50'; // Стили карточки с Tailwind
+    dishes.forEach(dish => {
+        const card = document.createElement('div');
+        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
         card.innerHTML = `
-        <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm"> <!-- Изображение блюда -->
-        <div class="p-4 font-['Martel_Sans'] text-[#3f4255]"> <!-- Контейнер информации -->
-            <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3> <!-- Название блюда -->
-            <p class="text-sm mb-2">${dish.description}</p> <!-- Описание блюда -->
-            <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p> <!-- Цена блюда -->
-            <p class="text-sm mb-2">Rating: ${dish.rating}</p> <!-- Рейтинг блюда -->
-            <p class="text-sm">Category: ${dish.category}</p> <!-- Категория блюда -->
-        </div>
-    `;
-        catalogContainer.appendChild(card); // Добавление карточки в контейнер
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
+            <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+                <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
+                <p class="text-sm mb-2">${dish.description}</p>
+                <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
+                <p class="text-sm mb-2">Rating: ${dish.rating}</p>
+                <p class="text-sm">Category: ${dish.category}</p>
+                <div class="flex gap-2 mt-2">
+                    <button class="favorite-btn bg-yellow-500 text-white px-2 py-1 rounded" data-id="${dish.id}">Add to Favorites</button>
+                    <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded" data-id="${dish.id}">Add to Cart</button>
+                </div>
+            </div>
+        `;
+        catalogContainer.appendChild(card);
     });
 }
 
-/* Функция для фильтрации и сортировки блюд */
-function filterAndSort() {
-    let filteredDishes = [...dishes]; // Копия исходного массива блюд
-
-    // Поиск по названию или описанию
-    const searchTerm = searchInput.value.toLowerCase(); // Получение поискового запроса
-    if (searchTerm) {
-        filteredDishes = filteredDishes.filter(dish =>
-            dish.name.toLowerCase().includes(searchTerm) ||
-            dish.description.toLowerCase().includes(searchTerm)
-        ); // Фильтрация по поисковому запросу
+function renderPagination(totalItems) {
+    console.log('Rendering pagination with total items:', totalItems);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    paginationContainer.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.className = `px-4 py-2 border-2 border-yellow-300 rounded-md font-['Martel_Sans'] font-bold text-gray-500 ${i === currentPage ? 'bg-yellow-300' : 'bg-gray-100'} hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out`;
+        button.addEventListener('click', () => {
+            currentPage = i;
+            filterAndSort();
+        });
+        paginationContainer.appendChild(button);
     }
-
-    // Фильтрация по категории
-    if (currentCategory !== 'all') {
-        filteredDishes = filteredDishes.filter(dish => dish.category === currentCategory); // Оставляем только блюда выбранной категории
-    }
-
-    // Сортировка
-    const sortBy = sortSelect.value; // Получение выбранного типа сортировки
-    if (sortBy === 'name') {
-        filteredDishes.sort((a, b) => a.name.localeCompare(b.name)); // Сортировка по названию (A-Z)
-    } else if (sortBy === 'price') {
-        filteredDishes.sort((a, b) => a.price - b.price); // Сортировка по цене (по возрастанию)
-    } else if (sortBy === 'rating') {
-        filteredDishes.sort((a, b) => b.rating - a.rating); // Сортировка по рейтингу (по убыванию)
-    }
-
-    currentDishes = filteredDishes; // Сохранение отфильтрованного списка
-    renderCatalog(filteredDishes); // Отрисовка отфильтрованных блюд
 }
 
-/* Обработчик событий для поля поиска */
-searchInput.addEventListener('input', filterAndSort); // Вызов фильтрации при вводе текста
+async function filterAndSort() {
+    const params = {};
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm) {
+        params.q = searchTerm;
+    }
+    if (currentCategory !== 'all') {
+        params.category = currentCategory;
+    }
+    const sortBy = sortSelect.value;
+    if (sortBy) {
+        params._sort = sortBy;
+        params._order = sortBy === 'name' ? 'asc' : 'desc';
+    }
+    const priceMin = parseFloat(priceMinInput.value);
+    const priceMax = parseFloat(priceMaxInput.value);
+    const ratingMin = parseFloat(ratingMinInput.value);
+    const ratingMax = parseFloat(ratingMaxInput.value);
+    if (!isNaN(priceMin)) params['price_gte'] = priceMin;
+    if (!isNaN(priceMax)) params['price_lte'] = priceMax;
+    if (!isNaN(ratingMin)) params['rating_gte'] = ratingMin;
+    if (!isNaN(ratingMax)) params['rating_lte'] = ratingMax;
 
-/* Обработчик событий для выпадающего списка сортировки */
-sortSelect.addEventListener('change', filterAndSort); // Вызов сортировки при выборе варианта
+    console.log('Filter and sort params:', params);
+    const {
+        data,
+        totalItems
+    } = await fetchDishes(params);
+    renderCatalog(data);
+    renderPagination(totalItems);
+}
 
-/* Обработчик событий для кнопок категорий */
+async function applyArrayMethod(method) {
+    let result = [];
+    const dishes = (await fetchDishes()).data;
+
+    if (method === 'map') {
+        result = dishes.map(dish => ({
+            ...dish,
+            name: dish.name.toUpperCase()
+        }));
+    } else if (method === 'filter') {
+        result = dishes.filter(dish => dish.price < 20);
+    } else if (method === 'reduce') {
+        const totalPrice = dishes.reduce((sum, dish) => sum + dish.price, 0);
+        alert(`Total price of all dishes: €${totalPrice.toFixed(2)}`);
+        return;
+    } else if (method === 'sort') {
+        result = [...dishes].sort((a, b) => b.price - a.price);
+    } else if (method === 'slice') {
+        result = dishes.slice(0, 5);
+    } else if (method === 'find') {
+        const found = dishes.find(dish => dish.rating === 5);
+        result = found ? [found] : [];
+    } else if (method === 'some') {
+        const hasCheap = dishes.some(dish => dish.price < 10);
+        alert(`Are there dishes under €10? ${hasCheap}`);
+        return;
+    } else if (method === 'every') {
+        const allHighRated = dishes.every(dish => dish.rating > 3);
+        alert(`Are all dishes rated above 3? ${allHighRated}`);
+        return;
+    } else if (method === 'forEach') {
+        let names = '';
+        dishes.forEach(dish => names += dish.name + '\n');
+        alert(`Dish names:\n${names}`);
+        return;
+    } else if (method === 'concat') {
+        const newDish = {
+            id: 16,
+            name: "Concat Dish",
+            description: "Concat Added",
+            price: 9.99,
+            category: "Sample",
+            image: "images/food4.png",
+            rating: 5.0
+        };
+        await fetch(`${baseUrl}/dishes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newDish)
+        });
+        result = [...dishes, newDish];
+    }
+    renderCatalog(result);
+}
+
+searchInput.addEventListener('input', () => {
+    currentPage = 1;
+    filterAndSort();
+});
+sortSelect.addEventListener('change', () => {
+    currentPage = 1;
+    filterAndSort();
+});
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
-        categoryButtons.forEach(btn => btn.classList.remove('active')); // Снятие активного состояния со всех кнопок
-        button.classList.add('active'); // Установка активного состояния для нажатой кнопки
-        currentCategory = button.dataset.category; // Сохранение выбранной категории
-        filterAndSort(); // Вызов фильтрации и сортировки
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentCategory = button.dataset.category;
+        currentPage = 1;
+        filterAndSort();
     });
 });
-
-/* Обработчик событий для кнопок 10 методов для массивов */
 arrayMethodButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const method = button.dataset.method; // Получение метода из data-method
-        let result = []; // Массив для результатов обработки
+    button.addEventListener('click', () => applyArrayMethod(button.dataset.method));
+});
+priceMinInput.addEventListener('input', () => {
+    currentPage = 1;
+    filterAndSort();
+});
+priceMaxInput.addEventListener('input', () => {
+    currentPage = 1;
+    filterAndSort();
+});
+ratingMinInput.addEventListener('input', () => {
+    currentPage = 1;
+    filterAndSort();
+});
+ratingMaxInput.addEventListener('input', () => {
+    currentPage = 1;
+    filterAndSort();
+});
 
-        /* map в верхний регистр */
-        if (method === 'map') {
-            result = dishes.map(dish => ({
-                ...dish,
-                name: dish.name.toUpperCase()
-            }));
-            renderCatalog(result); // Отрисовка результата
-            /* фильтрация дешевле 20 евро */
-        } else if (method === 'filter') {
-            result = dishes.filter(dish => dish.price < 20);
-            renderCatalog(result);
-            /* reduc: подсчет общей стоимости */
-        } else if (method === 'reduce') {
-            const totalPrice = dishes.reduce((sum, dish) => sum + dish.price, 0);
-            alert(`Total price of all dishes: €${totalPrice.toFixed(2)}`);
-            renderCatalog(dishes); // Отрисовка исходного списка
-            /* сортировка блюд по цене убывание*/
-        } else if (method === 'sort') {
-            result = [...dishes].sort((a, b) => b.price - b.price);
-            renderCatalog(result);
-            /* slice: выбор первых 5 блюд */
-        } else if (method === 'slice') {
-            result = dishes.slice(0, 5);
-            renderCatalog(result);
-            /* find: поиск рейтингом 5 */
-        } else if (method === 'find') {
-            const found = dishes.find(dish => dish.rating === 5);
-            renderCatalog(found ? [found] : []); // Отрисовка найденного блюда или пустого списка
-            /* some: есть ли блюда дешевле 10 евро??? */
-        } else if (method === 'some') {
-            const hasCheap = dishes.some(dish => dish.price < 10);
-            alert(`Are there dishes under €10? ${hasCheap}`); // Вывод результата проверки
-            renderCatalog(dishes);
-            /* every: проверка, имеют ли все блюда рейтинг выше 3??? */
-        } else if (method === 'every') {
-            const allHighRated = dishes.every(dish => dish.rating > 3);
-            alert(`Are all dishes rated above 3? ${allHighRated}`); // Вывод результата проверки
-            renderCatalog(dishes);
-            /* forEach: сбор и вывод названий всех блюд алертом */
-        } else if (method === 'forEach') {
-            let names = '';
-            dishes.forEach(dish => names += dish.name + '\n');
-            alert(`Dish names:\n${names}`); // Вывод списка названий
-            renderCatalog(dishes);
-            /* Обработка метода concat: добавление нового блюда к списку */
-        } else if (method === 'concat') {
-            const newDish = {
-                id: 16,
-                name: "Concat Dish",
-                description: "Conctat Added",
-                price: 9.99,
-                category: "Sample",
-                image: "images/food4.png",
-                rating: 5.0
-            };
-            result = dishes.concat(newDish); // Добавление нового блюда
-            renderCatalog(result); // Отрисовка обновленного списка
+catalogContainer.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('favorite-btn')) {
+        const id = parseInt(e.target.dataset.id);
+        await addToFavorites(id);
+    } else if (e.target.classList.contains('cart-btn')) {
+        const id = parseInt(e.target.dataset.id);
+        await addToCart(id);
+    }
+});
+
+async function init() {
+    const categories = new Set((await fetchDishes()).data.map(dish => dish.category));
+    console.log('Available categories:', categories);
+    categoryButtons.forEach(button => {
+        if (button.dataset.category !== 'all' && !categories.has(button.dataset.category)) {
+            button.remove();
         }
     });
-});
+    filterAndSort();
+}
 
-
-renderCatalog(dishes);
+init();
