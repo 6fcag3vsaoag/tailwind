@@ -159,7 +159,7 @@ function renderCatalog(dishes) {
                     </button>
                     <div class="flex items-center gap-1">
                         <input type="number" min="1" value="1" class="quantity-input w-12 p-1 border-2 border-yellow-300 rounded-md text-center">
-                        <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded" data-id="${dish.id}">Add to Cart</button>
+                        <button class="cart-btn bg-green-500 text-white px-2 py-0.5 rounded text-sm" data-id="${dish.id}">Add to Cart</button>
                     </div>
                 </div>
             </div>
