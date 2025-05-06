@@ -1,40 +1,19 @@
 const catalogContainer = document.getElementById('catalog-container');
 const searchInput = document.getElementById('search-input');
 const sortSelect = document.getElementById('sort-select');
+const itemsPerPageSelect = document.getElementById('items-per-page');
 const categoryButtons = document.querySelectorAll('.category-filter');
 const arrayMethodButtons = document.querySelectorAll('.array-method');
-const priceMinInput = document.createElement('input');
-const priceMaxInput = document.createElement('input');
-const ratingMinInput = document.createElement('input');
-const ratingMaxInput = document.createElement('input');
-const paginationContainer = document.createElement('div');
+const priceMinInput = document.getElementById('price-min');
+const priceMaxInput = document.getElementById('price-max');
+const ratingMinInput = document.getElementById('rating-min');
+const ratingMaxInput = document.getElementById('rating-max');
+const paginationContainer = document.getElementById('pagination-container');
 
 let currentCategory = 'all';
 let currentPage = 1;
-const itemsPerPage = 4;
+let itemsPerPage = 4;
 const baseUrl = 'http://localhost:3000';
-
-priceMinInput.type = 'number';
-priceMinInput.placeholder = 'Min Price';
-priceMinInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
-priceMaxInput.type = 'number';
-priceMaxInput.placeholder = 'Max Price';
-priceMaxInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
-ratingMinInput.type = 'number';
-ratingMinInput.placeholder = 'Min Rating';
-ratingMinInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
-ratingMaxInput.type = 'number';
-ratingMaxInput.placeholder = 'Max Rating';
-ratingMaxInput.className = 'p-2 border-2 border-yellow-300 rounded-md font-["Martel_Sans"] transition-all duration-300 ease-in-out focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50';
-
-const filterContainer = document.querySelector('.flex.flex-wrap.gap-5.mb-5');
-filterContainer.appendChild(priceMinInput);
-filterContainer.appendChild(priceMaxInput);
-filterContainer.appendChild(ratingMinInput);
-filterContainer.appendChild(ratingMaxInput);
-
-paginationContainer.className = 'flex justify-center gap-4 mt-8';
-catalogContainer.parentElement.appendChild(paginationContainer);
 
 async function fetchDishes(params = {}) {
     try {
@@ -64,26 +43,51 @@ async function fetchDishes(params = {}) {
     }
 }
 
-async function addToFavorites(dishId) {
+async function fetchFavorites() {
     try {
-        const response = await fetch(`${baseUrl}/favorites`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                dishId
-            })
-        });
-        if (response.ok) {
-            alert('Added to favorites!');
-        }
+        const response = await fetch(`${baseUrl}/favorites`);
+        if (!response.ok) throw new Error('Failed to fetch favorites');
+        return await response.json();
     } catch (error) {
-        console.error('Error adding to favorites:', error);
+        console.error('Error fetching favorites:', error);
+        return [];
     }
 }
 
-async function addToCart(dishId) {
+async function toggleFavorite(dishId) {
+    const favorites = await fetchFavorites();
+    const isFavorite = favorites.some(fav => fav.dishId === dishId);
+
+    try {
+        if (isFavorite) {
+            const favorite = favorites.find(fav => fav.dishId === dishId);
+            const response = await fetch(`${baseUrl}/favorites/${favorite.id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                alert('Removed from favorites!');
+            }
+        } else {
+            const response = await fetch(`${baseUrl}/favorites`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    dishId
+                })
+            });
+            if (response.ok) {
+                alert('Added to favorites!');
+            }
+        }
+        filterAndSort(); // Refresh catalog to update heart icon
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+    }
+}
+
+async function addToCart(dishId, quantity) {
     try {
         const response = await fetch(`${baseUrl}/cart`, {
             method: 'POST',
@@ -92,15 +96,20 @@ async function addToCart(dishId) {
             },
             body: JSON.stringify({
                 dishId,
-                quantity: 1
+                quantity: parseInt(quantity)
             })
         });
         if (response.ok) {
-            alert('Added to cart!');
+            alert(`Added ${quantity} item(s) to cart!`);
         }
     } catch (error) {
         console.error('Error adding to cart:', error);
     }
+}
+
+async function isDishFavorite(dishId) {
+    const favorites = await fetchFavorites();
+    return favorites.some(fav => fav.dishId === dishId);
 }
 
 function renderCatalog(dishes) {
@@ -110,7 +119,8 @@ function renderCatalog(dishes) {
         catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>';
         return;
     }
-    dishes.forEach(dish => {
+    dishes.forEach(async dish => {
+        const isFavorite = await isDishFavorite(dish.id);
         const card = document.createElement('div');
         card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
         card.innerHTML = `
@@ -121,9 +131,17 @@ function renderCatalog(dishes) {
                 <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
                 <p class="text-sm mb-2">Rating: ${dish.rating}</p>
                 <p class="text-sm">Category: ${dish.category}</p>
-                <div class="flex gap-2 mt-2">
-                    <button class="favorite-btn bg-yellow-500 text-white px-2 py-1 rounded" data-id="${dish.id}">Add to Favorites</button>
-                    <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded" data-id="${dish.id}">Add to Cart</button>
+                <div class="flex justify-between items-center gap-2 mt-2">
+                    <button class="favorite-btn flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded" data-id="${dish.id}">
+                        <svg class="w-4 h-4 ${isFavorite ? 'fill-red-500' : 'fill-white'}" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        ${isFavorite ? 'Unfavorite' : 'Favorite'}
+                    </button>
+                    <div class="flex items-center gap-1">
+                        <input type="number" min="1" value="1" class="quantity-input w-12 p-1 border-2 border-yellow-300 rounded-md text-center">
+                        <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded" data-id="${dish.id}">Add to Cart</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -150,12 +168,8 @@ function renderPagination(totalItems) {
 async function filterAndSort() {
     const params = {};
     const searchTerm = searchInput.value.trim();
-    if (searchTerm) {
-        params.q = searchTerm;
-    }
-    if (currentCategory !== 'all') {
-        params.category = currentCategory;
-    }
+    if (searchTerm) params.q = searchTerm;
+    if (currentCategory !== 'all') params.category = currentCategory;
     const sortBy = sortSelect.value;
     if (sortBy) {
         params._sort = sortBy;
@@ -244,6 +258,11 @@ sortSelect.addEventListener('change', () => {
     currentPage = 1;
     filterAndSort();
 });
+itemsPerPageSelect.addEventListener('change', () => {
+    itemsPerPage = itemsPerPageSelect.value === 'all' ? Infinity : parseInt(itemsPerPageSelect.value);
+    currentPage = 1;
+    filterAndSort();
+});
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
         categoryButtons.forEach(btn => btn.classList.remove('active'));
@@ -274,12 +293,20 @@ ratingMaxInput.addEventListener('input', () => {
 });
 
 catalogContainer.addEventListener('click', async (e) => {
-    if (e.target.classList.contains('favorite-btn')) {
-        const id = parseInt(e.target.dataset.id);
-        await addToFavorites(id);
-    } else if (e.target.classList.contains('cart-btn')) {
-        const id = parseInt(e.target.dataset.id);
-        await addToCart(id);
+    if (e.target.closest('.favorite-btn')) {
+        const btn = e.target.closest('.favorite-btn');
+        const id = parseInt(btn.dataset.id);
+        await toggleFavorite(id);
+    } else if (e.target.closest('.cart-btn')) {
+        const btn = e.target.closest('.cart-btn');
+        const id = parseInt(btn.dataset.id);
+        const quantityInput = btn.parentElement.querySelector('.quantity-input');
+        const quantity = quantityInput.value;
+        if (quantity > 0) {
+            await addToCart(id, quantity);
+        } else {
+            alert('Please enter a valid quantity');
+        }
     }
 });
 
