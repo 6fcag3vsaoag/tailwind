@@ -140,15 +140,69 @@ cartContainer.addEventListener('click', async (e) => {
     }
 });
 
-// Event listener for checkout button
+async function createOrder(cartItems, totalPrice) {
+    try {
+        const response = await fetch(`${baseUrl}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                items: cartItems.map(item => ({
+                    dishId: item.dishId,
+                    quantity: item.quantity,
+                    price: item.dish.price
+                })),
+                totalAmount: totalPrice,
+                status: 'completed',
+                createdAt: new Date().toISOString()
+            })
+        });
+        
+        if (!response.ok) throw new Error('Failed to create order');
+        
+        // Очищаем корзину после успешного создания заказа
+        await clearCart();
+        return await response.json();
+    } catch (error) {
+        console.error('Error creating order:', error);
+        throw error;
+    }
+}
+
+// Обновляем обработчик кнопки оформления заказа
 checkoutBtn.addEventListener('click', async () => {
     const cartItems = await fetchCartItems();
     if (cartItems.length === 0) {
-        alert('Your cart is empty!');
+        alert('Ваша корзина пуста!');
         return;
     }
-    alert('Proceeding to checkout... (This is a demo)');
-    // In a real app, this would redirect to a checkout page or process payment
+
+    try {
+        // Получаем детали блюд
+        const dishPromises = cartItems.map(item => fetchDish(item.dishId));
+        const dishes = (await Promise.all(dishPromises)).filter(dish => dish !== null);
+        
+        // Рассчитываем общую стоимость
+        const totalPrice = cartItems.reduce((sum, item) => {
+            const dish = dishes.find(d => d.id === item.dishId);
+            return sum + (dish ? dish.price * item.quantity : 0);
+        }, 0);
+
+        // Создаем заказ
+        const order = await createOrder(
+            cartItems.map(item => ({
+                ...item,
+                dish: dishes.find(d => d.id === item.dishId)
+            })),
+            totalPrice
+        );
+
+        alert('Заказ успешно оформлен!');
+    } catch (error) {
+        console.error('Error during checkout:', error);
+        alert('Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже.');
+    }
 });
 
 // Function to update cart count in header

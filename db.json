@@ -134,6 +134,14 @@
       "category": "Salad",
       "image": "images/food3.png",
       "rating": 4.4
+    },
+    {
+      "name": "Fish Salad",
+      "description": "Good food. A-Z orenburg recipes",
+      "price": 44,
+      "category": "Salad",
+      "image": "https://\u0446\u0435\u043d\u0442\u0440-\u043f\u0440\u043e\u0444\u0438\u043b\u0430\u043a\u0442\u0438\u043a\u0438.\u0440\u0444/wp-content/uploads/2021/09/ketogenic-low-carbs-diet-food-selection-on-white-wall.jpg",
+      "id": 16
     }
   ],
   "favorites": [
@@ -144,7 +152,62 @@
     {
       "dishId": 4,
       "id": 2
+    },
+    {
+      "dishId": 3,
+      "id": 3
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "dishId": 2,
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "dishId": 3,
+      "quantity": 9,
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@example.com",
+      "phone": "+375291234567",
+      "password": "hashed_password_here",
+      "fullName": "Admin User",
+      "birthDate": "1990-01-01",
+      "role": "admin",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "feedback": [
+    {
+      "id": 1,
+      "dishId": 1,
+      "userId": 1,
+      "rating": 5,
+      "comment": "\u0420\u045b\u0421\u201a\u0420\u00bb\u0420\u0451\u0421\u2021\u0420\u0405\u0421\u2039\u0420\u2116 \u0420\u00b1\u0421\u0453\u0421\u0402\u0420\u0456\u0420\u00b5\u0421\u0402!",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "isApproved": true
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 1,
+          "quantity": 2,
+          "price": 12.99
+        }
+      ],
+      "totalAmount": 25.98,
+      "status": "completed",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
 }
