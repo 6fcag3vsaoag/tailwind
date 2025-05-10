@@ -146,16 +146,5 @@
       "id": 2
     }
   ],
-  "cart": [
-    {
-      "dishId": 2,
-      "quantity": 4,
-      "id": 1
-    },
-    {
-      "dishId": 4,
-      "quantity": 4,
-      "id": 2
-    }
-  ]
+  "cart": []
 }
