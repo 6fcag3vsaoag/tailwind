@@ -1,0 +1,150 @@
+{
+  "dishes": [
+    {
+      "id": 1,
+      "name": "Classic Cheeseburger",
+      "description": "Juicy beef patty with cheddar cheese, lettuce, and tomato.",
+      "price": 12.99,
+      "category": "Burger",
+      "image": "images/food1.png",
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "name": "Spaghetti Carbonara",
+      "description": "Creamy pasta with pancetta, parmesan, and egg yolk.",
+      "price": 15.5,
+      "category": "Pasta",
+      "image": "images/food2.png",
+      "rating": 4.8
+    },
+    {
+      "id": 3,
+      "name": "California Roll",
+      "description": "Sushi roll with crab, avocado, and cucumber.",
+      "price": 10.99,
+      "category": "Sushi",
+      "image": "images/food3.png",
+      "rating": 4.2
+    },
+    {
+      "id": 4,
+      "name": "Margherita Pizza",
+      "description": "Classic pizza with tomato, mozzarella, and basil.",
+      "price": 13.75,
+      "category": "Pizza",
+      "image": "images/food4.png",
+      "rating": 4.7
+    },
+    {
+      "id": 5,
+      "name": "Caesar Salad",
+      "description": "Crisp romaine lettuce with croutons and Caesar dressing.",
+      "price": 8.99,
+      "category": "Salad",
+      "image": "images/food1.png",
+      "rating": 4.0
+    },
+    {
+      "id": 6,
+      "name": "BBQ Bacon Burger",
+      "description": "Beef patty with BBQ sauce, bacon, and onion rings.",
+      "price": 14.25,
+      "category": "Burger",
+      "image": "images/food2.png",
+      "rating": 4.6
+    },
+    {
+      "id": 7,
+      "name": "Fusilli Pesto",
+      "description": "Spiral pasta with fresh basil pesto and pine nuts.",
+      "price": 14.0,
+      "category": "Pasta",
+      "image": "images/food3.png",
+      "rating": 4.3
+    },
+    {
+      "id": 8,
+      "name": "Spicy Tuna Roll",
+      "description": "Sushi roll with spicy tuna and seaweed.",
+      "price": 11.5,
+      "category": "Sushi",
+      "image": "images/food4.png",
+      "rating": 4.4
+    },
+    {
+      "id": 9,
+      "name": "Pepperoni Pizza",
+      "description": "Pizza with spicy pepperoni and mozzarella.",
+      "price": 15.0,
+      "category": "Pizza",
+      "image": "images/food1.png",
+      "rating": 4.9
+    },
+    {
+      "id": 10,
+      "name": "Greek Salad",
+      "description": "Feta cheese, olives, cucumber, and red onion.",
+      "price": 9.5,
+      "category": "Salad",
+      "image": "images/food2.png",
+      "rating": 4.1
+    },
+    {
+      "id": 11,
+      "name": "Mushroom Swiss Burger",
+      "description": "Beef patty with saut\u0413\u00a9ed mushrooms and Swiss cheese.",
+      "price": 13.99,
+      "category": "Burger",
+      "image": "images/food3.png",
+      "rating": 4.5
+    },
+    {
+      "id": 12,
+      "name": "Lasagna Bolognese",
+      "description": "Layered pasta with meat sauce and b\u0413\u00a9chamel.",
+      "price": 16.75,
+      "category": "Pasta",
+      "image": "images/food4.png",
+      "rating": 4.8
+    },
+    {
+      "id": 13,
+      "name": "Dragon Roll",
+      "description": "Sushi roll with eel, avocado, and tobiko.",
+      "price": 12.25,
+      "category": "Sushi",
+      "image": "images/food1.png",
+      "rating": 4.6
+    },
+    {
+      "id": 14,
+      "name": "Veggie Pizza",
+      "description": "Pizza with bell peppers, mushrooms, and olives.",
+      "price": 14.5,
+      "category": "Pizza",
+      "image": "images/food2.png",
+      "rating": 4.3
+    },
+    {
+      "id": 15,
+      "name": "Cobb Salad",
+      "description": "Grilled chicken, bacon, egg, and avocado.",
+      "price": 10.75,
+      "category": "Salad",
+      "image": "images/food3.png",
+      "rating": 4.4
+    }
+  ],
+  "favorites": [
+    {
+      "dishId": 2,
+      "id": 1
+    },
+    {
+      "dishId": 4,
+      "id": 2
+    }
+  ],
+  "cart": []
+}

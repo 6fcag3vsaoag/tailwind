@@ -1,0 +1,123 @@
+const favoritesContainer = document.getElementById('favorites-container');
+const favoritesHeader = document.getElementById('favorites-header');
+const baseUrl = 'http://localhost:3000';
+
+async function fetchFavorites() {
+    try {
+        const response = await fetch(`${baseUrl}/favorites`);
+        if (!response.ok) throw new Error('Failed to fetch favorites');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching favorites:', error);
+        return [];
+    }
+}
+
+async function fetchDish(dishId) {
+    try {
+        const response = await fetch(`${baseUrl}/dishes/${dishId}`);
+        if (!response.ok) throw new Error(`Failed to fetch dish ${dishId}`);
+        return await response.json();
+    } catch (error) {
+        console.error(`Error fetching dish ${dishId}:`, error);
+        return null;
+    }
+}
+
+async function removeFavorite(favoriteId) {
+    try {
+        const response = await fetch(`${baseUrl}/favorites/${favoriteId}`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+            alert('Removed from favorites!');
+            renderFavorites(); // Re-render after removal
+        }
+    } catch (error) {
+        console.error('Error removing favorite:', error);
+    }
+}
+
+async function clearFavorites() {
+    try {
+        const favorites = await fetchFavorites();
+        const deletePromises = favorites.map(fav =>
+            fetch(`${baseUrl}/favorites/${fav.id}`, {
+                method: 'DELETE'
+            })
+        );
+        await Promise.all(deletePromises);
+        alert('All favorites cleared!');
+        renderFavorites(); // Re-render after clearing
+    } catch (error) {
+        console.error('Error clearing favorites:', error);
+    }
+}
+
+async function renderFavorites() {
+    const favorites = await fetchFavorites();
+
+    // Clear previous header buttons
+    const existingClearButton = favoritesHeader.querySelector('.clear-favorites-btn');
+    if (existingClearButton) existingClearButton.remove();
+
+    // Add Clear Favorites button to header if there are favorites
+    if (favorites.length > 0) {
+        const clearButton = document.createElement('button');
+        clearButton.textContent = 'Clear Favorites';
+        clearButton.className = 'clear-favorites-btn px-3 py-1 border-2 border-red-500 rounded-md bg-red-500 font-["Martel_Sans"] font-semibold text-sm text-white hover:bg-red-600 hover:border-red-600 transition-all duration-300 ease-in-out';
+        clearButton.addEventListener('click', clearFavorites);
+        favoritesHeader.appendChild(clearButton);
+    }
+
+    favoritesContainer.innerHTML = '';
+    if (favorites.length === 0) {
+        favoritesContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No favorite dishes found</p>';
+        return;
+    }
+
+    // Fetch dish details for each favorite
+    const dishPromises = favorites.map(fav => fetchDish(fav.dishId));
+    const dishes = (await Promise.all(dishPromises)).filter(dish => dish !== null);
+
+    // Render each favorite dish as a card
+    dishes.forEach(dish => {
+        const favorite = favorites.find(fav => fav.dishId === dish.id);
+        const card = document.createElement('div');
+        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
+        card.innerHTML = `
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
+            <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+                <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
+                <p class="text-sm mb-2">${dish.description}</p>
+                <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
+                <p class="text-sm mb-2">Rating: ${dish.rating}</p>
+                <p class="text-sm">Category: ${dish.category}</p>
+                <div class="flex justify-between items-center gap-2 mt-2">
+                    <button class="favorite-btn flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded w-[120px]" data-favorite-id="${favorite.id}">
+                        <svg class="w-4 h-4 fill-red-500" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        Unfavorite
+                    </button>
+                </div>
+            </div>
+        `;
+        favoritesContainer.appendChild(card);
+    });
+}
+
+// Event listener for removing individual favorites
+favoritesContainer.addEventListener('click', async (e) => {
+    if (e.target.closest('.favorite-btn')) {
+        const btn = e.target.closest('.favorite-btn');
+        const favoriteId = parseInt(btn.dataset.favoriteId);
+        await removeFavorite(favoriteId);
+    }
+});
+
+async function init() {
+    await renderFavorites();
+}
+
+init();
