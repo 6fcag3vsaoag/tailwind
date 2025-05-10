@@ -3,6 +3,11 @@ from flask_cors import CORS
 import json
 import os
 from uuid import uuid4
+import logging
+
+# Настройка логирования
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app)  # Разрешить все источники
@@ -12,21 +17,36 @@ DB_FILE = 'db.json'
 
 # Чтение данных из db.json
 def load_db():
-    if os.path.exists(DB_FILE):
-        with open(DB_FILE, 'r') as f:
-            return json.load(f)
-    return {"dishes": [], "favorites": [], "cart": []}
+    try:
+        if os.path.exists(DB_FILE):
+            with open(DB_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                logger.debug(f"Загружены данные из БД: {data}")
+                return data
+        logger.info("Файл БД не найден, создаем новую БД")
+        return {"dishes": [], "favorites": [], "cart": [], "users": []}
+    except Exception as e:
+        logger.error(f"Ошибка при чтении БД: {str(e)}")
+        raise
 
 # Сохранение данных в db.json
 def save_db(data):
-    with open(DB_FILE, 'w') as f:
-        json.dump(data, f, indent=2)
+    try:
+        logger.debug(f"Сохраняем данные в БД: {data}")
+        with open(DB_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        logger.info("База данных успешно сохранена")
+    except Exception as e:
+        logger.error(f"Ошибка при сохранении базы данных: {str(e)}")
+        raise
 
 # Получение следующего ID для ресурса
 def get_next_id(resource):
     db = load_db()
     items = db.get(resource, [])
-    return max([item['id'] for item in items], default=0) + 1
+    next_id = max([item['id'] for item in items], default=0) + 1
+    logger.debug(f"Сгенерирован следующий ID для {resource}: {next_id}")
+    return next_id
 
 # Функция для фильтрации, сортировки и пагинации
 def filter_sort_paginate(items, args):
@@ -66,6 +86,81 @@ def filter_sort_paginate(items, args):
     items = items[start:end]
 
     return items, total
+
+# Эндпоинты для users
+@app.route('/users', methods=['GET'])
+def get_users():
+    logger.info("Получен GET запрос на /users")
+    db = load_db()
+    username = request.args.get('username')
+    if username:
+        logger.debug(f"Поиск пользователя по username: {username}")
+        users = [user for user in db['users'] if user['username'] == username]
+        return jsonify(users)
+    return jsonify(db['users'])
+
+@app.route('/users', methods=['POST'])
+def add_user():
+    try:
+        logger.info("Получен POST запрос на /users")
+        logger.debug(f"Заголовки запроса: {dict(request.headers)}")
+        logger.debug(f"Данные запроса: {request.get_data()}")
+        
+        if not request.is_json:
+            logger.error("Получен не JSON запрос")
+            return jsonify({"error": "Требуется JSON"}), 400
+            
+        new_user = request.json
+        logger.debug(f"Данные пользователя: {new_user}")
+        
+        db = load_db()
+        
+        # Проверка уникальности email и username
+        if any(user['email'] == new_user['email'] for user in db['users']):
+            logger.warning(f"Email {new_user['email']} уже зарегистрирован")
+            return jsonify({"error": "Email уже зарегистрирован"}), 400
+        if any(user['username'] == new_user['username'] for user in db['users']):
+            logger.warning(f"Никнейм {new_user['username']} уже занят")
+            return jsonify({"error": "Никнейм уже занят"}), 400
+        
+        new_user['id'] = get_next_id('users')
+        logger.info(f"Создан новый ID пользователя: {new_user['id']}")
+        
+        db['users'].append(new_user)
+        logger.info(f"Пользователь добавлен в список: {new_user['username']}")
+        
+        save_db(db)
+        logger.info("База данных обновлена")
+        
+        return jsonify(new_user), 201
+    except Exception as e:
+        logger.error(f"Ошибка при добавлении пользователя: {str(e)}")
+        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+
+@app.route('/users/<int:id>', methods=['GET'])
+def get_user(id):
+    db = load_db()
+    user = next((item for item in db['users'] if item['id'] == id), None)
+    if user:
+        return jsonify(user)
+    return jsonify({"error": "User not found"}), 404
+
+@app.route('/users/<int:id>', methods=['PUT'])
+def update_user(id):
+    db = load_db()
+    user = next((item for item in db['users'] if item['id'] == id), None)
+    if user:
+        user.update(request.json)
+        save_db(db)
+        return jsonify(user)
+    return jsonify({"error": "User not found"}), 404
+
+@app.route('/users/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    db = load_db()
+    db['users'] = [item for item in db['users'] if item['id'] != id]
+    save_db(db)
+    return jsonify({"message": "User deleted"}), 200
 
 # Эндпоинты для dishes
 @app.route('/dishes', methods=['GET'])

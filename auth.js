@@ -4,7 +4,28 @@ const submitBtn = document.getElementById('submitBtn');
 const generateUsernameBtn = document.getElementById('generateUsername');
 
 // Список популярных паролей (TOP-100)
-const commonPasswords = ['password123', '12345678', 'qwerty123', /* ... */];
+const commonPasswords = [
+    'password123', '12345678', 'qwerty123', 'admin123', 'welcome1',
+    'football', 'baseball', 'monkey123', 'letmein', 'shadow',
+    'michael', 'mustang', '123456789', '1234567890', '1234567',
+    'sunshine', 'princess', 'qwerty', 'admin', 'welcome',
+    'solo', 'master', 'hello123', 'whatever', 'qazwsx',
+    'trustno1', 'dragon', 'passw0rd', 'starwars', 'login',
+    'abc123', '111111', '123123', 'admin1', 'qwerty123',
+    '1q2w3e4r', '654321', '555555', 'lovely', '7777777',
+    '888888', 'princess', 'dragon', 'password1', '123qwe',
+    '666666', '1qaz2wsx', '123qwe', 'zxcvbnm', '121212',
+    '000000', 'qazwsx', '123456', '12345678', 'abc123',
+    'qwerty', 'monkey', 'letmein', 'dragon', '111111',
+    'baseball', 'iloveyou', 'trustno1', 'sunshine', 'master',
+    'welcome', 'shadow', 'ashley', 'football', 'jesus',
+    'michael', 'ninja', 'mustang', 'password1', '1234567890',
+    '1234567', '1234', 'pussy', '12345', 'dragon',
+    'qwerty', '696969', 'shadow', 'melissa', 'superman',
+    'qazwsx', 'mickey', 'mustang', '123456789', 'freedom',
+    'whatever', 'qwertyuiop', '654321', '1qaz2wsx', '121212',
+    '000000', 'qazwsx', '123456', '12345678', 'abc123'
+];
 
 // Функции валидации
 const validators = {
@@ -21,7 +42,7 @@ const validators = {
     birthDate: (value) => {
         const birthDate = new Date(value);
         const today = new Date();
-        const age = today.getFullYear() - birthDate.getFullYear();
+        let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
         
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
@@ -52,10 +73,22 @@ const validators = {
         }
         return '';
     },
+
+    confirmPassword: (value) => {
+        const password = document.getElementById('password').value;
+        return value === password ? '' : 'Пароли не совпадают';
+    },
     
-    fullName: (value) => {
-        const nameParts = value.trim().split(' ');
-        return nameParts.length >= 2 ? '' : 'Введите имя и фамилию';
+    lastName: (value) => {
+        return value.trim().length >= 2 ? '' : 'Введите корректную фамилию';
+    },
+    
+    firstName: (value) => {
+        return value.trim().length >= 2 ? '' : 'Введите корректное имя';
+    },
+    
+    middleName: (value) => {
+        return value.trim().length === 0 || value.trim().length >= 2 ? '' : 'Введите корректное отчество';
     },
     
     username: (value) => {
@@ -65,15 +98,16 @@ const validators = {
 
 // Функция для генерации никнейма
 async function generateUsername() {
-    const adjectives = ['happy', 'sunny', 'bright', 'clever', 'swift'];
-    const nouns = ['user', 'star', 'hero', 'genius', 'master'];
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
     let attempts = 0;
     
     while (attempts < 5) {
-        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-        const noun = nouns[Math.floor(Math.random() * nouns.length)];
-        const number = Math.floor(Math.random() * 1000);
-        const username = `${adj}${noun}${number}`;
+        // Генерируем никнейм по алгоритму
+        const firstPart = firstName.slice(0, Math.min(3, firstName.length));
+        const lastPart = lastName.slice(0, Math.min(3, lastName.length));
+        const number = Math.floor(Math.random() * 890) + 110; // Число от 110 до 999
+        const username = `${firstPart}${lastPart}${number}`;
         
         try {
             const response = await fetch(`${baseUrl}/users?username=${username}`);
@@ -111,7 +145,8 @@ function validateField(fieldName, value) {
 
 // Функция проверки всей формы
 function validateForm() {
-    const fields = ['phone', 'email', 'birthDate', 'password', 'fullName', 'username'];
+    const fields = ['phone', 'email', 'birthDate', 'password', 'confirmPassword', 
+                   'lastName', 'firstName', 'username'];
     const terms = document.getElementById('terms').checked;
     
     const isValid = fields.every(field => {
@@ -120,6 +155,7 @@ function validateForm() {
     }) && terms;
     
     submitBtn.disabled = !isValid;
+    return isValid;
 }
 
 // Обработчики событий
@@ -144,7 +180,9 @@ form.addEventListener('submit', async (e) => {
         email: document.getElementById('email').value,
         birthDate: document.getElementById('birthDate').value,
         password: document.getElementById('password').value,
-        fullName: document.getElementById('fullName').value,
+        lastName: document.getElementById('lastName').value,
+        firstName: document.getElementById('firstName').value,
+        middleName: document.getElementById('middleName').value,
         username: document.getElementById('username').value,
         role: 'user',
         createdAt: new Date().toISOString()
@@ -159,12 +197,16 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify(formData)
         });
         
-        if (!response.ok) throw new Error('Failed to register');
+        const responseData = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(responseData.error || 'Failed to register');
+        }
         
         alert('Регистрация успешна!');
         window.location.href = 'index.html';
     } catch (error) {
-        console.error('Error during registration:', error);
+        console.error('Ошибка при регистрации:', error);
         alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.');
     }
 }); 

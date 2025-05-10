@@ -93,7 +93,7 @@
     {
       "id": 11,
       "name": "Mushroom Swiss Burger",
-      "description": "Beef patty with saut\u0413\u00a9ed mushrooms and Swiss cheese.",
+      "description": "Beef patty with sautГ©ed mushrooms and Swiss cheese.",
       "price": 13.99,
       "category": "Burger",
       "image": "images/food3.png",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "name": "Lasagna Bolognese",
-      "description": "Layered pasta with meat sauce and b\u0413\u00a9chamel.",
+      "description": "Layered pasta with meat sauce and bГ©chamel.",
       "price": 16.75,
       "category": "Pasta",
       "image": "images/food4.png",
@@ -140,7 +140,7 @@
       "description": "Good food. A-Z orenburg recipes",
       "price": 44,
       "category": "Salad",
-      "image": "https://\u0446\u0435\u043d\u0442\u0440-\u043f\u0440\u043e\u0444\u0438\u043b\u0430\u043a\u0442\u0438\u043a\u0438.\u0440\u0444/wp-content/uploads/2021/09/ketogenic-low-carbs-diet-food-selection-on-white-wall.jpg",
+      "image": "https://центр-профилактики.рф/wp-content/uploads/2021/09/ketogenic-low-carbs-diet-food-selection-on-white-wall.jpg",
       "id": 16
     }
   ],
@@ -152,10 +152,6 @@
     {
       "dishId": 4,
       "id": 2
-    },
-    {
-      "dishId": 3,
-      "id": 3
     }
   ],
   "cart": [
@@ -168,6 +164,11 @@
       "dishId": 3,
       "quantity": 9,
       "id": 2
+    },
+    {
+      "dishId": 3,
+      "quantity": 1,
+      "id": 3
     }
   ],
   "users": [
@@ -177,10 +178,38 @@
       "email": "admin@example.com",
       "phone": "+375291234567",
       "password": "hashed_password_here",
-      "fullName": "Admin User",
+      "lastName": "Admin",
+      "firstName": "User",
+      "middleName": "",
       "birthDate": "1990-01-01",
       "role": "admin",
       "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "phone": "+375447777777",
+      "email": "boss@outlook.com",
+      "birthDate": "2002-01-10",
+      "password": "R00td00mz00m!!",
+      "lastName": "Крючков",
+      "firstName": "Егор",
+      "middleName": "Ульянович",
+      "username": "ЕгоКрю990",
+      "role": "user",
+      "createdAt": "2025-05-10T17:50:07.697Z",
+      "id": 2
+    },
+    {
+      "phone": "+375447777777",
+      "email": "sizikov@outlook.com",
+      "birthDate": "2003-02-01",
+      "password": "R00td00mz00m!!!",
+      "lastName": "Сизиков",
+      "firstName": "Максим",
+      "middleName": "Витальевич",
+      "username": "МакСиз294",
+      "role": "user",
+      "createdAt": "2025-05-10T17:54:05.981Z",
+      "id": 3
     }
   ],
   "feedback": [
@@ -189,7 +218,7 @@
       "dishId": 1,
       "userId": 1,
       "rating": 5,
-      "comment": "\u0420\u045b\u0421\u201a\u0420\u00bb\u0420\u0451\u0421\u2021\u0420\u0405\u0421\u2039\u0420\u2116 \u0420\u00b1\u0421\u0453\u0421\u0402\u0420\u0456\u0420\u00b5\u0421\u0402!",
+      "comment": "РћС‚Р»РёС‡РЅС‹Р№ Р±СѓСЂРіРµСЂ!",
       "createdAt": "2024-01-01T00:00:00.000Z",
       "isApproved": true
     }

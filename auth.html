@@ -70,17 +70,56 @@
                     <p id="passwordError" class="mt-2 text-sm text-red-600 hidden"></p>
                 </div>
 
-                <!-- ФИО -->
+                <!-- Подтверждение пароля -->
                 <div>
-                    <label for="fullName" class="block text-sm font-medium text-gray-700">
-                        ФИО <span class="text-red-500">*</span>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
+                        Подтверждение пароля <span class="text-red-500">*</span>
                     </label>
                     <div class="mt-1">
-                        <input id="fullName" name="fullName" type="text" required
+                        <input id="confirmPassword" name="confirmPassword" type="password" required
                             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-                            placeholder="Иванов Иван Иванович">
+                            placeholder="••••••••">
                     </div>
-                    <p id="fullNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                    <p id="confirmPasswordError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Фамилия -->
+                <div>
+                    <label for="lastName" class="block text-sm font-medium text-gray-700">
+                        Фамилия <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="lastName" name="lastName" type="text" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="Иванов">
+                    </div>
+                    <p id="lastNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Имя -->
+                <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-700">
+                        Имя <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="firstName" name="firstName" type="text" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="Иван">
+                    </div>
+                    <p id="firstNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Отчество -->
+                <div>
+                    <label for="middleName" class="block text-sm font-medium text-gray-700">
+                        Отчество
+                    </label>
+                    <div class="mt-1">
+                        <input id="middleName" name="middleName" type="text"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="Иванович">
+                    </div>
+                    <p id="middleNameError" class="mt-2 text-sm text-red-600 hidden"></p>
                 </div>
 
                 <!-- Никнейм -->
