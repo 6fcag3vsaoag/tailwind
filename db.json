@@ -148,17 +148,7 @@
     {
       "id": 1,
       "userId": 1,
-      "dishId": 2
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "dishId": 3
-    },
-    {
-      "id": 3,
-      "userId": 1,
-      "dishId": 4
+      "dishId": 1
     }
   ],
   "cart": [
@@ -172,13 +162,25 @@
       "id": 2,
       "userId": 1,
       "dishId": 4,
-      "quantity": 7
+      "quantity": 9
     },
     {
       "id": 3,
       "userId": 1,
       "dishId": 12,
       "quantity": 5
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "dishId": 3,
+      "quantity": 2
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "dishId": 2,
+      "quantity": 1
     }
   ],
   "users": [

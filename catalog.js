@@ -106,48 +106,107 @@ async function updateCartCount() {
     }
 }
 
+// Функция для показа уведомлений
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white font-['Poppins'] transition-all duration-300 transform translate-x-full ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    }`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Анимация появления
+    setTimeout(() => {
+        toast.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Автоматическое скрытие через 3 секунды
+    setTimeout(() => {
+        toast.style.transform = 'translateX(full)';
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
 async function toggleFavorite(dishId) {
     try {
+        console.log('Toggling favorite for dish:', dishId);
         const token = window.auth.getToken();
         if (!token) {
-            window.location.href = 'login.html';
+            console.error('Токен не найден');
             return;
         }
 
-        // Проверяем, есть ли уже блюдо в избранном
-        const favorites = await fetchFavorites();
-        const isFavorite = favorites.some(fav => fav.dishId === dishId);
-
-        const method = isFavorite ? 'DELETE' : 'POST';
-        const url = isFavorite 
-            ? `${window.baseUrl}/favorites/${dishId}`
-            : `${window.baseUrl}/favorites`;
-
-        const response = await fetch(url, {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            ...(method === 'POST' && { body: JSON.stringify({ dishId }) })
-        });
-
-        if (!response.ok) throw new Error('Failed to update favorites');
+        // Проверяем, есть ли уже в избранном
+        const isFavorite = await checkIfFavorite(dishId);
+        console.log('Current favorite status:', isFavorite);
         
+        if (isFavorite) {
+            // Если уже в избранном - удаляем
+            console.log('Removing from favorites');
+            const response = await fetch(`${window.baseUrl}/favorites/${dishId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove from favorites');
+            }
+            console.log('Successfully removed from favorites');
+            showToast('Блюдо удалено из избранного');
+        } else {
+            // Если нет в избранном - добавляем
+            console.log('Adding to favorites');
+            const user = window.auth.getUser();
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            const favoriteData = {
+                dishId: dishId,
+                userId: user.id
+            };
+            console.log('Sending favorite data:', favoriteData);
+
+            const response = await fetch(`${window.baseUrl}/favorites`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(favoriteData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Server error:', errorData);
+                throw new Error(errorData.message || 'Failed to add to favorites');
+            }
+            console.log('Successfully added to favorites');
+            showToast('Блюдо добавлено в избранное');
+        }
+
         // Обновляем состояние кнопки
+        console.log('Updating button state');
         await updateFavoriteButtons();
     } catch (error) {
         console.error('Error toggling favorite:', error);
-        alert('Произошла ошибка при обновлении избранного');
+        showToast(error.message, 'error');
     }
 }
 
-async function updateFavoriteButtons() {
+async function checkIfFavorite(dishId) {
     try {
+        console.log('Checking if dish is favorite:', dishId);
         const token = window.auth.getToken();
-        if (!token) return;
+        if (!token) {
+            console.log('No token found');
+            return false;
+        }
 
-        console.log('Fetching favorites for update');
         const response = await fetch(`${window.baseUrl}/favorites`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -155,32 +214,87 @@ async function updateFavoriteButtons() {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to fetch favorites');
+            console.log('Failed to fetch favorites');
+            return false;
         }
 
         const favorites = await response.json();
-        console.log('Fetched favorites:', favorites);
+        console.log('Fetched favorites structure:', JSON.stringify(favorites, null, 2));
         
-        document.querySelectorAll('.favorite-btn').forEach(btn => {
-            const dishId = parseInt(btn.dataset.id);
-            const isFavorite = favorites.some(f => f.dishId === dishId);
-            console.log(`Updating button for dish ${dishId}, isFavorite:`, isFavorite);
-            
-            const svg = btn.querySelector('svg');
-            const text = btn.querySelector('span') || btn;
-            
-            if (svg) {
-                svg.classList.toggle('fill-red-500', isFavorite);
-                svg.classList.toggle('fill-white', !isFavorite);
+        // Проверяем, есть ли блюдо в избранном по id
+        const isFavorite = favorites.some(fav => fav.id === dishId);
+        console.log('Is favorite:', isFavorite);
+        return isFavorite;
+    } catch (error) {
+        console.error('Error checking favorite status:', error);
+        return false;
+    }
+}
+
+async function updateFavoriteButtons() {
+    try {
+        console.log('Updating favorite buttons');
+        const token = window.auth.getToken();
+        if (!token) {
+            console.log('No token found');
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch favorites');
+        }
+
+        const favorites = await response.json();
+        console.log('Fetched favorites structure:', JSON.stringify(favorites, null, 2));
+
+        // Обновляем состояние каждой кнопки
+        const buttons = document.querySelectorAll('.favorite-btn');
+        console.log('Found favorite buttons:', buttons.length);
+
+        buttons.forEach(button => {
+            const dishId = parseInt(button.dataset.dishId);
+            console.log('Processing button for dish:', dishId);
             
-            if (text) {
-                text.textContent = isFavorite ? 'Unfavorite' : 'Favorite';
+            const isFavorite = favorites.some(fav => fav.id === dishId);
+            console.log(`Button for dish ${dishId}, isFavorite: ${isFavorite}`);
+            
+            const text = button.querySelector('span');
+            const icon = button.querySelector('svg');
+            
+            if (isFavorite) {
+                console.log(`Setting button ${dishId} to favorite state`);
+                button.style.backgroundColor = '#ef4444';
+                button.style.color = 'white';
+                if (icon) {
+                    icon.style.fill = 'white';
+                    console.log('Updated icon color');
+                }
+                if (text) {
+                    text.textContent = 'Unfavorite';
+                    console.log('Updated button text to Unfavorite');
+                }
+            } else {
+                console.log(`Setting button ${dishId} to non-favorite state`);
+                button.style.backgroundColor = '#eab308';
+                button.style.color = 'white';
+                if (icon) {
+                    icon.style.fill = 'white';
+                    console.log('Updated icon color');
+                }
+                if (text) {
+                    text.textContent = 'Favorite';
+                    console.log('Updated button text to Favorite');
+                }
             }
         });
     } catch (error) {
-        console.error('Ошибка при обновлении кнопок избранного:', error);
+        console.error('Error updating favorite buttons:', error);
     }
 }
 
@@ -206,11 +320,11 @@ async function addToCart(dishId) {
 
         if (!response.ok) throw new Error('Failed to add to cart');
         
-        alert('Товар добавлен в корзину');
+        showToast('Товар добавлен в корзину');
         updateCartCount();
     } catch (error) {
         console.error('Error adding to cart:', error);
-        alert('Произошла ошибка при добавлении в корзину');
+        showToast('Произошла ошибка при добавлении в корзину', 'error');
     }
 }
 
@@ -243,15 +357,15 @@ function renderCatalog(dishes) {
                 <p class="text-sm">Category: ${dish.category}</p>
                 ${isAuth ? `
                 <div class="flex justify-between items-center gap-2 mt-2">
-                    <button class="favorite-btn flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded w-[120px]" data-id="${dish.id}">
-                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                    <button class="favorite-btn flex items-center gap-1 text-white px-2 py-1 rounded w-[120px] transition-colors duration-300" data-dish-id="${dish.id}" style="background-color: #eab308;">
+                        <svg class="w-4 h-4" fill="white" viewBox="0 0 24 24">
                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
-                        Favorite
+                        <span>Favorite</span>
                     </button>
                     <div class="flex items-center gap-1">
                         <input type="number" min="1" value="1" class="quantity-input w-12 p-1 border-2 border-yellow-300 rounded-md text-center">
-                        <button class="cart-btn bg-green-500 text-white px-2 py-0.5 rounded text-sm" data-id="${dish.id}">Add to Cart</button>
+                        <button class="cart-btn bg-green-500 text-white px-2 py-0.5 rounded text-sm hover:bg-green-600 transition-colors duration-300" data-dish-id="${dish.id}">Add to Cart</button>
                     </div>
                 </div>
                 ` : ''}
@@ -416,13 +530,12 @@ document.addEventListener('click', async (e) => {
 
     if (e.target.closest('.favorite-btn')) {
         const btn = e.target.closest('.favorite-btn');
-        const id = parseInt(btn.dataset.id);
+        const id = parseInt(btn.dataset.dishId);
         console.log('Favorite button clicked for dish:', id);
         await toggleFavorite(id);
-        await updateFavoriteButtons();
     } else if (e.target.closest('.cart-btn')) {
         const btn = e.target.closest('.cart-btn');
-        const id = parseInt(btn.dataset.id);
+        const id = parseInt(btn.dataset.dishId);
         const quantityInput = btn.parentElement.querySelector('.quantity-input');
         const quantity = parseInt(quantityInput.value);
         console.log('Cart button clicked for dish:', id, 'quantity:', quantity);

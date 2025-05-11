@@ -16,12 +16,28 @@
     <style>
         .favorite-btn {
             width: 120px;
-            /* Fixed width to match catalog */
         }
 
         .favorite-btn svg {
             width: 1rem;
             height: 1rem;
+        }
+
+        /* Стили для кнопки избранного */
+        .favorite-icon {
+            transition: all 0.3s ease;
+        }
+
+        .favorite-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .favorite-icon.active {
+            color: #ef4444;
+        }
+
+        .favorite-icon.active:hover {
+            color: #dc2626;
         }
     </style>
 </head>

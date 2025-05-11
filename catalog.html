@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="style-catalog.css" rel="stylesheet">
     <script src="common.js" defer></script>
     <script src="components.js" defer></script>
@@ -24,17 +25,39 @@
 
         .favorite-btn {
             width: 120px;
-            /* Fixed width to prevent layout shift */
+            transition: all 0.3s ease;
         }
 
         .favorite-btn svg {
             width: 1rem;
             height: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn.active {
+            background-color: #ef4444 !important;
+        }
+
+        .favorite-btn.active:hover {
+            background-color: #dc2626 !important;
+        }
+
+        .favorite-btn:not(.active) {
+            background-color: #eab308 !important;
+        }
+
+        .favorite-btn:not(.active):hover {
+            background-color: #ca8a04 !important;
         }
 
         .cart-btn {
             display: inline-block;
             opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:hover {
+            background-color: #16a34a !important;
         }
     </style>
 </head>
