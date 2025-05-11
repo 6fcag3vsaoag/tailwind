@@ -3,6 +3,12 @@ function isAuthenticated() {
     return localStorage.getItem('token') !== null;
 }
 
+// Функция для проверки роли администратора
+function isAdmin() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user && user.role === 'admin';
+}
+
 // Функция для получения ссылки на профиль/логин
 function getProfileLink() {
     return isAuthenticated() ? 'profile.html' : 'login.html';
@@ -146,7 +152,7 @@ function createSidebar() {
             <a href="feedback.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Feedback</a>
             <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">${isAuthenticated() ? 'Профиль' : 'Вход'}</a>
             ${isAuthenticated() ? '<button onclick="logout()" class="text-red-600 hover:text-red-700 relative after:absolute after:h-px after:bg-red-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full text-left">Выйти</button>' : ''}
-            <a href="admin.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Admin</a>
+            ${isAdmin() ? '<a href="admin.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Admin</a>' : ''}
         </nav>
     </div>`;
 }

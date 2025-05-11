@@ -281,4 +281,18 @@ async function deleteFeedback(id) {
 feedbackFilter.addEventListener('change', loadFeedback);
 
 // Загрузка начальных данных
-loadDishes(); 
+loadDishes();
+
+// Функция для проверки роли администратора
+function isAdmin() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user && user.role === 'admin';
+}
+
+// Проверка доступа при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    if (!isAdmin()) {
+        // Если пользователь не администратор, перенаправляем на главную
+        window.location.href = 'index.html';
+    }
+}); 
