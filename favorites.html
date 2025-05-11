@@ -8,36 +8,65 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
-    <link href="style-favorites.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="common.js"></script>
     <script src="components.js" defer></script>
     <script src="script.js" defer></script>
     <script src="favorites.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    padding: {
+                        '23': '5.75rem',
+                    },
+                    minHeight: {
+                        '70': '17.5rem',
+                        '109.5': '27.375rem',
+                    },
+                    width: {
+                        '74': '18.5rem',
+                        '120': '30rem',
+                    },
+                    margin: {
+                        '29.5': '7.375rem',
+                    },
+                    height: {
+                        '7.3': '1.825rem',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="style.css" rel="stylesheet">
+    <link href="style-common.css" rel="stylesheet">
+    <link href="style-favorites.css" rel="stylesheet">
     <style>
         .favorite-btn {
             width: 120px;
+            transition: all 0.3s ease;
         }
 
         .favorite-btn svg {
             width: 1rem;
             height: 1rem;
-        }
-
-        /* Стили для кнопки избранного */
-        .favorite-icon {
             transition: all 0.3s ease;
         }
 
-        .favorite-icon:hover {
-            transform: scale(1.1);
+        .favorite-btn.active {
+            background-color: #ef4444 !important;
         }
 
-        .favorite-icon.active {
-            color: #ef4444;
+        .favorite-btn.active:hover {
+            background-color: #dc2626 !important;
         }
 
-        .favorite-icon.active:hover {
-            color: #dc2626;
+        .favorite-btn:not(.active) {
+            background-color: #eab308 !important;
+        }
+
+        .favorite-btn:not(.active):hover {
+            background-color: #ca8a04 !important;
         }
     </style>
 </head>

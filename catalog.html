@@ -9,6 +9,33 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    padding: {
+                        '23': '5.75rem',
+                    },
+                    minHeight: {
+                        '70': '17.5rem',
+                        '109.5': '27.375rem',
+                    },
+                    width: {
+                        '74': '18.5rem',
+                        '120': '30rem',
+                    },
+                    margin: {
+                        '29.5': '7.375rem',
+                    },
+                    height: {
+                        '7.3': '1.825rem',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="style.css" rel="stylesheet">
+    <link href="style-common.css" rel="stylesheet">
     <link href="style-catalog.css" rel="stylesheet">
     <script src="common.js" defer></script>
     <script src="components.js" defer></script>
@@ -34,19 +61,11 @@
             transition: all 0.3s ease;
         }
 
-        .favorite-btn.active {
-            background-color: #ef4444 !important;
-        }
-
-        .favorite-btn.active:hover {
+        .favorite-btn.bg-red-500:hover {
             background-color: #dc2626 !important;
         }
 
-        .favorite-btn:not(.active) {
-            background-color: #eab308 !important;
-        }
-
-        .favorite-btn:not(.active):hover {
+        .favorite-btn.bg-yellow-500:hover {
             background-color: #ca8a04 !important;
         }
 

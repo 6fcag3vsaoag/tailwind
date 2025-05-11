@@ -165,11 +165,12 @@ async function toggleFavorite(dishId) {
                 throw new Error('User not found');
             }
 
-            const favoriteData = {
-                dishId: dishId,
-                userId: user.id
-            };
-            console.log('Sending favorite data:', favoriteData);
+            // Получаем данные блюда
+            const dishResponse = await fetch(`${window.baseUrl}/dishes/${dishId}`);
+            if (!dishResponse.ok) {
+                throw new Error('Failed to fetch dish data');
+            }
+            const dishData = await dishResponse.json();
 
             const response = await fetch(`${window.baseUrl}/favorites`, {
                 method: 'POST',
@@ -177,7 +178,7 @@ async function toggleFavorite(dishId) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(favoriteData)
+                body: JSON.stringify(dishData)
             });
 
             if (!response.ok) {
@@ -189,9 +190,8 @@ async function toggleFavorite(dishId) {
             showToast('Блюдо добавлено в избранное');
         }
 
-        // Обновляем состояние кнопки
-        console.log('Updating button state');
-        await updateFavoriteButtons();
+        // Обновляем каталог
+        await filterAndSort();
     } catch (error) {
         console.error('Error toggling favorite:', error);
         showToast(error.message, 'error');
@@ -221,7 +221,7 @@ async function checkIfFavorite(dishId) {
         const favorites = await response.json();
         console.log('Fetched favorites structure:', JSON.stringify(favorites, null, 2));
         
-        // Проверяем, есть ли блюдо в избранном по id
+        // Проверяем, есть ли блюдо в избранном по id блюда
         const isFavorite = favorites.some(fav => fav.id === dishId);
         console.log('Is favorite:', isFavorite);
         return isFavorite;
@@ -261,7 +261,7 @@ async function updateFavoriteButtons() {
             const dishId = parseInt(button.dataset.dishId);
             console.log('Processing button for dish:', dishId);
             
-            const isFavorite = favorites.some(fav => fav.id === dishId);
+            const isFavorite = favorites.some(fav => fav.dishId === dishId);
             console.log(`Button for dish ${dishId}, isFavorite: ${isFavorite}`);
             
             const text = button.querySelector('span');
@@ -269,28 +269,16 @@ async function updateFavoriteButtons() {
             
             if (isFavorite) {
                 console.log(`Setting button ${dishId} to favorite state`);
-                button.style.backgroundColor = '#ef4444';
-                button.style.color = 'white';
-                if (icon) {
-                    icon.style.fill = 'white';
-                    console.log('Updated icon color');
-                }
-                if (text) {
-                    text.textContent = 'Unfavorite';
-                    console.log('Updated button text to Unfavorite');
-                }
+                button.classList.add('active');
+                button.classList.remove('bg-yellow-500');
+                button.classList.add('bg-red-500');
+                if (text) text.textContent = 'Unfavorite';
             } else {
                 console.log(`Setting button ${dishId} to non-favorite state`);
-                button.style.backgroundColor = '#eab308';
-                button.style.color = 'white';
-                if (icon) {
-                    icon.style.fill = 'white';
-                    console.log('Updated icon color');
-                }
-                if (text) {
-                    text.textContent = 'Favorite';
-                    console.log('Updated button text to Favorite');
-                }
+                button.classList.remove('active');
+                button.classList.remove('bg-red-500');
+                button.classList.add('bg-yellow-500');
+                if (text) text.textContent = 'Favorite';
             }
         });
     } catch (error) {
@@ -333,7 +321,7 @@ async function isDishFavorite(dishId) {
     return favorites.some(fav => fav.dishId === dishId);
 }
 
-function renderCatalog(dishes) {
+async function renderCatalog(dishes) {
     console.log('Rendering catalog with dishes:', dishes);
     catalogContainer.innerHTML = '';
     if (dishes.length === 0) {
@@ -344,7 +332,8 @@ function renderCatalog(dishes) {
     const isAuth = window.auth.isAuthenticated();
     console.log('User authenticated:', isAuth);
     
-    dishes.forEach(dish => {
+    for (const dish of dishes) {
+        const isFavorite = isAuth ? await checkIfFavorite(dish.id) : false;
         const card = document.createElement('div');
         card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
         card.innerHTML = `
@@ -353,29 +342,24 @@ function renderCatalog(dishes) {
                 <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
                 <p class="text-sm mb-2">${dish.description}</p>
                 <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
-                <p class="text-sm mb-2">Rating: ${dish.rating}</p>
-                <p class="text-sm">Category: ${dish.category}</p>
-                ${isAuth ? `
                 <div class="flex justify-between items-center gap-2 mt-2">
-                    <button class="favorite-btn flex items-center gap-1 text-white px-2 py-1 rounded w-[120px] transition-colors duration-300" data-dish-id="${dish.id}" style="background-color: #eab308;">
-                        <svg class="w-4 h-4" fill="white" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <span>Favorite</span>
-                    </button>
-                    <div class="flex items-center gap-1">
-                        <input type="number" min="1" value="1" class="quantity-input w-12 p-1 border-2 border-yellow-300 rounded-md text-center">
-                        <button class="cart-btn bg-green-500 text-white px-2 py-0.5 rounded text-sm hover:bg-green-600 transition-colors duration-300" data-dish-id="${dish.id}">Add to Cart</button>
-                    </div>
+                    ${isAuth ? `
+                        <button onclick="toggleFavorite(${dish.id})" class="favorite-btn flex items-center gap-1 ${isFavorite ? 'bg-red-500' : 'bg-yellow-500'} text-white px-2 py-1 rounded w-[120px]" data-dish-id="${dish.id}">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <span>${isFavorite ? 'Unfavorite' : 'Favorite'}</span>
+                        </button>
+                    ` : ''}
+                    ${isAuth ? `
+                        <button onclick="addToCart(${dish.id})" class="cart-btn bg-green-500 text-white px-2 py-1 rounded w-[120px]">
+                            В корзину
+                        </button>
+                    ` : ''}
                 </div>
-                ` : ''}
             </div>
         `;
         catalogContainer.appendChild(card);
-    });
-    
-    if (isAuth) {
-        updateFavoriteButtons();
     }
 }
 

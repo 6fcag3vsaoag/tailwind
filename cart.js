@@ -53,26 +53,23 @@ async function loadCart() {
             totalPrice += itemTotal;
             
             return `
-                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
-                    <div class="relative mb-4">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover rounded-lg">
-                        <button onclick="removeFromCart(${item.id})" class="absolute top-2 right-2 text-red-500 hover:text-red-700 bg-white rounded-full p-1">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="font-['Poppins'] text-lg font-semibold text-[#3f4255] mb-2">${item.name}</h3>
-                        <p class="text-gray-600 mb-4">${item.description}</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-4">
-                        <div class="flex items-center gap-2">
-                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" class="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300">-</button>
+                <div class="w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50">
+                    <img src="${item.image}" alt="${item.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
+                    <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+                        <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${item.name}</h3>
+                        <p class="text-sm mb-2">${item.description}</p>
+                        <p class="text-yellow-500 font-bold mb-2">€${item.price.toFixed(2)}</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" class="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300 transition-all duration-300">-</button>
                             <span class="font-['Poppins']">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300">+</button>
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300 transition-all duration-300">+</button>
                         </div>
-                        <span class="font-['Poppins'] font-semibold text-[#3f4255]">$${itemTotal.toFixed(2)}</span>
+                        <p class="text-sm mb-2">Subtotal: €${itemTotal.toFixed(2)}</p>
+                        <div class="flex justify-between items-center gap-2 mt-2">
+                            <button onclick="removeFromCart(${item.id})" class="remove-btn bg-red-500 text-white px-2 py-1 rounded w-[120px]">
+                                Remove
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;

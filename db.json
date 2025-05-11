@@ -149,6 +149,16 @@
       "id": 1,
       "userId": 1,
       "dishId": 1
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "dishId": 3
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "dishId": 4
     }
   ],
   "cart": [
