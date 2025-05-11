@@ -138,26 +138,6 @@
   ],
   "favorites": [
     {
-      "id": 1,
-      "userId": 1,
-      "dishId": 1
-    },
-    {
-      "id": 3,
-      "userId": 1,
-      "dishId": 15
-    },
-    {
-      "id": 5,
-      "userId": 1,
-      "dishId": 4
-    },
-    {
-      "id": 6,
-      "userId": 1,
-      "dishId": 2
-    },
-    {
       "id": 7,
       "userId": 2,
       "dishId": 4
@@ -472,6 +452,20 @@
       "totalAmount": 10.99,
       "status": "completed",
       "createdAt": "2025-05-11T11:48:51.215Z"
+    },
+    {
+      "id": 16,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 11,
+          "quantity": 1,
+          "price": 13.99
+        }
+      ],
+      "totalAmount": 13.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T12:04:25.680Z"
     }
   ]
 }

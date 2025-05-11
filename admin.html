@@ -140,6 +140,15 @@
             <div id="feedbackSection" class="hidden space-y-6">
                 <div class="bg-white shadow-lg rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Управление отзывами</h2>
+                    <div class="mb-4">
+                        <label for="userFilter" class="block text-sm font-medium text-gray-700">
+                            Фильтр по пользователю
+                        </label>
+                        <select id="userFilter" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                            <option value="">Все пользователи</option>
+                            <!-- Пользователи будут добавлены динамически -->
+                        </select>
+                    </div>
                     <div class="space-y-4">
                         <!-- Список отзывов -->
                         <div id="adminFeedbackList" class="space-y-4">

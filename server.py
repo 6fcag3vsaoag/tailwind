@@ -691,7 +691,11 @@ def create_feedback(current_user):
 @app.route('/feedback', methods=['GET'])
 def get_feedback():
     db = load_db()
-    return jsonify(db.get('feedback', []))
+    feedback = db.get('feedback', [])
+    user_id = request.args.get('userId', type=int)
+    if user_id is not None:
+        feedback = [f for f in feedback if f['userId'] == user_id]
+    return jsonify(feedback)
 
 @app.route('/feedback/<int:id>', methods=['PATCH'])
 @token_required

@@ -9,6 +9,7 @@ const dishForm = document.getElementById('dishForm');
 const dishesList = document.getElementById('dishesList');
 const adminFeedbackList = document.getElementById('adminFeedbackList');
 const logoutButton = document.getElementById('logoutButton');
+const userFilter = document.getElementById('userFilter');
 
 // Получение токена из localStorage
 function getToken() {
@@ -38,6 +39,7 @@ feedbackTab.addEventListener('click', () => {
     dishesTab.classList.remove('border-yellow-500', 'text-gray-900');
     feedbackSection.classList.remove('hidden');
     dishesSection.classList.add('hidden');
+    loadUsers();
     loadFeedback();
 });
 
@@ -47,6 +49,39 @@ logoutButton.addEventListener('click', () => {
     localStorage.removeItem('user');
     window.location.href = 'login.html';
 });
+
+// Загрузка списка пользователей для фильтра
+async function loadUsers() {
+    try {
+        const token = getToken();
+        if (!token) {
+            alert('Пожалуйста, войдите в систему');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        const response = await fetch(`${baseUrl}/users`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке пользователей');
+        }
+        const users = await response.json();
+        
+        userFilter.innerHTML = '<option value="">Все пользователи</option>';
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.id;
+            option.textContent = `${user.username} (${user.email})`;
+            userFilter.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Ошибка при загрузке пользователей:', error);
+        alert('Не удалось загрузить список пользователей');
+    }
+}
 
 // Загрузка списка товаров с повторными попытками
 async function loadDishes(maxRetries = 3) {
@@ -266,7 +301,10 @@ async function loadFeedback() {
             return;
         }
         
-        const response = await fetch(`${baseUrl}/feedback`, {
+        const selectedUserId = userFilter.value;
+        const url = selectedUserId ? `${baseUrl}/feedback?userId=${selectedUserId}` : `${baseUrl}/feedback`;
+        
+        const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -288,13 +326,27 @@ async function loadFeedback() {
         const dishes = await dishesResponse.json();
         const dishesMap = new Map(dishes.map(d => [d.id, d]));
         
+        // Получение информации о пользователях
+        const usersResponse = await fetch(`${baseUrl}/users`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!usersResponse.ok) {
+            throw new Error('Ошибка при загрузке пользователей');
+        }
+        const users = await usersResponse.json();
+        const usersMap = new Map(users.map(u => [u.id, u]));
+        
         adminFeedbackList.innerHTML = feedback.map(f => {
             const dish = dishesMap.get(f.dishId);
+            const user = usersMap.get(f.userId);
             return `
                 <div class="p-4 bg-gray-50 rounded-lg">
                     <div class="flex justify-between items-start">
                         <div>
                             <h3 class="font-medium">${dish ? dish.name : 'Блюдо не найдено'}</h3>
+                            <p class="text-sm text-gray-500">Пользователь: ${user ? user.username : 'Неизвестный пользователь'}</p>
                             <div class="flex items-center space-x-2 mt-1">
                                 ${Array(5).fill().map((_, i) => `
                                     <svg class="w-4 h-4 ${i < f.rating ? 'text-yellow-400' : 'text-gray-300'}" fill="currentColor" viewBox="0 0 20 20">
@@ -324,6 +376,11 @@ async function loadFeedback() {
         adminFeedbackList.innerHTML = '<p class="text-red-500">Ошибка загрузки отзывов</p>';
     }
 }
+
+// Обработчик изменения фильтра пользователей
+userFilter.addEventListener('change', () => {
+    loadFeedback();
+});
 
 // Удаление отзыва
 async function deleteFeedback(id) {
