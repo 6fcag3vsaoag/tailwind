@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yellow Kitchen - Настройки профиля</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
+    <link href="style.css" rel="stylesheet">
+    <link href="style-auth.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    padding: {
+                        '23': '5.75rem',
+                    },
+                    minHeight: {
+                        '70': '17.5rem',
+                        '109.5': '27.375rem',
+                    },
+                    width: {
+                        '74': '18.5rem',
+                        '120': '30rem',
+                    },
+                    margin: {
+                        '29.5': '7.375rem',
+                    },
+                    height: {
+                        '7.3': '1.825rem',
+                    },
+                }
+            }
+        }
+    </script>
+    <script src="components.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="profile.js" defer></script>
+</head>
+<body class="bg-white mx-auto px-0 overflow-x-hidden">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+            <div>
+                <img class="mx-auto h-12 w-auto" src="images/logo.svg" alt="Yellow Kitchen">
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Настройки профиля
+                </h2>
+            </div>
+            <form id="profileForm" class="mt-8 space-y-6">
+                <!-- Телефон -->
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700">
+                        Телефон <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="phone" name="phone" type="tel" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="+375291234567">
+                    </div>
+                    <p id="phoneError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="email" name="email" type="email" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="example@mail.com">
+                    </div>
+                    <p id="emailError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Фамилия -->
+                <div>
+                    <label for="lastName" class="block text-sm font-medium text-gray-700">
+                        Фамилия <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="lastName" name="lastName" type="text" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="Иванов">
+                    </div>
+                    <p id="lastNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Имя -->
+                <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-700">
+                        Имя <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="firstName" name="firstName" type="text" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="Иван">
+                    </div>
+                    <p id="firstNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Отчество -->
+                <div>
+                    <label for="middleName" class="block text-sm font-medium text-gray-700">
+                        Отчество
+                    </label>
+                    <div class="mt-1">
+                        <input id="middleName" name="middleName" type="text"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="Иванович">
+                    </div>
+                    <p id="middleNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <!-- Никнейм -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">
+                        Никнейм <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input id="username" name="username" type="text" required
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                            placeholder="username">
+                    </div>
+                    <p id="usernameError" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+
+                <div>
+                    <button type="submit" id="submitBtn"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                        Сохранить изменения
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        <a href="index.html" class="font-medium text-yellow-600 hover:text-yellow-500">
+                            Вернуться на главную
+                        </a>
+                    </p>
+                    <button onclick="logout()" class="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Выйти из системы
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

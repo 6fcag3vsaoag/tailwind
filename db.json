@@ -93,7 +93,7 @@
     {
       "id": 11,
       "name": "Mushroom Swiss Burger",
-      "description": "Beef patty with saut\u0413\u00a9ed mushrooms and Swiss cheese.",
+      "description": "Beef patty with sautГ©ed mushrooms and Swiss cheese.",
       "price": 13.99,
       "category": "Burger",
       "image": "images/food3.png",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "name": "Lasagna Bolognese",
-      "description": "Layered pasta with meat sauce and b\u0413\u00a9chamel.",
+      "description": "Layered pasta with meat sauce and bГ©chamel.",
       "price": 16.75,
       "category": "Pasta",
       "image": "images/food4.png",
@@ -138,13 +138,334 @@
   ],
   "favorites": [
     {
-      "dishId": 2,
-      "id": 1
-    },
-    {
-      "dishId": 4,
-      "id": 2
+      "id": 7,
+      "userId": 2,
+      "dishId": 4
     }
   ],
-  "cart": []
+  "cart": [],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin",
+      "phone": "+375291234567",
+      "lastName": "Admin",
+      "firstName": "Admin",
+      "middleName": "Admin"
+    },
+    {
+      "phone": "+375447777777",
+      "email": "boss@outlook.com",
+      "birthDate": "2002-01-10",
+      "password": "R00td00mz00m!!",
+      "lastName": "Крючков",
+      "firstName": "Егор",
+      "middleName": "Ульянович",
+      "username": "ЕгоКрю990",
+      "role": "user",
+      "createdAt": "2025-05-10T17:50:07.697Z",
+      "id": 2
+    },
+    {
+      "phone": "+375447777777",
+      "email": "sizikov@outlook.com",
+      "birthDate": "2003-02-01",
+      "password": "R00td00mz00m!!!",
+      "lastName": "Сизиков",
+      "firstName": "Максим",
+      "middleName": "Витальевич",
+      "username": "МакСиз294",
+      "role": "user",
+      "createdAt": "2025-05-10T17:54:05.981Z",
+      "id": 3
+    }
+  ],
+  "feedback": [
+    {
+      "id": 1,
+      "dishId": 3,
+      "userId": 1,
+      "rating": 5,
+      "comment": "ываыаыаываываыв",
+      "createdAt": "2025-05-11T12:29:37.245644",
+      "status": "approved"
+    },
+    {
+      "id": 2,
+      "dishId": 4,
+      "userId": 1,
+      "rating": 5,
+      "comment": "аываыаываываыва",
+      "createdAt": "2025-05-11T13:43:25.066587",
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "dishId": 3,
+      "userId": 2,
+      "rating": 5,
+      "comment": "gesdsgg sgsggsdgs dghwe ewf sd ds  ",
+      "createdAt": "2025-05-11T14:49:11.558036",
+      "status": "pending"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 1,
+          "quantity": 2,
+          "price": 12.99
+        }
+      ],
+      "totalAmount": 25.98,
+      "status": "completed",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 1,
+          "quantity": 2,
+          "price": 12.99
+        },
+        {
+          "dishId": 4,
+          "quantity": 9,
+          "price": 13.75
+        },
+        {
+          "dishId": 12,
+          "quantity": 5,
+          "price": 16.75
+        },
+        {
+          "dishId": 3,
+          "quantity": 2,
+          "price": 10.99
+        },
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 270.96,
+      "status": "completed",
+      "createdAt": "2025-05-11T08:48:35.231Z"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        },
+        {
+          "dishId": 4,
+          "quantity": 1,
+          "price": 13.75
+        }
+      ],
+      "totalAmount": 29.25,
+      "status": "completed",
+      "createdAt": "2025-05-11T08:50:05.170Z"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T09:32:54.423Z"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 3,
+          "quantity": 1,
+          "price": 10.99
+        },
+        {
+          "dishId": 2,
+          "quantity": 2,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 41.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:11:44.872Z"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 1,
+          "quantity": 1,
+          "price": 12.99
+        }
+      ],
+      "totalAmount": 12.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:18:19.370Z"
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:19:01.961Z"
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:23:28.737Z"
+    },
+    {
+      "id": 9,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:30:01.351Z"
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:32:03.053Z"
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:40:51.896Z"
+    },
+    {
+      "id": 12,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 3,
+          "quantity": 1,
+          "price": 10.99
+        }
+      ],
+      "totalAmount": 10.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:41:30.429Z"
+    },
+    {
+      "id": 13,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 3,
+          "quantity": 1,
+          "price": 10.99
+        }
+      ],
+      "totalAmount": 10.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:42:24.099Z"
+    },
+    {
+      "id": 14,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:46:34.116Z"
+    },
+    {
+      "id": 15,
+      "userId": 2,
+      "items": [
+        {
+          "dishId": 3,
+          "quantity": 1,
+          "price": 10.99
+        }
+      ],
+      "totalAmount": 10.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T11:48:51.215Z"
+    },
+    {
+      "id": 16,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 11,
+          "quantity": 1,
+          "price": 13.99
+        }
+      ],
+      "totalAmount": 13.99,
+      "status": "completed",
+      "createdAt": "2025-05-11T12:04:25.680Z"
+    }
+  ]
 }

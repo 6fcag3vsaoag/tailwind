@@ -8,8 +8,39 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    padding: {
+                        '23': '5.75rem',
+                    },
+                    minHeight: {
+                        '70': '17.5rem',
+                        '109.5': '27.375rem',
+                    },
+                    width: {
+                        '74': '18.5rem',
+                        '120': '30rem',
+                    },
+                    margin: {
+                        '29.5': '7.375rem',
+                    },
+                    height: {
+                        '7.3': '1.825rem',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="style.css" rel="stylesheet">
+    <link href="style-common.css" rel="stylesheet">
     <link href="style-catalog.css" rel="stylesheet">
-    <script src="burger.js" defer></script>
+    <script src="common.js" defer></script>
+    <script src="components.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="auth.js" defer></script>
     <script src="catalog.js" defer></script>
     <style>
         .card-buttons {
@@ -21,60 +52,36 @@
 
         .favorite-btn {
             width: 120px;
-            /* Fixed width to prevent layout shift */
+            transition: all 0.3s ease;
         }
 
         .favorite-btn svg {
             width: 1rem;
             height: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn.bg-red-500:hover {
+            background-color: #dc2626 !important;
+        }
+
+        .favorite-btn.bg-yellow-500:hover {
+            background-color: #ca8a04 !important;
         }
 
         .cart-btn {
             display: inline-block;
             opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:hover {
+            background-color: #16a34a !important;
         }
     </style>
 </head>
 
 <body class="bg-white mx-auto px-0">
-    <!-- Sidebar -->
-    <div id="sidebar" class="fixed right-0 top-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-[9998]">
-        <nav class="flex flex-col p-4 space-y-4 mt-16">
-            <a href="index.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Home</a>
-            <a href="catalog.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Catalog</a>
-            <a href="favorites.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Favorites</a>
-            <a href="cart.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Cart</a>
-        </nav>
-    </div>
-
-    <!-- Overlay -->
-    <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out z-40 hidden"></div>
-
-    <!-- Header -->
-    <header class="bg-white flex justify-between items-center py-3 mx-auto relative px-2 transition-colors duration-1000 ease-in-out hover:bg-gray-100 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[9999]">
-        <a href="#" class="text-xl font-bold text-gray-800 relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto transition-transform duration-500 hover:rotate-y-180">
-        </a>
-        <nav class="flex items-center gap-4 md:gap-12">
-            <a href="#" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-                <img src="images/person.svg" alt="User Icon" class="h-6 w-6 transition-transform duration-500 ease-in-out hover:rotate-180">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto md:ml-1">Log in</p>
-            </a>
-            <a href="#" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-                <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12">
-                <p id="cart-count" class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] grow-0 shrink-0 basis-auto hover:animate-bounce">0</p>
-            </a>
-            <button id="burger" class="focus:outline-none relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 rounded-full hover:shadow-lg hover:shadow-yellow-500/50 animate-pulse">
-                <svg class="h-8 w-8 md:h-12 md:w-12 transition-all duration-700 ease-in-out hover:saturate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-        </nav>
-        <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[url('images/line-sep.png')] bg-repeat-x bg-center"></div>
-    </header>
-
     <!-- Catalog Section -->
     <section class="max-w-7xl mx-auto p-5">
         <h2 class="font-['Poppins'] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] mb-8 transition-all duration-700 ease-in-out hover:skew-y-6 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">Dishes Catalog</h2>
@@ -110,108 +117,18 @@
         <div class="flex flex-wrap gap-2 mt-5">
             <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="map">Map: Capitalize Names</button>
             <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="filter">Filter: Price < €20</button>
-                    <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="reduce">Reduce: Total Price</button>
-                    <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="sort">Sort: Price Desc</button>
-                    <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="slice">Slice: First 5</button>
-                    <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="find">Find: Rating 5</button>
-                    <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="some">Some: Price < €10</button>
-                            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="every">Every: Rating > 3</button>
-                            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="forEach">ForEach: Log Names</button>
-                            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="concat">Concat: Add Sample Dish</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="reduce">Reduce: Total Price</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="sort">Sort: Price Desc</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="slice">Slice: First 5</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="find">Find: Rating 5</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="some">Some: Price < €10</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="every">Every: Rating > 3</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="forEach">ForEach: Log Names</button>
+            <button class="array-method px-4 py-2 border-2 border-yellow-300 rounded-md bg-gray-100 font-['Martel_Sans'] font-bold text-gray-500 hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out" data-method="concat">Concat: Add Sample Dish</button>
         </div>
         <div id="catalog-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
         <div id="pagination-container" class="flex justify-center gap-4 mt-8"></div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-[#3f4255] text-white mt-5 mx-auto px-0 sm:px-8 py-6 lg:py-12 flex flex-col justify-between lg:min-h-109.5">
-        <div class="grid grid-cols-1 mx-auto md:grid-cols-2 xl:grid-cols-[25fr_20fr_20fr_35fr] gap-6 lg:min-h-70">
-            <div class="flex flex-col gap-5 xl:gap-12 lg:pl-15 lg:min-w-120">
-                <img src="images/Logo2.svg" alt="Logo" class="h-6 w-auto lg:-ml-29.5 transition-all duration-300 ease-in-out hover:scale-110 hover:rotate-5 hover:hue-rotate-15 hover:brightness-150 hover:saturate-150" />
-                <div class="bg-[#d4d7e5] h-px lg:w-74"></div>
-                <div class="flex gap-2 justify-center lg:justify-start">
-                    <img src="images/app-img1-1.png" alt="App 1" class="h-7.3 w-auto hover:animate-bounce" />
-                    <img src="images/app-img2-1.png" alt="App 2" class="h-7.3 w-auto hover:animate-bounce" />
-                </div>
-            </div>
-            <div class="flex flex-col gap-6">
-                <p class="[font-family:Poppins,sans-serif] pl-9 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0">About us</p>
-                <ul class="flex flex-col gap-4 list-none lg:pl-9 m-0">
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Concept</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Franchise</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Business</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Restaurant signup</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">For Investors</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="flex flex-col gap-6">
-                <p class="[font-family:Poppins,sans-serif] pl-8 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0">Get help</p>
-                <ul class="flex flex-col gap-4 list-none lg:pl-8 m-0">
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Read FAQs</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Restaurants</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Specialities</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Sign up to deliver</span>
-                    </li>
-                    <li class="flex justify-start gap-0 items-center group relative hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">English</span>
-                        <img src="images/down.svg" alt="Dropdown" class="w-6 h-6 pl-1 -mt-0.5 grow-0 shrink-0 basis-auto" />
-                    </li>
-                </ul>
-            </div>
-            <div class="flex flex-col gap-6">
-                <p class="[font-family:Poppins,sans-serif] lg:pl-7 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0">Contact us</p>
-                <ul class="flex flex-col gap-4 list-none lg:pl-7 m-0">
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-80">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[213px]">Yellow kitchen Paris 11</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-80">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[297px]">69 avenue de la Republique 75011 Paris</span>
-                    </li>
-                    <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-80">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[297px]">0800 111 126</span>
-                    </li>
-                    <li class="group relative hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-80">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] text-left leading-5 text-[#d4d7e5] w-[297px]">contact@yellowkitchens.com</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="flex flex-col sm:flex-row justify-between items-center mt-8 pl-15 pr-14">
-            <div class="flex gap-6 mb-4 sm:mb-0">
-                <a href="#" class="hover:text-yellow-500 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
-                    <img src="Images/insta.svg" alt="Instagram" class="h-6 w-6" />
-                </a>
-                <a href="#" class="hover:text-yellow-500 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
-                    <img src="Images/twitter.svg" alt="Twitter" class="h-6 w-6" />
-                </a>
-                <a href="#" class="hover:text-yellow-500 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">
-                    <img src="Images/fb.svg" alt="Facebook" class="h-6 w-6" />
-                </a>
-            </div>
-            <div class="flex justify-start grow-0 shrink-0 items-center basis-auto flex-col sm:flex-row gap-4 lg:gap-14">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 pr-1 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">Privacy Policy</p>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">Terms</p>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">© 2020 Yellow kitchen</p>
-            </div>
-        </div>
-    </footer>
 </body>
 
 </html>

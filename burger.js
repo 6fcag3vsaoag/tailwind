@@ -55,4 +55,22 @@ document.addEventListener('DOMContentLoaded', function() {
     overlay.addEventListener('click', function() {
         closeMenu();
     });
+
+    // Добавляем пункты меню
+    const menuItems = [
+        { text: 'Главная', href: 'index.html' },
+        { text: 'Каталог', href: 'catalog.html' },
+        { text: 'Корзина', href: 'cart.html' },
+        { text: 'Избранное', href: 'favorites.html' },
+        { text: 'Отзывы', href: 'feedback.html' },
+        { text: 'Регистрация', href: 'auth.html' },
+        { text: 'Админ-панель', href: 'admin.html' }
+    ];
+
+    const nav = sidebar.querySelector('nav');
+    nav.innerHTML = menuItems.map(item => `
+        <a href="${item.href}" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+            ${item.text}
+        </a>
+    `).join('');
 });
