@@ -46,9 +46,6 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex">
-                        <div class="flex-shrink-0 flex items-center">
-                            <img class="h-8 w-auto" src="images/logo.svg" alt="Yellow Kitchen">
-                        </div>
                         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
                             <button id="dishesTab" class="border-yellow-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                                 Управление товарами
@@ -57,6 +54,11 @@
                                 Управление отзывами
                             </button>
                         </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button id="logoutButton" class="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">
+                            Выйти
+                        </button>
                     </div>
                 </div>
             </div>
@@ -68,7 +70,7 @@
             <div id="dishesSection" class="space-y-6">
                 <div class="bg-white shadow-lg rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Добавить новый товар</h2>
-                    <form id="dishForm" class="space-y-4">
+                    <form id="dishForm" class="space-y-4" enctype="multipart/form-data">
                         <div>
                             <label for="dishName" class="block text-sm font-medium text-gray-700">
                                 Название <span class="text-red-500">*</span>
@@ -112,9 +114,8 @@
                             <label for="dishImage" class="block text-sm font-medium text-gray-700">
                                 Изображение <span class="text-red-500">*</span>
                             </label>
-                            <input type="text" id="dishImage" name="image" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
-                                placeholder="URL изображения">
+                            <input type="file" id="dishImage" name="image" accept="image/*" required
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
                         </div>
                         
                         <div>
@@ -140,15 +141,6 @@
                 <div class="bg-white shadow-lg rounded-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Управление отзывами</h2>
                     <div class="space-y-4">
-                        <!-- Фильтры -->
-                        <div class="flex space-x-4">
-                            <select id="feedbackFilter" class="border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
-                                <option value="all">Все отзывы</option>
-                                <option value="approved">Одобренные</option>
-                                <option value="pending">На модерации</option>
-                            </select>
-                        </div>
-                        
                         <!-- Список отзывов -->
                         <div id="adminFeedbackList" class="space-y-4">
                             <!-- Отзывы будут добавлены динамически -->
@@ -159,4 +151,4 @@
         </div>
     </div>
 </body>
-</html> 
+</html>

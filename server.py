@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import json
 import os
@@ -7,6 +7,7 @@ import logging
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
+from werkzeug.utils import secure_filename
 
 # Настройка логирования
 logging.basicConfig(level=logging.DEBUG)
@@ -20,8 +21,20 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db.json')
 logger.info(f"Путь к файлу БД: {DB_FILE}")
 
+# Папка для сохранения загруженных изображений
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images', 'new')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Допустимые расширения файлов
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
 # Секретный ключ для JWT
 JWT_SECRET = 'your-secret-key'  # В продакшене используйте безопасный ключ
+
+# Проверка расширения файла
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Чтение данных из db.json
 def load_db():
@@ -113,9 +126,11 @@ def token_required(f):
             try:
                 token = auth_header.split(" ")[1]
             except IndexError:
+                logger.error("Неверный формат токена в заголовке Authorization")
                 return jsonify({'error': 'Неверный формат токена'}), 401
         
         if not token:
+            logger.error("Токен отсутствует в запросе")
             return jsonify({'error': 'Токен отсутствует'}), 401
         
         try:
@@ -128,16 +143,24 @@ def token_required(f):
             current_user = next((user for user in db['users'] if user['id'] == data['user_id']), None)
             
             if not current_user:
+                logger.error(f"Пользователь с ID {data['user_id']} не найден")
                 return jsonify({'error': 'Пользователь не найден'}), 401
                 
         except jwt.ExpiredSignatureError:
+            logger.error("Токен истек")
             return jsonify({'error': 'Токен истек'}), 401
         except jwt.InvalidTokenError:
+            logger.error("Неверный токен")
             return jsonify({'error': 'Неверный токен'}), 401
             
         return f(current_user, *args, **kwargs)
     
     return decorated
+
+# Эндпоинт для раздачи статических файлов (изображений)
+@app.route('/images/<path:filename>')
+def serve_images(filename):
+    return send_from_directory(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images'), filename)
 
 # Эндпоинты для users
 @app.route('/users', methods=['GET'])
@@ -252,13 +275,164 @@ def get_dish(id):
     return jsonify({"error": "Dish not found"}), 404
 
 @app.route('/dishes', methods=['POST'])
-def add_dish():
-    db = load_db()
-    new_dish = request.json
-    new_dish['id'] = get_next_id('dishes')
-    db['dishes'].append(new_dish)
-    save_db(db)
-    return jsonify(new_dish), 201
+@token_required
+def add_dish(current_user):
+    try:
+        if current_user['role'] != 'admin':
+            logger.error(f"Пользователь {current_user['id']} не имеет прав администратора")
+            return jsonify({"error": "Требуются права администратора"}), 403
+
+        # Проверяем наличие файла
+        if 'image' not in request.files:
+            logger.error("Изображение не предоставлено в запросе")
+            return jsonify({"error": "Изображение не предоставлено"}), 400
+        
+        file = request.files['image']
+        
+        if file.filename == '':
+            logger.error("Файл не выбран")
+            return jsonify({"error": "Файл не выбран"}), 400
+            
+        if file and allowed_file(file.filename):
+            # Безопасное имя файла
+            filename = secure_filename(file.filename)
+            # Генерируем уникальное имя файла
+            unique_filename = f"{uuid4()}_{filename}"
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+            file.save(file_path)
+            logger.info(f"Файл сохранен: {file_path}")
+            
+            # Путь для клиента (относительный)
+            client_image_path = f"images/new/{unique_filename}"
+            
+            # Получаем остальные данные
+            name = request.form.get('name')
+            description = request.form.get('description')
+            price = request.form.get('price')
+            category = request.form.get('category')
+            
+            if not all([name, description, price, category]):
+                logger.error("Не все обязательные поля заполнены")
+                return jsonify({"error": "Все поля должны быть заполнены"}), 400
+                
+            try:
+                price = float(price)
+            except ValueError:
+                logger.error("Цена не является числом")
+                return jsonify({"error": "Цена должна быть числом"}), 400
+                
+            db = load_db()
+            new_dish = {
+                'id': get_next_id('dishes'),
+                'name': name,
+                'description': description,
+                'price': price,
+                'category': category,
+                'image': client_image_path,
+                'rating': 0.0  # Начальный рейтинг
+            }
+            
+            db['dishes'].append(new_dish)
+            save_db(db)
+            logger.info(f"Новое блюдо добавлено: {new_dish['id']}")
+            return jsonify(new_dish), 201
+        else:
+            logger.error(f"Недопустимый формат файла: {file.filename}")
+            return jsonify({"error": "Недопустимый формат файла. Разрешены: png, jpg, jpeg, gif"}), 400
+    except Exception as e:
+        logger.error(f"Ошибка при добавлении блюда: {str(e)}")
+        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+
+@app.route('/dishes/<int:id>', methods=['PUT'])
+@token_required
+def update_dish(current_user, id):
+    try:
+        if current_user['role'] != 'admin':
+            logger.error(f"Пользователь {current_user['id']} не имеет прав администратора")
+            return jsonify({"error": "Требуются права администратора"}), 403
+
+        db = load_db()
+        dish = next((item for item in db['dishes'] if item['id'] == id), None)
+        
+        if not dish:
+            logger.error(f"Блюдо с ID {id} не найдено")
+            return jsonify({"error": "Блюдо не найдено"}), 404
+            
+        # Получаем данные из формы
+        name = request.form.get('name', dish['name'])
+        description = request.form.get('description', dish['description'])
+        price = request.form.get('price', dish['price'])
+        category = request.form.get('category', dish['category'])
+        
+        try:
+            price = float(price)
+        except ValueError:
+            logger.error("Цена не является числом")
+            return jsonify({"error": "Цена должна быть числом"}), 400
+            
+        # Обработка изображения
+        image_path = dish['image']
+        if 'image' in request.files:
+            file = request.files['image']
+            if file and file.filename != '' and allowed_file(file.filename):
+                # Удаляем старое изображение, если оно существует
+                old_image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), dish['image'])
+                if os.path.exists(old_image_path):
+                    os.remove(old_image_path)
+                    logger.info(f"Старое изображение удалено: {old_image_path}")
+                    
+                # Сохраняем новое изображение
+                filename = secure_filename(file.filename)
+                unique_filename = f"{uuid4()}_{filename}"
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+                file.save(file_path)
+                logger.info(f"Новое изображение сохранено: {file_path}")
+                image_path = f"images/new/{unique_filename}"
+        
+        # Обновляем данные блюда
+        dish.update({
+            'name': name,
+            'description': description,
+            'price': price,
+            'category': category,
+            'image': image_path
+        })
+        
+        save_db(db)
+        logger.info(f"Блюдо обновлено: {id}")
+        return jsonify(dish)
+    except Exception as e:
+        logger.error(f"Ошибка при обновлении блюда: {str(e)}")
+        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+
+@app.route('/dishes/<int:id>', methods=['DELETE'])
+@token_required
+def delete_dish(current_user, id):
+    try:
+        if current_user['role'] != 'admin':
+            logger.error(f"Пользователь {current_user['id']} не имеет прав администратора")
+            return jsonify({"error": "Требуются права администратора"}), 403
+
+        db = load_db()
+        dish = next((item for item in db['dishes'] if item['id'] == id), None)
+        
+        if not dish:
+            logger.error(f"Блюдо с ID {id} не найдено")
+            return jsonify({"error": "Блюдо не найдено"}), 404
+            
+        # Удаляем изображение, если оно существует
+        image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), dish['image'])
+        if os.path.exists(image_path):
+            os.remove(image_path)
+            logger.info(f"Изображение удалено: {image_path}")
+            
+        db['dishes'] = [item for item in db['dishes'] if item['id'] != id]
+        save_db(db)
+        logger.info(f"Блюдо удалено: {id}")
+        return jsonify({"message": "Dish deleted"}), 200
+    except Exception as e:
+        logger.error(f"Ошибка при удалении блюда: {str(e)}")
+        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
 
 # Эндпоинты для избранного
 @app.route('/favorites', methods=['GET'])
@@ -289,6 +463,7 @@ def add_to_favorites(current_user):
     try:
         data = request.get_json()
         if not data or 'dishId' not in data:
+            logger.error("Не указан dishId в запросе")
             return jsonify({'error': 'Необходимо указать dishId'}), 400
 
         dish_id = data['dishId']
@@ -297,11 +472,13 @@ def add_to_favorites(current_user):
         # Проверяем, существует ли блюдо
         dish = next((d for d in db['dishes'] if d['id'] == dish_id), None)
         if not dish:
+            logger.error(f"Блюдо с ID {dish_id} не найдено")
             return jsonify({'error': 'Блюдо не найдено'}), 404
         
         # Проверяем, не добавлено ли уже в избранное
         existing = next((f for f in db['favorites'] if f['userId'] == current_user['id'] and f['dishId'] == dish_id), None)
         if existing:
+            logger.warning(f"Блюдо {dish_id} уже в избранном пользователя {current_user['id']}")
             return jsonify({'error': 'Блюдо уже в избранном'}), 400
         
         # Добавляем в избранное
@@ -312,7 +489,7 @@ def add_to_favorites(current_user):
         }
         db['favorites'].append(favorite)
         save_db(db)
-        
+        logger.info(f"Блюдо {dish_id} добавлено в избранное пользователя {current_user['id']}")
         return jsonify(favorite), 201
     except Exception as e:
         logger.error(f"Ошибка при добавлении в избранное: {str(e)}")
@@ -325,11 +502,12 @@ def remove_from_favorites(current_user, dish_id):
         db = load_db()
         favorite = next((f for f in db['favorites'] if f['userId'] == current_user['id'] and f['dishId'] == dish_id), None)
         if not favorite:
+            logger.error(f"Блюдо {dish_id} не найдено в избранном пользователя {current_user['id']}")
             return jsonify({'error': 'Блюдо не найдено в избранном'}), 404
         
         db['favorites'].remove(favorite)
         save_db(db)
-        
+        logger.info(f"Блюдо {dish_id} удалено из избранного пользователя {current_user['id']}")
         return '', 204
     except Exception as e:
         logger.error(f"Ошибка при удалении из избранного: {str(e)}")
@@ -373,6 +551,7 @@ def add_to_cart(current_user):
     # Проверяем, существует ли блюдо
     dish = next((d for d in db['dishes'] if d['id'] == dish_id), None)
     if not dish:
+        logger.error(f"Блюдо с ID {dish_id} не найдено")
         return jsonify({'error': 'Блюдо не найдено'}), 404
     
     # Проверяем, есть ли уже в корзине
@@ -389,6 +568,7 @@ def add_to_cart(current_user):
         db['cart'].append(cart_item)
     
     save_db(db)
+    logger.info(f"Товар {dish_id} добавлен в корзину пользователя {current_user['id']}, количество: {quantity}")
     return jsonify(existing if existing else cart_item), 201
 
 @app.route('/cart/<int:dish_id>', methods=['PUT'])
@@ -430,13 +610,15 @@ def update_cart_item(current_user, dish_id):
 @app.route('/cart/<int:dish_id>', methods=['DELETE'])
 @token_required
 def remove_from_cart(current_user, dish_id):
+    db = load_db()
     cart_item = next((c for c in db['cart'] if c['userId'] == current_user['id'] and c['dishId'] == dish_id), None)
     if not cart_item:
+        logger.error(f"Товар {dish_id} не найден в корзине пользователя {current_user['id']}")
         return jsonify({'error': 'Товар не найден в корзине'}), 404
     
     db['cart'].remove(cart_item)
     save_db(db)
-    
+    logger.info(f"Товар {dish_id} удален из корзины пользователя {current_user['id']}")
     return '', 204
 
 # Эндпоинт для аутентификации
@@ -447,12 +629,14 @@ def login():
         data = request.get_json()
         
         if not data or not data.get('email') or not data.get('password'):
+            logger.error("Не указаны email или пароль")
             return jsonify({'error': 'Необходимо указать email и пароль'}), 400
             
         db = load_db()
         user = next((user for user in db['users'] if user['email'] == data['email']), None)
         
         if not user or user['password'] != data['password']:
+            logger.error("Неверный email или пароль")
             return jsonify({'error': 'Неверный email или пароль'}), 401
             
         # Создаем JWT токен
@@ -463,7 +647,9 @@ def login():
         
         # Удаляем пароль из данных пользователя
         user_data = {k: v for k, v in user.items() if k != 'password'}
+        user_data['token'] = token
         
+        logger.info(f"Успешный вход пользователя {user['id']}")
         return jsonify({
             'token': token,
             'user': user_data
@@ -482,6 +668,7 @@ def create_feedback(current_user):
     # Проверяем, существует ли блюдо
     dish = next((d for d in db['dishes'] if d['id'] == data['dishId']), None)
     if not dish:
+        logger.error(f"Блюдо с ID {data['dishId']} не найдено")
         return jsonify({'error': 'Блюдо не найдено'}), 404
     feedback = {
         'id': len(db['feedback']) + 1,
@@ -494,12 +681,54 @@ def create_feedback(current_user):
     }
     db['feedback'].append(feedback)
     save_db(db)
+    logger.info(f"Создан новый отзыв: {feedback['id']}")
     return jsonify(feedback), 201
 
 @app.route('/feedback', methods=['GET'])
 def get_feedback():
     db = load_db()
     return jsonify(db.get('feedback', []))
+
+@app.route('/feedback/<int:id>', methods=['PATCH'])
+@token_required
+def update_feedback(current_user, id):
+    if current_user['role'] != 'admin':
+        logger.error(f"Пользователь {current_user['id']} не имеет прав администратора")
+        return jsonify({"error": "Требуются права администратора"}), 403
+
+    db = load_db()
+    feedback = next((f for f in db['feedback'] if f['id'] == id), None)
+    
+    if not feedback:
+        logger.error(f"Отзыв с ID {id} не найден")
+        return jsonify({"error": "Отзыв не найден"}), 404
+        
+    data = request.get_json()
+    if 'status' in data:
+        feedback['status'] = data['status']
+        
+    save_db(db)
+    logger.info(f"Статус отзыва {id} обновлен: {data['status']}")
+    return jsonify(feedback)
+
+@app.route('/feedback/<int:id>', methods=['DELETE'])
+@token_required
+def delete_feedback(current_user, id):
+    if current_user['role'] != 'admin':
+        logger.error(f"Пользователь {current_user['id']} не имеет прав администратора")
+        return jsonify({"error": "Требуются права администратора"}), 403
+
+    db = load_db()
+    feedback = next((f for f in db['feedback'] if f['id'] == id), None)
+    
+    if not feedback:
+        logger.error(f"Отзыв с ID {id} не найден")
+        return jsonify({"error": "Отзыв не найден"}), 404
+        
+    db['feedback'].remove(feedback)
+    save_db(db)
+    logger.info(f"Отзыв {id} удален")
+    return jsonify({"message": "Feedback deleted"}), 200
 
 @app.route('/orders', methods=['POST'])
 @token_required

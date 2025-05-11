@@ -7,8 +7,19 @@ const dishesSection = document.getElementById('dishesSection');
 const feedbackSection = document.getElementById('feedbackSection');
 const dishForm = document.getElementById('dishForm');
 const dishesList = document.getElementById('dishesList');
-const feedbackFilter = document.getElementById('feedbackFilter');
 const adminFeedbackList = document.getElementById('adminFeedbackList');
+const logoutButton = document.getElementById('logoutButton');
+
+// Получение токена из localStorage
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+// Проверка, является ли пользователь администратором
+function isAdmin() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user && user.role === 'admin' && getToken();
+}
 
 // Переключение между вкладками
 dishesTab.addEventListener('click', () => {
@@ -30,35 +41,84 @@ feedbackTab.addEventListener('click', () => {
     loadFeedback();
 });
 
-// Загрузка списка товаров
-async function loadDishes() {
-    try {
-        const response = await fetch(`${baseUrl}/dishes`);
-        const dishes = await response.json();
-        
-        dishesList.innerHTML = dishes.map(dish => `
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div class="flex items-center space-x-4">
-                    <img src="${dish.image}" alt="${dish.name}" class="w-16 h-16 object-cover rounded-lg">
-                    <div>
-                        <h3 class="font-medium">${dish.name}</h3>
-                        <p class="text-sm text-gray-500">${dish.category}</p>
-                        <p class="text-sm font-medium">${dish.price} ₽</p>
+// Выход из системы
+logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+});
+
+// Загрузка списка товаров с повторными попытками
+async function loadDishes(maxRetries = 3) {
+    let attempts = 0;
+    while (attempts < maxRetries) {
+        try {
+            const token = getToken();
+            if (!token) {
+                throw new Error('Токен отсутствует');
+            }
+            const response = await fetch(`${baseUrl}/dishes?_limit=100`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP: ${response.status} ${response.statusText}`);
+            }
+            const dishes = await response.json();
+            
+            // Проверяем, что все товары имеют необходимые поля
+            const validDishes = dishes.filter(dish => 
+                dish.id && 
+                dish.name && 
+                dish.category && 
+                dish.price && 
+                dish.image
+            );
+            
+            if (validDishes.length !== dishes.length) {
+                console.warn(`Найдено ${dishes.length - validDishes.length} некорректных товаров в базе`);
+            }
+            
+            dishesList.innerHTML = validDishes.map(dish => `
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <img src="${dish.image}" alt="${dish.name}" class="w-16 h-16 object-cover rounded-lg" onerror="this.src='images/placeholder.png'">
+                        <div>
+                            <h3 class="font-medium">${dish.name}</h3>
+                            <p class="text-sm text-gray-500">${dish.category}</p>
+                            <p class="text-sm font-medium">${dish.price} ₽</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editDish(${dish.id})" class="text-yellow-600 hover:text-yellow-700">
+                            Редактировать
+                        </button>
+                        <button onclick="deleteDish(${dish.id})" class="text-red-600 hover:text-red-700">
+                            Удалить
+                        </button>
                     </div>
                 </div>
-                <div class="flex space-x-2">
-                    <button onclick="editDish(${dish.id})" class="text-yellow-600 hover:text-yellow-700">
-                        Редактировать
-                    </button>
-                    <button onclick="deleteDish(${dish.id})" class="text-red-600 hover:text-red-700">
-                        Удалить
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    } catch (error) {
-        console.error('Ошибка при загрузке товаров:', error);
-        alert('Не удалось загрузить список товаров');
+            `).join('');
+            
+            // Если нет товаров, показываем сообщение
+            if (validDishes.length === 0) {
+                dishesList.innerHTML = '<p class="text-gray-500">Товары отсутствуют</p>';
+            }
+            
+            return; // Успешно загрузили, выходим
+        } catch (error) {
+            attempts++;
+            console.error(`Попытка ${attempts}/${maxRetries} загрузки товаров не удалась:`, error);
+            if (attempts === maxRetries) {
+                console.error('Все попытки загрузки товаров исчерпаны:', error);
+                alert('Не удалось загрузить список товаров');
+                dishesList.innerHTML = '<p class="text-red-500">Ошибка загрузки товаров</p>';
+            } else {
+                // Ждем перед повторной попыткой
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        }
     }
 }
 
@@ -66,41 +126,57 @@ async function loadDishes() {
 dishForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    const token = getToken();
+    if (!token) {
+        alert('Пожалуйста, войдите в систему');
+        window.location.href = 'login.html';
+        return;
+    }
+    
     const formData = new FormData(dishForm);
-    const dishData = {
-        name: formData.get('name'),
-        description: formData.get('description'),
-        price: parseFloat(formData.get('price')),
-        category: formData.get('category'),
-        image: formData.get('image')
-    };
     
     try {
         const response = await fetch(`${baseUrl}/dishes`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(dishData)
+            body: formData
         });
         
         if (response.ok) {
             alert('Товар успешно добавлен');
             dishForm.reset();
-            loadDishes();
+            // Даем серверу время завершить запись в db.json
+            setTimeout(() => loadDishes(), 500);
         } else {
-            throw new Error('Ошибка при добавлении товара');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Ошибка при добавлении товара');
         }
     } catch (error) {
         console.error('Ошибка при добавлении товара:', error);
-        alert('Не удалось добавить товар');
+        alert(`Не удалось добавить товар: ${error.message}`);
     }
 });
 
 // Редактирование товара
 async function editDish(id) {
     try {
-        const response = await fetch(`${baseUrl}/dishes/${id}`);
+        const token = getToken();
+        if (!token) {
+            alert('Пожалуйста, войдите в систему');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        const response = await fetch(`${baseUrl}/dishes/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке данных товара');
+        }
         const dish = await response.json();
         
         // Заполняем форму данными товара
@@ -108,7 +184,7 @@ async function editDish(id) {
         document.getElementById('dishDescription').value = dish.description;
         document.getElementById('dishPrice').value = dish.price;
         document.getElementById('dishCategory').value = dish.category;
-        document.getElementById('dishImage').value = dish.image;
+        // Поле файла не заполняем, так как это файл
         
         // Изменяем обработчик отправки формы
         const originalSubmitHandler = dishForm.onsubmit;
@@ -116,34 +192,28 @@ async function editDish(id) {
             e.preventDefault();
             
             const formData = new FormData(dishForm);
-            const updatedDish = {
-                name: formData.get('name'),
-                description: formData.get('description'),
-                price: parseFloat(formData.get('price')),
-                category: formData.get('category'),
-                image: formData.get('image')
-            };
             
             try {
                 const response = await fetch(`${baseUrl}/dishes/${id}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify(updatedDish)
+                    body: formData
                 });
                 
                 if (response.ok) {
                     alert('Товар успешно обновлен');
                     dishForm.reset();
                     dishForm.onsubmit = originalSubmitHandler;
-                    loadDishes();
+                    setTimeout(() => loadDishes(), 500); // Задержка для обновления
                 } else {
-                    throw new Error('Ошибка при обновлении товара');
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Ошибка при обновлении товара');
                 }
             } catch (error) {
                 console.error('Ошибка при обновлении товара:', error);
-                alert('Не удалось обновить товар');
+                alert(`Не удалось обновить товар: ${error.message}`);
             }
         };
     } catch (error) {
@@ -158,41 +228,67 @@ async function deleteDish(id) {
         return;
     }
     
+    const token = getToken();
+    if (!token) {
+        alert('Пожалуйста, войдите в систему');
+        window.location.href = 'login.html';
+        return;
+    }
+    
     try {
         const response = await fetch(`${baseUrl}/dishes/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
         
         if (response.ok) {
             alert('Товар успешно удален');
-            loadDishes();
+            setTimeout(() => loadDishes(), 500); // Задержка для обновления
         } else {
-            throw new Error('Ошибка при удалении товара');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Ошибка при удалении товара');
         }
     } catch (error) {
         console.error('Ошибка при удалении товара:', error);
-        alert('Не удалось удалить товар');
+        alert(`Не удалось удалить товар: ${error.message}`);
     }
 }
 
 // Загрузка отзывов
 async function loadFeedback() {
     try {
-        const response = await fetch(`${baseUrl}/feedback`);
+        const token = getToken();
+        if (!token) {
+            alert('Пожалуйста, войдите в систему');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        const response = await fetch(`${baseUrl}/feedback`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке отзывов');
+        }
         const feedback = await response.json();
         
-        // Фильтрация отзывов
-        const filter = feedbackFilter.value;
-        const filteredFeedback = filter === 'all' 
-            ? feedback 
-            : feedback.filter(f => f.status === filter);
-        
         // Получение информации о блюдах
-        const dishesResponse = await fetch(`${baseUrl}/dishes`);
+        const dishesResponse = await fetch(`${baseUrl}/dishes?_limit=100`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!dishesResponse.ok) {
+            throw new Error('Ошибка при загрузке блюд');
+        }
         const dishes = await dishesResponse.json();
         const dishesMap = new Map(dishes.map(d => [d.id, d]));
         
-        adminFeedbackList.innerHTML = filteredFeedback.map(f => {
+        adminFeedbackList.innerHTML = feedback.map(f => {
             const dish = dishesMap.get(f.dishId);
             return `
                 <div class="p-4 bg-gray-50 rounded-lg">
@@ -209,14 +305,6 @@ async function loadFeedback() {
                             <p class="mt-2 text-sm text-gray-600">${f.comment}</p>
                         </div>
                         <div class="flex space-x-2">
-                            ${f.status === 'pending' ? `
-                                <button onclick="updateFeedbackStatus(${f.id}, 'approved')" class="text-green-600 hover:text-green-700">
-                                    Одобрить
-                                </button>
-                                <button onclick="updateFeedbackStatus(${f.id}, 'rejected')" class="text-red-600 hover:text-red-700">
-                                    Отклонить
-                                </button>
-                            ` : ''}
                             <button onclick="deleteFeedback(${f.id})" class="text-red-600 hover:text-red-700">
                                 Удалить
                             </button>
@@ -225,32 +313,15 @@ async function loadFeedback() {
                 </div>
             `;
         }).join('');
+        
+        // Если нет отзывов, показываем сообщение
+        if (feedback.length === 0) {
+            adminFeedbackList.innerHTML = '<p class="text-gray-500">Отзывы отсутствуют</p>';
+        }
     } catch (error) {
         console.error('Ошибка при загрузке отзывов:', error);
         alert('Не удалось загрузить отзывы');
-    }
-}
-
-// Обновление статуса отзыва
-async function updateFeedbackStatus(id, status) {
-    try {
-        const response = await fetch(`${baseUrl}/feedback/${id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status })
-        });
-        
-        if (response.ok) {
-            alert('Статус отзыва успешно обновлен');
-            loadFeedback();
-        } else {
-            throw new Error('Ошибка при обновлении статуса отзыва');
-        }
-    } catch (error) {
-        console.error('Ошибка при обновлении статуса отзыва:', error);
-        alert('Не удалось обновить статус отзыва');
+        adminFeedbackList.innerHTML = '<p class="text-red-500">Ошибка загрузки отзывов</p>';
     }
 }
 
@@ -260,39 +331,40 @@ async function deleteFeedback(id) {
         return;
     }
     
+    const token = getToken();
+    if (!token) {
+        alert('Пожалуйста, войдите в систему');
+        window.location.href = 'login.html';
+        return;
+    }
+    
     try {
         const response = await fetch(`${baseUrl}/feedback/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
         
         if (response.ok) {
             alert('Отзыв успешно удален');
             loadFeedback();
         } else {
-            throw new Error('Ошибка при удалении отзыва');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Ошибка при удалении отзыва');
         }
     } catch (error) {
         console.error('Ошибка при удалении отзыва:', error);
-        alert('Не удалось удалить отзыв');
+        alert(`Не удалось удалить отзыв: ${error.message}`);
     }
-}
-
-// Обработчик изменения фильтра отзывов
-feedbackFilter.addEventListener('change', loadFeedback);
-
-// Загрузка начальных данных
-loadDishes();
-
-// Функция для проверки роли администратора
-function isAdmin() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user && user.role === 'admin';
 }
 
 // Проверка доступа при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     if (!isAdmin()) {
-        // Если пользователь не администратор, перенаправляем на главную
-        window.location.href = 'index.html';
+        alert('Пожалуйста, войдите как администратор');
+        window.location.href = 'login.html';
+    } else {
+        loadDishes();
     }
-}); 
+});

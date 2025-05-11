@@ -134,14 +134,6 @@
       "category": "Salad",
       "image": "images/food3.png",
       "rating": 4.4
-    },
-    {
-      "name": "Fish Salad",
-      "description": "Good food. A-Z orenburg recipes",
-      "price": 44,
-      "category": "Salad",
-      "image": "https://центр-профилактики.рф/wp-content/uploads/2021/09/ketogenic-low-carbs-diet-food-selection-on-white-wall.jpg",
-      "id": 16
     }
   ],
   "favorites": [
@@ -149,14 +141,16 @@
       "id": 1,
       "userId": 1,
       "dishId": 1
-    },
-    {
-      "id": 3,
-      "userId": 1,
-      "dishId": 3
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": 1,
+      "userId": 1,
+      "dishId": 17,
+      "quantity": 2
+    }
+  ],
   "users": [
     {
       "id": 1,
@@ -204,15 +198,15 @@
       "rating": 5,
       "comment": "ываыаыаываываыв",
       "createdAt": "2025-05-11T12:29:37.245644",
-      "status": "pending"
+      "status": "approved"
     },
     {
       "id": 2,
       "dishId": 4,
       "userId": 1,
       "rating": 5,
-      "comment": "ываываыаываыаываыв",
-      "createdAt": "2025-05-11T12:29:51.686529",
+      "comment": "аываыаываываыва",
+      "createdAt": "2025-05-11T13:43:25.066587",
       "status": "pending"
     }
   ],
