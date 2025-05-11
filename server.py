@@ -4,6 +4,9 @@ import json
 import os
 from uuid import uuid4
 import logging
+import jwt
+from datetime import datetime, timedelta
+from functools import wraps
 
 # Настройка логирования
 logging.basicConfig(level=logging.DEBUG)
@@ -14,6 +17,9 @@ CORS(app)  # Разрешить все источники
 
 # Путь к db.json
 DB_FILE = 'db.json'
+
+# Секретный ключ для JWT
+JWT_SECRET = 'your-secret-key'  # В продакшене используйте безопасный ключ
 
 # Чтение данных из db.json
 def load_db():
@@ -87,6 +93,44 @@ def filter_sort_paginate(items, args):
 
     return items, total
 
+# Middleware для проверки JWT токена
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        
+        # Получаем токен из заголовка
+        if 'Authorization' in request.headers:
+            auth_header = request.headers['Authorization']
+            try:
+                token = auth_header.split(" ")[1]
+            except IndexError:
+                return jsonify({'error': 'Неверный формат токена'}), 401
+        
+        if not token:
+            return jsonify({'error': 'Токен отсутствует'}), 401
+        
+        try:
+            # Декодируем токен
+            data = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
+            current_user = None
+            
+            # Получаем пользователя из базы данных
+            db = load_db()
+            current_user = next((user for user in db['users'] if user['id'] == data['user_id']), None)
+            
+            if not current_user:
+                return jsonify({'error': 'Пользователь не найден'}), 401
+                
+        except jwt.ExpiredSignatureError:
+            return jsonify({'error': 'Токен истек'}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({'error': 'Неверный токен'}), 401
+            
+        return f(current_user, *args, **kwargs)
+    
+    return decorated
+
 # Эндпоинты для users
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -146,14 +190,34 @@ def get_user(id):
     return jsonify({"error": "User not found"}), 404
 
 @app.route('/users/<int:id>', methods=['PUT'])
-def update_user(id):
+@token_required
+def update_user(current_user, id):
+    if current_user['id'] != id and current_user['role'] != 'admin':
+        return jsonify({"error": "Нет прав для обновления этого профиля"}), 403
+        
     db = load_db()
     user = next((item for item in db['users'] if item['id'] == id), None)
-    if user:
-        user.update(request.json)
-        save_db(db)
-        return jsonify(user)
-    return jsonify({"error": "User not found"}), 404
+    
+    if not user:
+        return jsonify({"error": "Пользователь не найден"}), 404
+        
+    # Проверяем уникальность email и username
+    data = request.json
+    if 'email' in data and data['email'] != user['email']:
+        if any(u['email'] == data['email'] for u in db['users'] if u['id'] != id):
+            return jsonify({"error": "Email уже используется"}), 400
+            
+    if 'username' in data and data['username'] != user['username']:
+        if any(u['username'] == data['username'] for u in db['users'] if u['id'] != id):
+            return jsonify({"error": "Никнейм уже занят"}), 400
+    
+    # Обновляем данные пользователя
+    user.update(data)
+    save_db(db)
+    
+    # Удаляем пароль из ответа
+    user_data = {k: v for k, v in user.items() if k != 'password'}
+    return jsonify(user_data)
 
 @app.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
@@ -266,6 +330,40 @@ def get_cart_by_dish_id():
         cart_items = [item for item in db['cart'] if str(item['dishId']) == dish_id]
         return jsonify(cart_items)
     return jsonify(db['cart'])
+
+# Эндпоинт для аутентификации
+@app.route('/auth/login', methods=['POST'])
+def login():
+    logger.info("Получен POST запрос на /auth/login")
+    try:
+        data = request.get_json()
+        
+        if not data or not data.get('email') or not data.get('password'):
+            return jsonify({'error': 'Необходимо указать email и пароль'}), 400
+            
+        db = load_db()
+        user = next((user for user in db['users'] if user['email'] == data['email']), None)
+        
+        if not user or user['password'] != data['password']:
+            return jsonify({'error': 'Неверный email или пароль'}), 401
+            
+        # Создаем JWT токен
+        token = jwt.encode({
+            'user_id': user['id'],
+            'exp': datetime.utcnow() + timedelta(days=1)
+        }, JWT_SECRET, algorithm='HS256')
+        
+        # Удаляем пароль из данных пользователя
+        user_data = {k: v for k, v in user.items() if k != 'password'}
+        
+        return jsonify({
+            'token': token,
+            'user': user_data
+        })
+        
+    except Exception as e:
+        logger.error(f"Ошибка при аутентификации: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

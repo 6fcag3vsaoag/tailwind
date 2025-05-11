@@ -177,7 +177,7 @@
       "username": "admin",
       "email": "admin@example.com",
       "phone": "+375291234567",
-      "password": "hashed_password_here",
+      "password": "admin123",
       "lastName": "Admin",
       "firstName": "User",
       "middleName": "",

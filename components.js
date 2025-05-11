@@ -1,3 +1,20 @@
+// Функция для проверки авторизации
+function isAuthenticated() {
+    return localStorage.getItem('token') !== null;
+}
+
+// Функция для получения ссылки на профиль/логин
+function getProfileLink() {
+    return isAuthenticated() ? 'profile.html' : 'login.html';
+}
+
+// Функция для выхода из системы
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+}
+
 // Функция для создания хедера
 function createHeader() {
     return `
@@ -9,7 +26,7 @@ function createHeader() {
             <a href="feedback.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/feedback.svg" alt="Feedback Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
             </a>
-            <a href="auth.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+            <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/user.svg" alt="User Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
             </a>
             <button id="burger" class="focus:outline-none relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 rounded-full hover:shadow-lg hover:shadow-yellow-500/50 animate-pulse">
@@ -127,7 +144,8 @@ function createSidebar() {
             <a href="favorites.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Favorites</a>
             <a href="cart.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Cart</a>
             <a href="feedback.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Feedback</a>
-            <a href="auth.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Auth</a>
+            <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">${isAuthenticated() ? 'Профиль' : 'Вход'}</a>
+            ${isAuthenticated() ? '<button onclick="logout()" class="text-red-600 hover:text-red-700 relative after:absolute after:h-px after:bg-red-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full text-left">Выйти</button>' : ''}
             <a href="admin.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Admin</a>
         </nav>
     </div>`;
