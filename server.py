@@ -13,10 +13,18 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app)  # Разрешить все источники
+# Настройка CORS для всех маршрутов
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://127.0.0.1:5501", "http://localhost:5501"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
-# Путь к db.json
-DB_FILE = 'db.json'
+# Путь к db.json (абсолютный путь)
+DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db.json')
+logger.info(f"Путь к файлу БД: {DB_FILE}")
 
 # Секретный ключ для JWT
 JWT_SECRET = 'your-secret-key'  # В продакшене используйте безопасный ключ
@@ -24,15 +32,19 @@ JWT_SECRET = 'your-secret-key'  # В продакшене используйте
 # Чтение данных из db.json
 def load_db():
     try:
+        logger.debug(f"Попытка загрузить БД из файла: {DB_FILE}")
         if os.path.exists(DB_FILE):
             with open(DB_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 logger.debug(f"Загружены данные из БД: {data}")
                 return data
-        logger.info("Файл БД не найден, создаем новую БД")
+        logger.warning(f"Файл БД не найден по пути: {DB_FILE}")
+        logger.info("Создаем новую БД")
         return {"dishes": [], "favorites": [], "cart": [], "users": []}
     except Exception as e:
         logger.error(f"Ошибка при чтении БД: {str(e)}")
+        logger.error(f"Текущая директория: {os.getcwd()}")
+        logger.error(f"Содержимое директории: {os.listdir('.')}")
         raise
 
 # Сохранение данных в db.json
@@ -44,6 +56,8 @@ def save_db(data):
         logger.info("База данных успешно сохранена")
     except Exception as e:
         logger.error(f"Ошибка при сохранении базы данных: {str(e)}")
+        logger.error(f"Текущая директория: {os.getcwd()}")
+        logger.error(f"Содержимое директории: {os.listdir('.')}")
         raise
 
 # Получение следующего ID для ресурса
@@ -252,84 +266,184 @@ def add_dish():
     save_db(db)
     return jsonify(new_dish), 201
 
-# Эндпоинты для favorites
+# Эндпоинты для избранного
 @app.route('/favorites', methods=['GET'])
-def get_favorites():
-    db = load_db()
-    return jsonify(db['favorites'])
+@token_required
+def get_favorites(current_user):
+    try:
+        logger.info(f"Получение избранного для пользователя {current_user['id']}")
+        db = load_db()
+        favorites = [f for f in db['favorites'] if f['userId'] == current_user['id']]
+        logger.info(f"Найдено {len(favorites)} избранных блюд")
+        
+        # Получаем полную информацию о блюдах
+        favorite_dishes = []
+        for fav in favorites:
+            dish = next((d for d in db['dishes'] if d['id'] == fav['dishId']), None)
+            if dish:
+                favorite_dishes.append(dish)
+        
+        logger.info(f"Возвращаем {len(favorite_dishes)} блюд")
+        return jsonify(favorite_dishes)
+    except Exception as e:
+        logger.error(f"Ошибка при получении избранного: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
 
 @app.route('/favorites', methods=['POST'])
-def add_favorite():
-    db = load_db()
-    new_favorite = request.json
-    new_favorite['id'] = get_next_id('favorites')
-    db['favorites'].append(new_favorite)
-    save_db(db)
-    return jsonify(new_favorite), 201
+@token_required
+def add_to_favorites(current_user):
+    try:
+        data = request.get_json()
+        if not data or 'dishId' not in data:
+            return jsonify({'error': 'Необходимо указать dishId'}), 400
 
-@app.route('/favorites/<int:id>', methods=['DELETE'])
-def delete_favorite(id):
-    db = load_db()
-    db['favorites'] = [item for item in db['favorites'] if item['id'] != id]
-    save_db(db)
-    return jsonify({"message": "Favorite deleted"}), 200
+        dish_id = data['dishId']
+        db = load_db()
+        
+        # Проверяем, существует ли блюдо
+        dish = next((d for d in db['dishes'] if d['id'] == dish_id), None)
+        if not dish:
+            return jsonify({'error': 'Блюдо не найдено'}), 404
+        
+        # Проверяем, не добавлено ли уже в избранное
+        existing = next((f for f in db['favorites'] if f['userId'] == current_user['id'] and f['dishId'] == dish_id), None)
+        if existing:
+            return jsonify({'error': 'Блюдо уже в избранном'}), 400
+        
+        # Добавляем в избранное
+        favorite = {
+            'id': get_next_id('favorites'),
+            'userId': current_user['id'],
+            'dishId': dish_id
+        }
+        db['favorites'].append(favorite)
+        save_db(db)
+        
+        return jsonify(favorite), 201
+    except Exception as e:
+        logger.error(f"Ошибка при добавлении в избранное: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
 
-@app.route('/favorites', methods=['GET'])
-def get_favorites_by_dish_id():
-    db = load_db()
-    dish_id = request.args.get('dishId')
-    if dish_id:
-        favorites = [item for item in db['favorites'] if str(item['dishId']) == dish_id]
-        return jsonify(favorites)
-    return jsonify(db['favorites'])
+@app.route('/favorites/<int:dish_id>', methods=['DELETE'])
+@token_required
+def remove_from_favorites(current_user, dish_id):
+    try:
+        db = load_db()
+        favorite = next((f for f in db['favorites'] if f['userId'] == current_user['id'] and f['dishId'] == dish_id), None)
+        if not favorite:
+            return jsonify({'error': 'Блюдо не найдено в избранном'}), 404
+        
+        db['favorites'].remove(favorite)
+        save_db(db)
+        
+        return '', 204
+    except Exception as e:
+        logger.error(f"Ошибка при удалении из избранного: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
 
-# Эндпоинты для cart
+# Эндпоинты для корзины
 @app.route('/cart', methods=['GET'])
-def get_cart():
-    db = load_db()
-    return jsonify(db['cart'])
+@token_required
+def get_cart(current_user):
+    try:
+        logger.info(f"Получение корзины для пользователя {current_user['id']}")
+        db = load_db()
+        cart_items = [c for c in db['cart'] if c['userId'] == current_user['id']]
+        logger.info(f"Найдено {len(cart_items)} товаров в корзине")
+        
+        # Получаем полную информацию о блюдах
+        cart_with_details = []
+        for item in cart_items:
+            dish = next((d for d in db['dishes'] if d['id'] == item['dishId']), None)
+            if dish:
+                cart_with_details.append({
+                    **dish,
+                    'quantity': item['quantity'],
+                    'cartItemId': item['id']
+                })
+        
+        logger.info(f"Возвращаем {len(cart_with_details)} товаров с деталями")
+        return jsonify(cart_with_details)
+    except Exception as e:
+        logger.error(f"Ошибка при получении корзины: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
 
 @app.route('/cart', methods=['POST'])
-def add_cart_item():
+@token_required
+def add_to_cart(current_user):
     db = load_db()
-    new_item = request.json
-    new_item['id'] = get_next_id('cart')
-    db['cart'].append(new_item)
+    data = request.get_json()
+    dish_id = data.get('dishId')
+    quantity = data.get('quantity', 1)
+    
+    # Проверяем, существует ли блюдо
+    dish = next((d for d in db['dishes'] if d['id'] == dish_id), None)
+    if not dish:
+        return jsonify({'error': 'Блюдо не найдено'}), 404
+    
+    # Проверяем, есть ли уже в корзине
+    existing = next((c for c in db['cart'] if c['userId'] == current_user['id'] and c['dishId'] == dish_id), None)
+    if existing:
+        existing['quantity'] += quantity
+    else:
+        cart_item = {
+            'id': len(db['cart']) + 1,
+            'userId': current_user['id'],
+            'dishId': dish_id,
+            'quantity': quantity
+        }
+        db['cart'].append(cart_item)
+    
     save_db(db)
-    return jsonify(new_item), 201
+    return jsonify(existing if existing else cart_item), 201
 
-@app.route('/cart/<int:id>', methods=['PATCH'])
-def update_cart_item(id):
-    db = load_db()
-    for item in db['cart']:
-        if item['id'] == id:
-            item.update(request.json)
-            save_db(db)
-            return jsonify(item)
-    return jsonify({"error": "Cart item not found"}), 404
+@app.route('/cart/<int:dish_id>', methods=['PUT'])
+@token_required
+def update_cart_item(current_user, dish_id):
+    try:
+        logger.info(f"Обновление количества товара {dish_id} для пользователя {current_user['id']}")
+        db = load_db()
+        
+        # Находим товар в корзине
+        cart_item = next((c for c in db['cart'] if c['userId'] == current_user['id'] and c['dishId'] == dish_id), None)
+        if not cart_item:
+            logger.warning(f"Товар {dish_id} не найден в корзине пользователя {current_user['id']}")
+            return jsonify({'error': 'Товар не найден в корзине'}), 404
+        
+        # Получаем новое количество
+        data = request.get_json()
+        quantity = data.get('quantity')
+        
+        if quantity is None:
+            logger.warning("Не указано количество товара")
+            return jsonify({'error': 'Необходимо указать количество'}), 400
+            
+        if quantity <= 0:
+            # Удаляем товар из корзины
+            db['cart'].remove(cart_item)
+            logger.info(f"Товар {dish_id} удален из корзины пользователя {current_user['id']}")
+        else:
+            # Обновляем количество
+            cart_item['quantity'] = quantity
+            logger.info(f"Количество товара {dish_id} обновлено до {quantity}")
+        
+        save_db(db)
+        return jsonify(cart_item)
+    except Exception as e:
+        logger.error(f"Ошибка при обновлении корзины: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
 
-@app.route('/cart/<int:id>', methods=['DELETE'])
-def delete_cart_item(id):
-    db = load_db()
-    db['cart'] = [item for item in db['cart'] if item['id'] != id]
+@app.route('/cart/<int:dish_id>', methods=['DELETE'])
+@token_required
+def remove_from_cart(current_user, dish_id):
+    cart_item = next((c for c in db['cart'] if c['userId'] == current_user['id'] and c['dishId'] == dish_id), None)
+    if not cart_item:
+        return jsonify({'error': 'Товар не найден в корзине'}), 404
+    
+    db['cart'].remove(cart_item)
     save_db(db)
-    return jsonify({"message": "Cart item deleted"}), 200
-
-@app.route('/cart/clear', methods=['DELETE'])
-def clear_cart():
-    db = load_db()
-    db['cart'] = []
-    save_db(db)
-    return jsonify({"message": "Cart cleared"}), 200
-
-@app.route('/cart', methods=['GET'])
-def get_cart_by_dish_id():
-    db = load_db()
-    dish_id = request.args.get('dishId')
-    if dish_id:
-        cart_items = [item for item in db['cart'] if str(item['dishId']) == dish_id]
-        return jsonify(cart_items)
-    return jsonify(db['cart'])
+    
+    return '', 204
 
 # Эндпоинт для аутентификации
 @app.route('/auth/login', methods=['POST'])
@@ -364,6 +478,32 @@ def login():
     except Exception as e:
         logger.error(f"Ошибка при аутентификации: {str(e)}")
         return jsonify({'error': 'Внутренняя ошибка сервера'}), 500
+
+# Обновляем эндпоинт для отзывов
+@app.route('/feedback', methods=['POST'])
+@token_required
+def create_feedback(current_user):
+    data = request.get_json()
+    
+    # Проверяем, существует ли блюдо
+    dish = next((d for d in db['dishes'] if d['id'] == data['dishId']), None)
+    if not dish:
+        return jsonify({'error': 'Блюдо не найдено'}), 404
+    
+    feedback = {
+        'id': len(db['feedback']) + 1,
+        'dishId': data['dishId'],
+        'userId': current_user['id'],
+        'rating': data['rating'],
+        'comment': data['comment'],
+        'createdAt': datetime.now().isoformat(),
+        'status': 'pending'
+    }
+    
+    db['feedback'].append(feedback)
+    save_db(db)
+    
+    return jsonify(feedback), 201
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

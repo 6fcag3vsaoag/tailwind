@@ -1,21 +1,123 @@
 const favoritesContainer = document.getElementById('favorites-container');
 const favoritesHeader = document.getElementById('favorites-header');
-const baseUrl = 'http://localhost:3000';
 
-async function fetchFavorites() {
+// Проверка авторизации при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    if (!window.auth.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+    loadFavorites();
+});
+
+// Загрузка избранных блюд
+async function loadFavorites() {
     try {
-        const response = await fetch(`${baseUrl}/favorites`);
-        if (!response.ok) throw new Error('Failed to fetch favorites');
-        return await response.json();
+        const token = window.auth.getToken();
+        if (!token) {
+            console.error('Токен не найден');
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const favorites = await response.json();
+        console.log('Получены избранные блюда:', favorites);
+        
+        if (favorites.length === 0) {
+            favoritesContainer.innerHTML = '<p class="text-center text-gray-500">У вас пока нет избранных блюд</p>';
+            return;
+        }
+        
+        favoritesContainer.innerHTML = favorites.map(dish => `
+            <div class="dish-card">
+                <img src="${dish.image}" alt="${dish.name}" class="dish-image">
+                <h3>${dish.name}</h3>
+                <p>${dish.description}</p>
+                <p class="price">${dish.price} ₽</p>
+                <div class="dish-actions">
+                    <button onclick="removeFromFavorites(${dish.id})" class="remove-btn">
+                        Удалить из избранного
+                    </button>
+                    <button onclick="addToCart(${dish.id})" class="cart-btn">
+                        В корзину
+                    </button>
+                </div>
+            </div>
+        `).join('');
     } catch (error) {
-        console.error('Error fetching favorites:', error);
-        return [];
+        console.error('Ошибка при загрузке избранного:', error);
+        favoritesContainer.innerHTML = '<p class="text-center text-red-500">Ошибка при загрузке избранного</p>';
+    }
+}
+
+// Удаление из избранного
+async function removeFromFavorites(dishId) {
+    try {
+        const token = window.auth.getToken();
+        if (!token) {
+            console.error('Токен не найден');
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/favorites/${dishId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        await loadFavorites();
+    } catch (error) {
+        console.error('Ошибка при удалении из избранного:', error);
+        alert('Ошибка при удалении из избранного');
+    }
+}
+
+// Добавление в корзину
+async function addToCart(dishId) {
+    try {
+        const token = window.auth.getToken();
+        if (!token) {
+            console.error('Токен не найден');
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/cart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ dishId, quantity: 1 })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        alert('Товар добавлен в корзину');
+    } catch (error) {
+        console.error('Ошибка при добавлении в корзину:', error);
+        alert('Ошибка при добавлении в корзину');
     }
 }
 
 async function fetchDish(dishId) {
     try {
-        const response = await fetch(`${baseUrl}/dishes/${dishId}`);
+        const response = await fetch(`${window.baseUrl}/dishes/${dishId}`);
         if (!response.ok) throw new Error(`Failed to fetch dish ${dishId}`);
         return await response.json();
     } catch (error) {
@@ -26,7 +128,7 @@ async function fetchDish(dishId) {
 
 async function removeFavorite(favoriteId) {
     try {
-        const response = await fetch(`${baseUrl}/favorites/${favoriteId}`, {
+        const response = await fetch(`${window.baseUrl}/favorites/${favoriteId}`, {
             method: 'DELETE'
         });
         if (response.ok) {
@@ -42,7 +144,7 @@ async function clearFavorites() {
     try {
         const favorites = await fetchFavorites();
         const deletePromises = favorites.map(fav =>
-            fetch(`${baseUrl}/favorites/${fav.id}`, {
+            fetch(`${window.baseUrl}/favorites/${fav.id}`, {
                 method: 'DELETE'
             })
         );

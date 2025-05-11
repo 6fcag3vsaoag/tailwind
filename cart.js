@@ -4,6 +4,211 @@ const totalPriceElement = document.getElementById('total-price');
 const checkoutBtn = document.getElementById('checkout-btn');
 const baseUrl = 'http://localhost:3000';
 
+// Флаг для отслеживания активных запросов
+let isUpdating = false;
+
+// Проверка авторизации при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    if (!window.auth.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+    loadCart();
+});
+
+// Загрузка корзины
+async function loadCart() {
+    try {
+        const token = window.auth.getToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await fetch(`${window.baseUrl}/cart`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = 'login.html';
+                return;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const cartItems = await response.json();
+        console.log('Получены товары корзины:', cartItems);
+        
+        if (cartItems.length === 0) {
+            cartContainer.innerHTML = '<div class="col-span-full text-center text-gray-500">Корзина пуста</div>';
+            totalPriceElement.textContent = '';
+            return;
+        }
+        
+        let totalPrice = 0;
+        cartContainer.innerHTML = cartItems.map(item => {
+            const itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+            
+            return `
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <div class="relative mb-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover rounded-lg">
+                        <button onclick="removeFromCart(${item.id})" class="absolute top-2 right-2 text-red-500 hover:text-red-700 bg-white rounded-full p-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-['Poppins'] text-lg font-semibold text-[#3f4255] mb-2">${item.name}</h3>
+                        <p class="text-gray-600 mb-4">${item.description}</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="flex items-center gap-2">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" class="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300">-</button>
+                            <span class="font-['Poppins']">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="bg-gray-200 text-gray-700 px-2 py-1 rounded hover:bg-gray-300">+</button>
+                        </div>
+                        <span class="font-['Poppins'] font-semibold text-[#3f4255]">$${itemTotal.toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+    } catch (error) {
+        console.error('Ошибка при загрузке корзины:', error);
+        cartContainer.innerHTML = '<div class="col-span-full text-center text-red-500">Ошибка при загрузке корзины</div>';
+    }
+}
+
+// Обновление количества товара
+async function updateQuantity(dishId, newQuantity) {
+    if (!dishId) {
+        console.error('ID товара не определен');
+        return;
+    }
+
+    if (isUpdating) {
+        console.log('Обновление уже выполняется, пропускаем запрос');
+        return;
+    }
+
+    try {
+        isUpdating = true;
+        const token = window.auth.getToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        if (newQuantity <= 0) {
+            await removeFromCart(dishId);
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/cart/${dishId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ quantity: newQuantity })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        await loadCart();
+        await updateCartCount();
+    } catch (error) {
+        console.error('Ошибка при обновлении количества:', error);
+        alert('Ошибка при обновлении количества');
+    } finally {
+        isUpdating = false;
+    }
+}
+
+// Удаление из корзины
+async function removeFromCart(dishId) {
+    if (!dishId) {
+        console.error('ID товара не определен');
+        return;
+    }
+
+    if (isUpdating) {
+        console.log('Удаление уже выполняется, пропускаем запрос');
+        return;
+    }
+
+    try {
+        isUpdating = true;
+        const token = window.auth.getToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await fetch(`${window.baseUrl}/cart/${dishId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        await loadCart();
+        await updateCartCount();
+    } catch (error) {
+        console.error('Ошибка при удалении из корзины:', error);
+        alert('Ошибка при удалении из корзины');
+    } finally {
+        isUpdating = false;
+    }
+}
+
+// Оформление заказа
+async function checkout() {
+    if (isUpdating) {
+        console.log('Оформление заказа уже выполняется, пропускаем запрос');
+        return;
+    }
+
+    try {
+        isUpdating = true;
+        const token = window.auth.getToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await fetch(`${window.baseUrl}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        alert('Заказ успешно оформлен!');
+        await loadCart();
+        await updateCartCount();
+    } catch (error) {
+        console.error('Ошибка при оформлении заказа:', error);
+        alert('Ошибка при оформлении заказа');
+    } finally {
+        isUpdating = false;
+    }
+}
+
 async function fetchCartItems() {
     try {
         const response = await fetch(`${baseUrl}/cart`);
@@ -171,54 +376,42 @@ async function createOrder(cartItems, totalPrice) {
 }
 
 // Обновляем обработчик кнопки оформления заказа
-checkoutBtn.addEventListener('click', async () => {
-    const cartItems = await fetchCartItems();
-    if (cartItems.length === 0) {
-        alert('Ваша корзина пуста!');
-        return;
-    }
+checkoutBtn.addEventListener('click', checkout);
 
-    try {
-        // Получаем детали блюд
-        const dishPromises = cartItems.map(item => fetchDish(item.dishId));
-        const dishes = (await Promise.all(dishPromises)).filter(dish => dish !== null);
-        
-        // Рассчитываем общую стоимость
-        const totalPrice = cartItems.reduce((sum, item) => {
-            const dish = dishes.find(d => d.id === item.dishId);
-            return sum + (dish ? dish.price * item.quantity : 0);
-        }, 0);
-
-        // Создаем заказ
-        const order = await createOrder(
-            cartItems.map(item => ({
-                ...item,
-                dish: dishes.find(d => d.id === item.dishId)
-            })),
-            totalPrice
-        );
-
-        alert('Заказ успешно оформлен!');
-    } catch (error) {
-        console.error('Error during checkout:', error);
-        alert('Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже.');
-    }
-});
-
-// Function to update cart count in header
+// Обновление количества товаров в корзине
 async function updateCartCount() {
     try {
-        const cartItems = await fetchCartItems();
+        const token = window.auth.getToken();
+        if (!token) {
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/cart`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const cartItems = await response.json();
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-        document.getElementById('cart-count').textContent = totalItems;
+        
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+        }
     } catch (error) {
         console.error('Error updating cart count:', error);
     }
 }
 
+// Инициализация
 async function init() {
-    await renderCart();
-    updateCartCount();
+    await loadCart();
+    await updateCartCount();
 }
 
 init();

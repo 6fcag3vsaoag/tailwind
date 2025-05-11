@@ -158,55 +158,62 @@ function validateForm() {
     return isValid;
 }
 
-// Обработчики событий
-form.addEventListener('input', (e) => {
-    if (e.target.id in validators) {
-        validateField(e.target.id, e.target.value);
-        validateForm();
-    }
-});
-
-document.getElementById('terms').addEventListener('change', validateForm);
-
-generateUsernameBtn.addEventListener('click', generateUsername);
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    const formData = {
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        birthDate: document.getElementById('birthDate').value,
-        password: document.getElementById('password').value,
-        lastName: document.getElementById('lastName').value,
-        firstName: document.getElementById('firstName').value,
-        middleName: document.getElementById('middleName').value,
-        username: document.getElementById('username').value,
-        role: 'user',
-        createdAt: new Date().toISOString()
-    };
-    
-    try {
-        const response = await fetch(`${baseUrl}/users`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const responseData = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(responseData.error || 'Failed to register');
+// Инициализация обработчиков событий только если мы на странице авторизации
+if (form) {
+    // Обработчики событий
+    form.addEventListener('input', (e) => {
+        if (e.target.id in validators) {
+            validateField(e.target.id, e.target.value);
+            validateForm();
         }
-        
-        alert('Регистрация успешна!');
-        window.location.href = 'index.html';
-    } catch (error) {
-        console.error('Ошибка при регистрации:', error);
-        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.');
+    });
+
+    if (document.getElementById('terms')) {
+        document.getElementById('terms').addEventListener('change', validateForm);
     }
-}); 
+
+    if (generateUsernameBtn) {
+        generateUsernameBtn.addEventListener('click', generateUsername);
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        if (!validateForm()) return;
+        
+        const formData = {
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            birthDate: document.getElementById('birthDate').value,
+            password: document.getElementById('password').value,
+            lastName: document.getElementById('lastName').value,
+            firstName: document.getElementById('firstName').value,
+            middleName: document.getElementById('middleName').value,
+            username: document.getElementById('username').value,
+            role: 'user',
+            createdAt: new Date().toISOString()
+        };
+        
+        try {
+            const response = await fetch(`${baseUrl}/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const responseData = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(responseData.error || 'Failed to register');
+            }
+            
+            alert('Регистрация успешна!');
+            window.location.href = 'index.html';
+        } catch (error) {
+            console.error('Ошибка при регистрации:', error);
+            alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.');
+        }
+    });
+} 

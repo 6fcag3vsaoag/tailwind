@@ -179,4 +179,9 @@ function initComponents() {
 }
 
 // Вызываем инициализацию при загрузке страницы
-document.addEventListener('DOMContentLoaded', initComponents); 
+document.addEventListener('DOMContentLoaded', initComponents);
+
+// Используем функции из window.auth
+function getAuthLink() {
+    return window.auth.isAuthenticated() ? 'profile.html' : 'login.html';
+} 

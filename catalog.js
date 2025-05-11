@@ -14,23 +14,26 @@ const cartCountElement = document.getElementById('cart-count');
 let currentCategory = 'all';
 let currentPage = 1;
 let itemsPerPage = 4;
-const baseUrl = 'http://localhost:3000';
 
 async function fetchDishes(params = {}) {
     try {
-        const query = new URLSearchParams({
+        const queryParams = new URLSearchParams({
             _page: currentPage,
             _limit: itemsPerPage,
             ...params
-        }).toString();
-        console.log('Fetching dishes with URL:', `${baseUrl}/dishes?${query}`);
-        const response = await fetch(`${baseUrl}/dishes?${query}`);
+        });
+        console.log('Fetching dishes with URL:', `${window.baseUrl}/dishes?${queryParams}`);
+        const response = await fetch(`${window.baseUrl}/dishes?${queryParams}`);
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        
         const totalItems = parseInt(response.headers.get('X-Total-Count') || 0);
         const data = await response.json();
         console.log('Fetched dishes:', data, 'Total items:', totalItems);
+        
         return {
             data,
             totalItems
@@ -46,7 +49,11 @@ async function fetchDishes(params = {}) {
 
 async function fetchFavorites() {
     try {
-        const response = await fetch(`${baseUrl}/favorites`);
+        const response = await fetch(`${window.baseUrl}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${window.auth.getToken()}`
+            }
+        });
         if (!response.ok) throw new Error('Failed to fetch favorites');
         return await response.json();
     } catch (error) {
@@ -57,8 +64,27 @@ async function fetchFavorites() {
 
 async function fetchCart() {
     try {
-        const response = await fetch(`${baseUrl}/cart`);
-        if (!response.ok) throw new Error('Failed to fetch cart');
+        const token = window.auth.getToken();
+        if (!token) {
+            console.log('No token found, skipping cart fetch');
+            return [];
+        }
+
+        const response = await fetch(`${window.baseUrl}/cart`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 401) {
+            console.log('Unauthorized, skipping cart fetch');
+            return [];
+        }
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch cart');
+        }
+
         return await response.json();
     } catch (error) {
         console.error('Error fetching cart:', error);
@@ -67,62 +93,124 @@ async function fetchCart() {
 }
 
 async function updateCartCount() {
-    const cartItems = await fetchCart();
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    cartCountElement.textContent = totalItems;
-}
-
-async function toggleFavorite(dishId) {
-    const favorites = await fetchFavorites();
-    const isFavorite = favorites.some(fav => fav.dishId === dishId);
-
     try {
-        if (isFavorite) {
-            const favorite = favorites.find(fav => fav.dishId === dishId);
-            const response = await fetch(`${baseUrl}/favorites/${favorite.id}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
-                alert('Removed from favorites!');
-            }
-        } else {
-            const response = await fetch(`${baseUrl}/favorites`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    dishId
-                })
-            });
-            if (response.ok) {
-                alert('Added to favorites!');
-            }
+        const cartItems = await fetchCart();
+        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
         }
-        filterAndSort(); // Refresh catalog to update heart icon
     } catch (error) {
-        console.error('Error toggling favorite:', error);
+        console.error('Error updating cart count:', error);
     }
 }
 
-async function addToCart(dishId, quantity) {
+async function toggleFavorite(dishId) {
     try {
-        const response = await fetch(`${baseUrl}/cart`, {
+        const token = window.auth.getToken();
+        if (!token) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Проверяем, есть ли уже блюдо в избранном
+        const favorites = await fetchFavorites();
+        const isFavorite = favorites.some(fav => fav.dishId === dishId);
+
+        const method = isFavorite ? 'DELETE' : 'POST';
+        const url = isFavorite 
+            ? `${window.baseUrl}/favorites/${dishId}`
+            : `${window.baseUrl}/favorites`;
+
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            ...(method === 'POST' && { body: JSON.stringify({ dishId }) })
+        });
+
+        if (!response.ok) throw new Error('Failed to update favorites');
+        
+        // Обновляем состояние кнопки
+        await updateFavoriteButtons();
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        alert('Произошла ошибка при обновлении избранного');
+    }
+}
+
+async function updateFavoriteButtons() {
+    try {
+        const token = window.auth.getToken();
+        if (!token) return;
+
+        console.log('Fetching favorites for update');
+        const response = await fetch(`${window.baseUrl}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to fetch favorites');
+        }
+
+        const favorites = await response.json();
+        console.log('Fetched favorites:', favorites);
+        
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            const dishId = parseInt(btn.dataset.id);
+            const isFavorite = favorites.some(f => f.dishId === dishId);
+            console.log(`Updating button for dish ${dishId}, isFavorite:`, isFavorite);
+            
+            const svg = btn.querySelector('svg');
+            const text = btn.querySelector('span') || btn;
+            
+            if (svg) {
+                svg.classList.toggle('fill-red-500', isFavorite);
+                svg.classList.toggle('fill-white', !isFavorite);
+            }
+            
+            if (text) {
+                text.textContent = isFavorite ? 'Unfavorite' : 'Favorite';
+            }
+        });
+    } catch (error) {
+        console.error('Ошибка при обновлении кнопок избранного:', error);
+    }
+}
+
+async function addToCart(dishId) {
+    try {
+        const token = window.auth.getToken();
+        if (!token) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const quantityInput = document.querySelector(`#quantity-${dishId}`);
+        const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
+
+        const response = await fetch(`${window.baseUrl}/cart`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                dishId,
-                quantity: parseInt(quantity)
-            })
+            body: JSON.stringify({ dishId, quantity })
         });
-        if (response.ok) {
-            alert(`Added ${quantity} item(s) to cart!`);
-            await updateCartCount(); // Update cart count after adding
-        }
+
+        if (!response.ok) throw new Error('Failed to add to cart');
+        
+        alert('Товар добавлен в корзину');
+        updateCartCount();
     } catch (error) {
         console.error('Error adding to cart:', error);
+        alert('Произошла ошибка при добавлении в корзину');
     }
 }
 
@@ -138,8 +226,11 @@ function renderCatalog(dishes) {
         catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>';
         return;
     }
-    dishes.forEach(async dish => {
-        const isFavorite = await isDishFavorite(dish.id);
+    
+    const isAuth = window.auth.isAuthenticated();
+    console.log('User authenticated:', isAuth);
+    
+    dishes.forEach(dish => {
         const card = document.createElement('div');
         card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
         card.innerHTML = `
@@ -150,22 +241,28 @@ function renderCatalog(dishes) {
                 <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
                 <p class="text-sm mb-2">Rating: ${dish.rating}</p>
                 <p class="text-sm">Category: ${dish.category}</p>
+                ${isAuth ? `
                 <div class="flex justify-between items-center gap-2 mt-2">
                     <button class="favorite-btn flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded w-[120px]" data-id="${dish.id}">
-                        <svg class="w-4 h-4 ${isFavorite ? 'fill-red-500' : 'fill-white'}" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
-                        ${isFavorite ? 'Unfavorite' : 'Favorite'}
+                        Favorite
                     </button>
                     <div class="flex items-center gap-1">
                         <input type="number" min="1" value="1" class="quantity-input w-12 p-1 border-2 border-yellow-300 rounded-md text-center">
                         <button class="cart-btn bg-green-500 text-white px-2 py-0.5 rounded text-sm" data-id="${dish.id}">Add to Cart</button>
                     </div>
                 </div>
+                ` : ''}
             </div>
         `;
         catalogContainer.appendChild(card);
     });
+    
+    if (isAuth) {
+        updateFavoriteButtons();
+    }
 }
 
 function renderPagination(totalItems) {
@@ -257,7 +354,7 @@ async function applyArrayMethod(method) {
             image: "images/food4.png",
             rating: 5.0
         };
-        await fetch(`${baseUrl}/dishes`, {
+        await fetch(`${window.baseUrl}/dishes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -311,18 +408,27 @@ ratingMaxInput.addEventListener('input', () => {
     filterAndSort();
 });
 
-catalogContainer.addEventListener('click', async (e) => {
+document.addEventListener('click', async (e) => {
+    if (!window.auth.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     if (e.target.closest('.favorite-btn')) {
         const btn = e.target.closest('.favorite-btn');
         const id = parseInt(btn.dataset.id);
+        console.log('Favorite button clicked for dish:', id);
         await toggleFavorite(id);
+        await updateFavoriteButtons();
     } else if (e.target.closest('.cart-btn')) {
         const btn = e.target.closest('.cart-btn');
         const id = parseInt(btn.dataset.id);
         const quantityInput = btn.parentElement.querySelector('.quantity-input');
-        const quantity = quantityInput.value;
+        const quantity = parseInt(quantityInput.value);
+        console.log('Cart button clicked for dish:', id, 'quantity:', quantity);
         if (quantity > 0) {
-            await addToCart(id, quantity);
+            await addToCart(id);
+            await updateCartCount();
         } else {
             alert('Please enter a valid quantity');
         }
@@ -330,15 +436,47 @@ catalogContainer.addEventListener('click', async (e) => {
 });
 
 async function init() {
-    const categories = new Set((await fetchDishes()).data.map(dish => dish.category));
-    console.log('Available categories:', categories);
-    categoryButtons.forEach(button => {
-        if (button.dataset.category !== 'all' && !categories.has(button.dataset.category)) {
-            button.remove();
+    console.log('Initializing catalog...');
+    try {
+        const { data, totalItems } = await fetchDishes();
+        console.log('Initial dishes data:', data);
+        
+        if (!data || !Array.isArray(data)) {
+            throw new Error('Invalid data format received from server');
         }
-    });
-    filterAndSort();
-    await updateCartCount(); // Initialize cart count on page load
+        
+        const categories = new Set(data.map(dish => dish.category));
+        console.log('Available categories:', categories);
+        
+        // Обновляем кнопки категорий
+        if (categoryButtons) {
+            categoryButtons.forEach(button => {
+                if (button.dataset.category !== 'all' && !categories.has(button.dataset.category)) {
+                    button.remove();
+                }
+            });
+        }
+        
+        // Рендерим каталог
+        if (catalogContainer) {
+            renderCatalog(data);
+        }
+        
+        // Рендерим пагинацию
+        if (paginationContainer) {
+            renderPagination(totalItems);
+        }
+        
+        // Обновляем счетчик корзины
+        await updateCartCount();
+        
+        console.log('Catalog initialization completed');
+    } catch (error) {
+        console.error('Error during catalog initialization:', error);
+        if (catalogContainer) {
+            catalogContainer.innerHTML = '<p class="text-center text-red-500">Ошибка при загрузке каталога. Пожалуйста, попробуйте позже.</p>';
+        }
+    }
 }
 
 init();
