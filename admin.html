@@ -6,12 +6,40 @@
     <title>Yellow Kitchen - Админ-панель</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
+    <link href="style.css" rel="stylesheet">
+    <link href="style-admin.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    padding: {
+                        '23': '5.75rem',
+                    },
+                    minHeight: {
+                        '70': '17.5rem',
+                        '109.5': '27.375rem',
+                    },
+                    width: {
+                        '74': '18.5rem',
+                        '120': '30rem',
+                    },
+                    margin: {
+                        '29.5': '7.375rem',
+                    },
+                    height: {
+                        '7.3': '1.825rem',
+                    },
+                }
+            }
+        }
+    </script>
     <script src="components.js" defer></script>
     <script src="script.js" defer></script>
     <script src="admin.js" defer></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-white mx-auto px-0 overflow-x-hidden">
     <div class="min-h-screen">
         <!-- Навигация -->
         <nav class="bg-white shadow-lg">

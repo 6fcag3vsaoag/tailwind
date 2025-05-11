@@ -1,0 +1,38 @@
+/* Кастомные стили для страницы отзывов */
+:root {
+    --padding-23: 5.75rem;
+    --min-height-70: 17.5rem;
+    --min-height-109-5: 27.375rem;
+    --width-74: 18.5rem;
+    --width-120: 30rem;
+    --margin-29-5: 7.375rem;
+    --height-7-3: 1.825rem;
+}
+
+/* Стили для хедера */
+header {
+    padding-left: var(--padding-23);
+    padding-right: var(--padding-23);
+}
+
+/* Стили для футера */
+footer {
+    min-height: var(--min-height-109-5);
+}
+
+footer .footer-content {
+    min-height: var(--min-height-70);
+}
+
+footer .logo-container {
+    min-width: var(--width-120);
+    margin-left: calc(-1 * var(--margin-29-5));
+}
+
+footer .divider {
+    width: var(--width-74);
+}
+
+footer .app-icons img {
+    height: var(--height-7-3);
+} 
