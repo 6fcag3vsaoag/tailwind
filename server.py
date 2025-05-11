@@ -18,7 +18,10 @@ CORS(app, resources={
     r"/*": {
         "origins": ["http://127.0.0.1:5501", "http://localhost:5501"],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
+        "allow_headers": ["Content-Type", "Authorization", "Accept"],
+        "expose_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True,
+        "max_age": 3600
     }
 })
 
@@ -504,6 +507,67 @@ def create_feedback(current_user):
     save_db(db)
     
     return jsonify(feedback), 201
+
+@app.route('/orders', methods=['POST'])
+@token_required
+def create_order(current_user):
+    try:
+        logger.info("Получен POST запрос на /orders")
+        logger.debug(f"Заголовки запроса: {dict(request.headers)}")
+        logger.debug(f"Данные запроса: {request.get_data()}")
+        
+        if not request.is_json:
+            logger.error("Получен не JSON запрос")
+            return jsonify({"error": "Требуется JSON"}), 400
+            
+        order_data = request.json
+        logger.debug(f"Данные заказа: {order_data}")
+        
+        db = load_db()
+        
+        # Создаем новый заказ
+        new_order = {
+            "id": get_next_id('orders'),
+            "userId": current_user['id'],
+            "items": order_data['items'],
+            "totalAmount": order_data['totalAmount'],
+            "status": order_data['status'],
+            "createdAt": order_data['createdAt']
+        }
+        
+        # Добавляем заказ в базу данных
+        if 'orders' not in db:
+            db['orders'] = []
+        db['orders'].append(new_order)
+        
+        # Очищаем корзину пользователя
+        db['cart'] = [item for item in db['cart'] if item['userId'] != current_user['id']]
+        
+        save_db(db)
+        logger.info(f"Создан новый заказ: {new_order['id']}")
+        
+        return jsonify(new_order), 201
+    except Exception as e:
+        logger.error(f"Ошибка при создании заказа: {str(e)}")
+        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+
+@app.route('/cart/clear', methods=['DELETE'])
+@token_required
+def clear_cart(current_user):
+    try:
+        logger.info("Получен DELETE запрос на /cart/clear")
+        db = load_db()
+        
+        # Удаляем все товары из корзины пользователя
+        db['cart'] = [item for item in db['cart'] if item['userId'] != current_user['id']]
+        
+        save_db(db)
+        logger.info(f"Корзина пользователя {current_user['id']} очищена")
+        
+        return jsonify({"message": "Корзина очищена"}), 200
+    except Exception as e:
+        logger.error(f"Ошибка при очистке корзины: {str(e)}")
+        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

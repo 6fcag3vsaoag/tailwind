@@ -74,7 +74,17 @@
     <script>
         async function updateCartCount() {
             try {
-                const response = await fetch('http://localhost:3000/cart');
+                const token = window.auth.getToken();
+                if (!token) {
+                    console.error('Токен не найден');
+                    return;
+                }
+
+                const response = await fetch('http://localhost:3000/cart', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (!response.ok) throw new Error('Failed to fetch cart');
                 const cartItems = await response.json();
                 const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);

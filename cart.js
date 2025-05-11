@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadCart() {
     try {
         const token = window.auth.getToken();
+        console.log('Токен авторизации:', token);
+        
         if (!token) {
             throw new Error('No token found');
         }
@@ -39,16 +41,63 @@ async function loadCart() {
         }
 
         const cartItems = await response.json();
-        console.log('Получены товары корзины:', cartItems);
+        console.log('Получены товары корзины:', JSON.stringify(cartItems, null, 2));
         
         if (cartItems.length === 0) {
             cartContainer.innerHTML = '<div class="col-span-full text-center text-gray-500">Корзина пуста</div>';
             totalPriceElement.textContent = '';
             return;
         }
+
+        // Получаем информацию о каждом блюде
+        const itemsWithDetails = await Promise.all(
+            cartItems.map(async (item) => {
+                try {
+                    console.log('Обработка элемента корзины:', JSON.stringify(item, null, 2));
+                    
+                    // Используем id вместо dishId
+                    const dishId = item.id;
+                    if (!dishId) {
+                        console.error('id отсутствует в элементе корзины:', item);
+                        return null;
+                    }
+
+                    console.log(`Запрос информации о блюде ${dishId}`);
+                    const dishResponse = await fetch(`${window.baseUrl}/dishes/${dishId}`);
+                    if (!dishResponse.ok) {
+                        console.error(`Ошибка при получении блюда ${dishId}:`, dishResponse.status);
+                        return null;
+                    }
+                    const dish = await dishResponse.json();
+                    console.log(`Получена информация о блюде ${dishId}:`, JSON.stringify(dish, null, 2));
+                    
+                    return {
+                        id: item.cartItemId,
+                        dishId: dishId,
+                        quantity: item.quantity,
+                        name: item.name,
+                        description: item.description,
+                        price: item.price,
+                        image: item.image
+                    };
+                } catch (error) {
+                    console.error(`Ошибка при обработке блюда ${item.id}:`, error);
+                    return null;
+                }
+            })
+        );
+
+        // Фильтруем null значения
+        const validItems = itemsWithDetails.filter(item => item !== null);
+        console.log('Валидные элементы после обработки:', JSON.stringify(validItems, null, 2));
+        
+        if (validItems.length === 0) {
+            cartContainer.innerHTML = '<div class="col-span-full text-center text-red-500">Ошибка при загрузке товаров</div>';
+            return;
+        }
         
         let totalPrice = 0;
-        cartContainer.innerHTML = cartItems.map(item => {
+        cartContainer.innerHTML = validItems.map(item => {
             const itemTotal = item.price * item.quantity;
             totalPrice += itemTotal;
             
@@ -75,7 +124,7 @@ async function loadCart() {
             `;
         }).join('');
         
-        totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+        totalPriceElement.textContent = `Total: €${totalPrice.toFixed(2)}`;
     } catch (error) {
         console.error('Ошибка при загрузке корзины:', error);
         cartContainer.innerHTML = '<div class="col-span-full text-center text-red-500">Ошибка при загрузке корзины</div>';
@@ -180,19 +229,61 @@ async function checkout() {
         isUpdating = true;
         const token = window.auth.getToken();
         if (!token) {
-            throw new Error('No token found');
+            throw new Error('Токен не найден');
         }
 
-        const response = await fetch(`${window.baseUrl}/orders`, {
-            method: 'POST',
+        // Получаем текущие товары из корзины
+        const cartResponse = await fetch(`${window.baseUrl}/cart`, {
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!cartResponse.ok) {
+            throw new Error(`HTTP error! status: ${cartResponse.status}`);
+        }
+
+        const cartItems = await cartResponse.json();
+        console.log('Товары в корзине для оформления заказа:', cartItems);
+        
+        if (cartItems.length === 0) {
+            alert('Корзина пуста');
+            return;
+        }
+
+        // Создаем новый заказ
+        const orderResponse = await fetch(`${window.baseUrl}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                items: cartItems.map(item => ({
+                    dishId: item.id,
+                    quantity: item.quantity,
+                    price: item.price
+                })),
+                totalAmount: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                status: 'completed',
+                createdAt: new Date().toISOString()
+            })
+        });
+
+        if (!orderResponse.ok) {
+            throw new Error(`HTTP error! status: ${orderResponse.status}`);
+        }
+
+        // Очищаем корзину после успешного создания заказа
+        const clearCartResponse = await fetch(`${window.baseUrl}/cart/clear`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!clearCartResponse.ok) {
+            throw new Error('Failed to clear cart');
         }
 
         alert('Заказ успешно оформлен!');
@@ -200,7 +291,7 @@ async function checkout() {
         await updateCartCount();
     } catch (error) {
         console.error('Ошибка при оформлении заказа:', error);
-        alert('Ошибка при оформлении заказа');
+        alert('Ошибка при оформлении заказа: ' + error.message);
     } finally {
         isUpdating = false;
     }
