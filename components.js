@@ -160,7 +160,7 @@ function createSidebar() {
 // Функция для создания оверлея
 function createOverlay() {
     return `
-    <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out z-40 hidden"></div>`;
+    <div id="overlay" class="fixed inset-0 bg-gray-100 opacity-5 pointer-events-none z-40 hidden"></div>`;
 }
 
 // Функция для инициализации компонентов
