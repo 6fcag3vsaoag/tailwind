@@ -13,17 +13,8 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-# Настройка CORS для всех маршрутов
-CORS(app, resources={
-    r"/*": {
-        "origins": ["http://127.0.0.1:5501", "http://localhost:5501"],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization", "Accept"],
-        "expose_headers": ["Content-Type", "Authorization"],
-        "supports_credentials": True,
-        "max_age": 3600
-    }
-})
+# Настройка CORS для всех маршрутов (разрешить любые источники)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Путь к db.json (абсолютный путь)
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db.json')
@@ -43,7 +34,7 @@ def load_db():
                 return data
         logger.warning(f"Файл БД не найден по пути: {DB_FILE}")
         logger.info("Создаем новую БД")
-        return {"dishes": [], "favorites": [], "cart": [], "users": []}
+        return {"dishes": [], "favorites": [], "cart": [], "users": [], "feedback": [], "orders": []}
     except Exception as e:
         logger.error(f"Ошибка при чтении БД: {str(e)}")
         logger.error(f"Текущая директория: {os.getcwd()}")
@@ -486,13 +477,12 @@ def login():
 @app.route('/feedback', methods=['POST'])
 @token_required
 def create_feedback(current_user):
+    db = load_db()
     data = request.get_json()
-    
     # Проверяем, существует ли блюдо
     dish = next((d for d in db['dishes'] if d['id'] == data['dishId']), None)
     if not dish:
         return jsonify({'error': 'Блюдо не найдено'}), 404
-    
     feedback = {
         'id': len(db['feedback']) + 1,
         'dishId': data['dishId'],
@@ -502,11 +492,14 @@ def create_feedback(current_user):
         'createdAt': datetime.now().isoformat(),
         'status': 'pending'
     }
-    
     db['feedback'].append(feedback)
     save_db(db)
-    
     return jsonify(feedback), 201
+
+@app.route('/feedback', methods=['GET'])
+def get_feedback():
+    db = load_db()
+    return jsonify(db.get('feedback', []))
 
 @app.route('/orders', methods=['POST'])
 @token_required
@@ -550,6 +543,15 @@ def create_order(current_user):
     except Exception as e:
         logger.error(f"Ошибка при создании заказа: {str(e)}")
         return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+
+@app.route('/orders', methods=['GET'])
+def get_orders():
+    db = load_db()
+    user_id = request.args.get('userId', type=int)
+    orders = db.get('orders', [])
+    if user_id is not None:
+        orders = [order for order in orders if order['userId'] == user_id]
+    return jsonify(orders)
 
 @app.route('/cart/clear', methods=['DELETE'])
 @token_required

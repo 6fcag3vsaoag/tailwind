@@ -1,23 +1,50 @@
+console.log('feedback.js загружен');
+
 const baseUrl = 'http://localhost:3000';
 const form = document.getElementById('feedbackForm');
 const submitBtn = document.getElementById('submitBtn');
 const dishSelect = document.getElementById('dishSelect');
 const feedbackList = document.getElementById('feedbackList');
 
+// Проверка авторизации и настройка формы
+function setupAuthCheck() {
+    const isAuthenticated = window.auth.isAuthenticated();
+    const formContainer = form.parentElement;
+    
+    if (!isAuthenticated) {
+        formContainer.innerHTML = `
+            <div class="text-center p-4">
+                <p class="text-gray-600">Для оставления отзыва необходимо 
+                    <a href="login.html" class="text-yellow-500 hover:text-yellow-600">войти в систему</a>
+                </p>
+            </div>
+        `;
+    }
+}
+
 // Загрузка купленных блюд
 async function loadPurchasedDishes() {
+    if (!window.auth.isAuthenticated()) return;
+    
     try {
-        const response = await fetch(`${baseUrl}/orders`);
-        const orders = await response.json();
+        // Получаем информацию о блюдах
+        const dishesResponse = await fetch(`${baseUrl}/dishes`);
+        if (!dishesResponse.ok) {
+            throw new Error(`HTTP error! status: ${dishesResponse.status}`);
+        }
+        const dishes = await dishesResponse.json();
+
+        // Получаем заказы пользователя
+        const ordersResponse = await fetch(`${baseUrl}/orders?userId=${window.auth.getUser().id}`);
+        if (!ordersResponse.ok) {
+            throw new Error(`HTTP error! status: ${ordersResponse.status}`);
+        }
+        const orders = await ordersResponse.json();
         
         // Получаем уникальные ID блюд из заказов
         const purchasedDishIds = [...new Set(orders.flatMap(order => 
             order.items.map(item => item.dishId)
         ))];
-        
-        // Получаем информацию о блюдах
-        const dishesResponse = await fetch(`${baseUrl}/dishes`);
-        const dishes = await dishesResponse.json();
         
         // Фильтруем только купленные блюда
         const purchasedDishes = dishes.filter(dish => 
@@ -31,6 +58,7 @@ async function loadPurchasedDishes() {
             ).join('');
     } catch (error) {
         console.error('Error loading purchased dishes:', error);
+        dishSelect.innerHTML = '<option value="">Ошибка загрузки блюд</option>';
     }
 }
 
@@ -38,10 +66,16 @@ async function loadPurchasedDishes() {
 async function loadFeedback() {
     try {
         const response = await fetch(`${baseUrl}/feedback`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const feedback = await response.json();
         
         // Получаем информацию о блюдах
         const dishesResponse = await fetch(`${baseUrl}/dishes`);
+        if (!dishesResponse.ok) {
+            throw new Error(`HTTP error! status: ${dishesResponse.status}`);
+        }
         const dishes = await dishesResponse.json();
         
         // Отображаем отзывы
@@ -71,6 +105,7 @@ async function loadFeedback() {
         }).join('');
     } catch (error) {
         console.error('Error loading feedback:', error);
+        feedbackList.innerHTML = '<div class="text-center p-4 text-red-500">Ошибка загрузки отзывов</div>';
     }
 }
 
@@ -100,6 +135,7 @@ function validateForm() {
     }
     
     submitBtn.disabled = !isValid;
+    return isValid;
 }
 
 // Обработчики событий
@@ -127,45 +163,63 @@ document.querySelectorAll('.rating-btn').forEach(btn => {
 
 form.addEventListener('input', validateForm);
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    const formData = {
-        dishId: parseInt(dishSelect.value),
-        rating: parseInt(document.getElementById('rating').value),
-        comment: document.getElementById('comment').value,
-        createdAt: new Date().toISOString(),
-        isApproved: true
-    };
-    
-    try {
-        const response = await fetch(`${baseUrl}/feedback`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
+if (form) {
+    console.log('Форма найдена, навешиваю обработчик submit');
+    form.addEventListener('submit', async (e) => {
+        console.log('submit обработчик вызван');
+        e.preventDefault();
         
-        if (!response.ok) throw new Error('Failed to submit feedback');
+        if (!window.auth.isAuthenticated()) {
+            window.location.href = 'login.html';
+            return;
+        }
         
-        alert('Отзыв успешно добавлен!');
-        form.reset();
-        document.getElementById('rating').value = '';
-        document.querySelectorAll('.rating-btn').forEach(btn => {
-            btn.classList.remove('bg-yellow-500', 'text-white');
-            btn.classList.add('bg-gray-100', 'text-gray-700');
-        });
-        validateForm();
-        loadFeedback();
-    } catch (error) {
-        console.error('Error submitting feedback:', error);
-        alert('Произошла ошибка при отправке отзыва. Пожалуйста, попробуйте позже.');
-    }
-});
+        console.log('Проверяю валидацию формы:', validateForm());
+        // if (!validateForm()) return;
+        
+        const formData = {
+            dishId: parseInt(dishSelect.value),
+            rating: parseInt(document.getElementById('rating').value),
+            comment: document.getElementById('comment').value
+        };
+        
+        try {
+            console.log('Отправляю fetch на /feedback', formData);
+            const response = await fetch(`${baseUrl}/feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${window.auth.getToken()}`
+                },
+                body: JSON.stringify(formData)
+            });
+            console.log('Ответ от сервера:', response);
+
+            if (!response.ok) {
+                const text = await response.text();
+                console.error('Ошибка ответа сервера:', response.status, text);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            alert('Отзыв успешно добавлен!');
+            form.reset();
+            document.getElementById('rating').value = '';
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.classList.remove('bg-yellow-500', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            validateForm();
+            loadFeedback();
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            alert('Произошла ошибка при отправке отзыва. Пожалуйста, попробуйте позже.');
+        }
+    });
+} else {
+    console.log('Форма с id feedbackForm не найдена!');
+}
 
 // Инициализация
+setupAuthCheck();
 loadPurchasedDishes();
 loadFeedback(); 

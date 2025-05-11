@@ -156,14 +156,7 @@
       "dishId": 3
     }
   ],
-  "cart": [
-    {
-      "id": 1,
-      "userId": 1,
-      "dishId": 2,
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "users": [
     {
       "id": 1,
@@ -203,7 +196,26 @@
       "id": 3
     }
   ],
-  "feedback": [],
+  "feedback": [
+    {
+      "id": 1,
+      "dishId": 3,
+      "userId": 1,
+      "rating": 5,
+      "comment": "ываыаыаываываыв",
+      "createdAt": "2025-05-11T12:29:37.245644",
+      "status": "pending"
+    },
+    {
+      "id": 2,
+      "dishId": 4,
+      "userId": 1,
+      "rating": 5,
+      "comment": "ываываыаываыаываыв",
+      "createdAt": "2025-05-11T12:29:51.686529",
+      "status": "pending"
+    }
+  ],
   "orders": [
     {
       "id": 1,
@@ -271,6 +283,20 @@
       "totalAmount": 29.25,
       "status": "completed",
       "createdAt": "2025-05-11T08:50:05.170Z"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 2,
+          "quantity": 1,
+          "price": 15.5
+        }
+      ],
+      "totalAmount": 15.5,
+      "status": "completed",
+      "createdAt": "2025-05-11T09:32:54.423Z"
     }
   ]
 }
