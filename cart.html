@@ -69,32 +69,6 @@
             </button>
         </div>
     </section>
-
-    <!-- Script to update cart count on page load -->
-    <script>
-        async function updateCartCount() {
-            try {
-                const token = window.auth.getToken();
-                if (!token) {
-                    console.error('Токен не найден');
-                    return;
-                }
-
-                const response = await fetch('http://localhost:3000/cart', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (!response.ok) throw new Error('Failed to fetch cart');
-                const cartItems = await response.json();
-                const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                document.getElementById('cart-count').textContent = totalItems;
-            } catch (error) {
-                console.error('Error updating cart count:', error);
-            }
-        }
-        updateCartCount();
-    </script>
 </body>
 
 </html>

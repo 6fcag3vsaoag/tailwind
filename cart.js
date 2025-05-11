@@ -55,7 +55,6 @@ async function loadCart() {
                 try {
                     console.log('Обработка элемента корзины:', JSON.stringify(item, null, 2));
                     
-                    // Используем id вместо dishId
                     const dishId = item.id;
                     if (!dishId) {
                         console.error('id отсутствует в элементе корзины:', item);
@@ -155,24 +154,31 @@ async function updateQuantity(dishId, newQuantity) {
             return;
         }
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         const response = await fetch(`${window.baseUrl}/cart/${dishId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ quantity: newQuantity })
+            body: JSON.stringify({ quantity: newQuantity }),
+            signal: controller.signal
         });
 
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
         
         await loadCart();
         await updateCartCount();
     } catch (error) {
         console.error('Ошибка при обновлении количества:', error);
-        alert('Ошибка при обновлении количества');
+        alert('Ошибка при обновлении количества: ' + error.message);
     } finally {
         isUpdating = false;
     }
@@ -197,28 +203,35 @@ async function removeFromCart(dishId) {
             throw new Error('No token found');
         }
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         const response = await fetch(`${window.baseUrl}/cart/${dishId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            signal: controller.signal
         });
 
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
         
         await loadCart();
         await updateCartCount();
     } catch (error) {
         console.error('Ошибка при удалении из корзины:', error);
-        alert('Ошибка при удалении из корзины');
+        alert('Ошибка при удалении из корзины: ' + error.message);
     } finally {
         isUpdating = false;
     }
 }
 
-// Оформление заказа
+// Оформление заказа с повторной попыткой для очистки корзины
 async function checkout() {
     if (isUpdating) {
         console.log('Оформление заказа уже выполняется, пропускаем запрос');
@@ -232,15 +245,38 @@ async function checkout() {
             throw new Error('Токен не найден');
         }
 
-        // Получаем текущие товары из корзины
+        console.log('Проверка токена авторизации...');
+        const controllerToken = new AbortController();
+        const timeoutToken = setTimeout(() => controllerToken.abort(), 5000);
+        const tokenCheck = await fetch(`${window.baseUrl}/cart`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            signal: controllerToken.signal
+        });
+        clearTimeout(timeoutToken);
+
+        if (tokenCheck.status === 401) {
+            console.error('Токен недействителен или истек');
+            alert('Сессия истекла. Пожалуйста, войдите снова.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        console.log('Отправка запроса на получение корзины...');
+        const controllerCart = new AbortController();
+        const timeoutCart = setTimeout(() => controllerCart.abort(), 5000);
         const cartResponse = await fetch(`${window.baseUrl}/cart`, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            signal: controllerCart.signal
         });
+        clearTimeout(timeoutCart);
 
         if (!cartResponse.ok) {
-            throw new Error(`HTTP error! status: ${cartResponse.status}`);
+            const errorText = await cartResponse.text();
+            throw new Error(`Failed to fetch cart: ${cartResponse.status} ${errorText}`);
         }
 
         const cartItems = await cartResponse.json();
@@ -251,7 +287,9 @@ async function checkout() {
             return;
         }
 
-        // Создаем новый заказ
+        console.log('Создание нового заказа...');
+        const controllerOrder = new AbortController();
+        const timeoutOrder = setTimeout(() => controllerOrder.abort(), 5000);
         const orderResponse = await fetch(`${window.baseUrl}/orders`, {
             method: 'POST',
             headers: {
@@ -267,23 +305,47 @@ async function checkout() {
                 totalAmount: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
                 status: 'completed',
                 createdAt: new Date().toISOString()
-            })
+            }),
+            signal: controllerOrder.signal
         });
+        clearTimeout(timeoutOrder);
 
         if (!orderResponse.ok) {
-            throw new Error(`HTTP error! status: ${orderResponse.status}`);
+            const errorText = await orderResponse.text();
+            throw new Error(`Failed to create order: ${orderResponse.status} ${errorText}`);
         }
 
-        // Очищаем корзину после успешного создания заказа
-        const clearCartResponse = await fetch(`${window.baseUrl}/cart/clear`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
+        // Повторная попытка очистки корзины
+        console.log('Очистка корзины...');
+        let clearCartResponse;
+        let attempts = 3;
+        while (attempts > 0) {
+            try {
+                const controllerClear = new AbortController();
+                const timeoutClear = setTimeout(() => controllerClear.abort(), 5000);
+                clearCartResponse = await fetch(`${window.baseUrl}/cart/clear`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    signal: controllerClear.signal
+                });
+                clearTimeout(timeoutClear);
+                break;
+            } catch (error) {
+                attempts--;
+                console.warn(`Ошибка очистки корзины, осталось попыток: ${attempts}`, error);
+                if (attempts === 0) {
+                    throw new Error(`Failed to clear cart after retries: ${error.message}`);
+                }
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Задержка перед повторной попыткой
             }
-        });
+        }
 
         if (!clearCartResponse.ok) {
-            throw new Error('Failed to clear cart');
+            const errorText = await clearCartResponse.text();
+            throw new Error(`Failed to clear cart: ${clearCartResponse.status} ${errorText}`);
         }
 
         alert('Заказ успешно оформлен!');
@@ -297,200 +359,35 @@ async function checkout() {
     }
 }
 
-async function fetchCartItems() {
-    try {
-        const response = await fetch(`${baseUrl}/cart`);
-        if (!response.ok) throw new Error('Failed to fetch cart items');
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching cart items:', error);
-        return [];
-    }
-}
-
-async function fetchDish(dishId) {
-    try {
-        const response = await fetch(`${baseUrl}/dishes/${dishId}`);
-        if (!response.ok) throw new Error(`Failed to fetch dish ${dishId}`);
-        return await response.json();
-    } catch (error) {
-        console.error(`Error fetching dish ${dishId}:`, error);
-        return null;
-    }
-}
-
-async function removeCartItem(cartItemId) {
-    try {
-        const response = await fetch(`${baseUrl}/cart/${cartItemId}`, {
-            method: 'DELETE'
-        });
-        if (response.ok) {
-            alert('Item removed from cart!');
-            await renderCart(); // Re-render after removal
-            updateCartCount(); // Update header cart count
-        }
-    } catch (error) {
-        console.error('Error removing cart item:', error);
-    }
-}
-
-async function clearCart() {
-    try {
-        const response = await fetch(`${baseUrl}/cart/clear`, {
-            method: 'DELETE'
-        });
-        if (response.ok) {
-            alert('Cart cleared!');
-            await renderCart(); // Re-render after clearing
-            updateCartCount(); // Update header cart count
-        } else {
-            throw new Error('Failed to clear cart');
-        }
-    } catch (error) {
-        console.error('Error clearing cart:', error);
-    }
-}
-
-async function renderCart() {
-    const cartItems = await fetchCartItems();
-
-    // Clear previous header buttons
-    const existingClearButton = cartHeader.querySelector('.clear-cart-btn');
-    if (existingClearButton) existingClearButton.remove();
-
-    // Add Clear Cart button to header if there are items
-    if (cartItems.length > 0) {
-        const clearButton = document.createElement('button');
-        clearButton.textContent = 'Clear Cart';
-        clearButton.className = 'clear-cart-btn px-3 py-1 border-2 border-red-500 rounded-md bg-red-500 font-["Martel_Sans"] font-semibold text-sm text-white hover:bg-red-600 hover:border-red-600 transition-all duration-300 ease-in-out';
-        clearButton.addEventListener('click', clearCart);
-        cartHeader.appendChild(clearButton);
-    }
-
-    cartContainer.innerHTML = '';
-    if (cartItems.length === 0) {
-        cartContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">Your cart is empty</p>';
-        totalPriceElement.textContent = '';
-        return;
-    }
-
-    // Fetch dish details for each cart item
-    const dishPromises = cartItems.map(item => fetchDish(item.dishId));
-    const dishes = (await Promise.all(dishPromises)).filter(dish => dish !== null);
-
-    // Calculate total price
-    let totalPrice = 0;
-    const cartWithDishes = cartItems
-        .map(item => {
-            const dish = dishes.find(d => d.id === item.dishId);
-            if (dish) {
-                totalPrice += dish.price * item.quantity;
-                return {
-                    ...item,
-                    dish
-                };
-            }
-            return null;
-        })
-        .filter(item => item !== null);
-
-    // Update total price
-    totalPriceElement.textContent = `Total: €${totalPrice.toFixed(2)}`;
-
-    // Render each cart item as a card
-    cartWithDishes.forEach(item => {
-        const {
-            dish
-        } = item;
-        const card = document.createElement('div');
-        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
-        card.innerHTML = `
-            <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
-            <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
-                <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
-                <p class="text-sm mb-2">${dish.description}</p>
-                <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
-                <p class="text-sm mb-2">Quantity: ${item.quantity}</p>
-                <p class="text-sm mb-2">Subtotal: €${(dish.price * item.quantity).toFixed(2)}</p>
-                <p class="text-sm">Category: ${dish.category}</p>
-                <div class="flex justify-between items-center gap-2 mt-2">
-                    <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded w-[120px]" data-cart-id="${item.id}">
-                        Remove
-                    </button>
-                </div>
-            </div>
-        `;
-        cartContainer.appendChild(card);
-    });
-}
-
-// Event listener for removing individual cart items
-cartContainer.addEventListener('click', async (e) => {
-    if (e.target.closest('.remove-btn')) {
-        const btn = e.target.closest('.remove-btn');
-        const cartItemId = parseInt(btn.dataset.cartId);
-        await removeCartItem(cartItemId);
-    }
-});
-
-async function createOrder(cartItems, totalPrice) {
-    try {
-        const response = await fetch(`${baseUrl}/orders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                items: cartItems.map(item => ({
-                    dishId: item.dishId,
-                    quantity: item.quantity,
-                    price: item.dish.price
-                })),
-                totalAmount: totalPrice,
-                status: 'completed',
-                createdAt: new Date().toISOString()
-            })
-        });
-        
-        if (!response.ok) throw new Error('Failed to create order');
-        
-        // Очищаем корзину после успешного создания заказа
-        await clearCart();
-        return await response.json();
-    } catch (error) {
-        console.error('Error creating order:', error);
-        throw error;
-    }
-}
-
-// Обновляем обработчик кнопки оформления заказа
-checkoutBtn.addEventListener('click', checkout);
-
-// Обновление количества товаров в корзине
+// Обновление количества товаров в корзине (без зависимости от cart-count)
 async function updateCartCount() {
     try {
         const token = window.auth.getToken();
         if (!token) {
+            console.log('Токен отсутствует, обновление счетчика корзины пропущено');
             return;
         }
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
         const response = await fetch(`${window.baseUrl}/cart`, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            signal: controller.signal
         });
 
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
 
+        // Получаем данные корзины, но не обновляем DOM, если cart-count отсутствует
         const cartItems = await response.json();
-        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-        
-        const cartCountElement = document.getElementById('cart-count');
-        if (cartCountElement) {
-            cartCountElement.textContent = totalItems;
-        }
+        console.log('Обновление счетчика корзины: получено', cartItems.length, 'элементов');
     } catch (error) {
         console.error('Error updating cart count:', error);
     }
@@ -503,3 +400,6 @@ async function init() {
 }
 
 init();
+
+// Обработчик кнопки оформления заказа
+checkoutBtn.addEventListener('click', checkout);

@@ -14,8 +14,12 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-# Настройка CORS для всех маршрутов (разрешить любые источники)
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+# Настройка CORS с явным указанием методов и заголовков
+CORS(app, resources={r"/*": {
+    "origins": "*",
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"]
+}}, supports_credentials=True)
 
 # Путь к db.json (абсолютный путь)
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db.json')
@@ -786,8 +790,12 @@ def get_orders():
 @token_required
 def clear_cart(current_user):
     try:
-        logger.info("Получен DELETE запрос на /cart/clear")
+        logger.info(f"Очистка корзины для пользователя {current_user['id']}")
         db = load_db()
+        
+        # Логируем содержимое корзины перед очисткой
+        cart_items = [item for item in db['cart'] if item['userId'] == current_user['id']]
+        logger.debug(f"Товары в корзине перед очисткой: {cart_items}")
         
         # Удаляем все товары из корзины пользователя
         db['cart'] = [item for item in db['cart'] if item['userId'] != current_user['id']]
