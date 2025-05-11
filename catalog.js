@@ -19,21 +19,24 @@ async function fetchDishes(params = {}) {
     try {
         const queryParams = new URLSearchParams({
             _page: currentPage,
-            _limit: itemsPerPage,
             ...params
         });
+        // Добавляем _limit только если itemsPerPage не Infinity
+        if (itemsPerPage !== Infinity) {
+            queryParams.set('_limit', itemsPerPage);
+        }
         console.log('Fetching dishes with URL:', `${window.baseUrl}/dishes?${queryParams}`);
         const response = await fetch(`${window.baseUrl}/dishes?${queryParams}`);
         console.log('Response status:', response.status);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        
+
         const totalItems = parseInt(response.headers.get('X-Total-Count') || 0);
         const data = await response.json();
         console.log('Fetched dishes:', data, 'Total items:', totalItems);
-        
+
         return {
             data,
             totalItems
@@ -107,27 +110,27 @@ async function updateCartCount() {
 }
 
 // Функция для показа уведомлений
-function showToast(message, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white font-['Poppins'] transition-all duration-300 transform translate-x-full ${
-        type === 'success' ? 'bg-green-500' : 'bg-red-500'
-    }`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
+// function showToast(message, type = 'success') {
+//     const toast = document.createElement('div');
+//     toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white font-['Poppins'] transition-all duration-300 z-50 ${
+//         type === 'success' ? 'bg-green-500' : 'bg-red-500'
+//     }`;
+//     toast.textContent = message;
+//     document.body.appendChild(toast);
 
-    // Анимация появления
-    setTimeout(() => {
-        toast.style.transform = 'translateX(0)';
-    }, 100);
+//     // Анимация появления
+//     setTimeout(() => {
+//         toast.style.transform = 'translateX(0)';
+//     }, 100);
 
-    // Автоматическое скрытие через 3 секунды
-    setTimeout(() => {
-        toast.style.transform = 'translateX(full)';
-        setTimeout(() => {
-            document.body.removeChild(toast);
-        }, 300);
-    }, 3000);
-}
+//     // Автоматическое скрытие через 3 секунды
+//     setTimeout(() => {
+//         toast.style.transform = 'translateX(100%)';
+//         setTimeout(() => {
+//             toast.remove();
+//         }, 300);
+//     }, 3000);
+// }
 
 async function toggleFavorite(dishId) {
     try {
@@ -135,13 +138,15 @@ async function toggleFavorite(dishId) {
         const token = window.auth.getToken();
         if (!token) {
             console.error('Токен не найден');
+            showToast('Пожалуйста, войдите в систему', 'error');
+            window.location.href = 'login.html';
             return;
         }
 
         // Проверяем, есть ли уже в избранном
         const isFavorite = await checkIfFavorite(dishId);
         console.log('Current favorite status:', isFavorite);
-        
+
         if (isFavorite) {
             // Если уже в избранном - удаляем
             console.log('Removing from favorites');
@@ -156,29 +161,17 @@ async function toggleFavorite(dishId) {
                 throw new Error('Failed to remove from favorites');
             }
             console.log('Successfully removed from favorites');
-            showToast('Блюдо удалено из избранного');
+            // showToast('Блюдо удалено из избранного');
         } else {
             // Если нет в избранном - добавляем
             console.log('Adding to favorites');
-            const user = window.auth.getUser();
-            if (!user) {
-                throw new Error('User not found');
-            }
-
-            // Получаем данные блюда
-            const dishResponse = await fetch(`${window.baseUrl}/dishes/${dishId}`);
-            if (!dishResponse.ok) {
-                throw new Error('Failed to fetch dish data');
-            }
-            const dishData = await dishResponse.json();
-
             const response = await fetch(`${window.baseUrl}/favorites`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(dishData)
+                body: JSON.stringify({ dishId }) // Отправляем только dishId
             });
 
             if (!response.ok) {
@@ -192,9 +185,11 @@ async function toggleFavorite(dishId) {
 
         // Обновляем каталог
         await filterAndSort();
+        // Обновляем состояние кнопок избранного
+        await updateFavoriteButtons();
     } catch (error) {
         console.error('Error toggling favorite:', error);
-        showToast(error.message, 'error');
+        // showToast(error.message, 'error');
     }
 }
 
@@ -251,7 +246,7 @@ async function updateFavoriteButtons() {
         }
 
         const favorites = await response.json();
-        console.log('Fetched favorites structure:', JSON.stringify(favorites, null, 2));
+        console.log('Fetched favorites:', favorites);
 
         // Обновляем состояние каждой кнопки
         const buttons = document.querySelectorAll('.favorite-btn');
@@ -260,13 +255,14 @@ async function updateFavoriteButtons() {
         buttons.forEach(button => {
             const dishId = parseInt(button.dataset.dishId);
             console.log('Processing button for dish:', dishId);
-            
-            const isFavorite = favorites.some(fav => fav.dishId === dishId);
+
+            // Проверяем, есть ли блюдо в избранном
+            const isFavorite = favorites.some(fav => fav.id === dishId); // Изменено: fav.id вместо fav.dishId
             console.log(`Button for dish ${dishId}, isFavorite: ${isFavorite}`);
-            
+
             const text = button.querySelector('span');
             const icon = button.querySelector('svg');
-            
+
             if (isFavorite) {
                 console.log(`Setting button ${dishId} to favorite state`);
                 button.classList.add('active');
@@ -308,11 +304,11 @@ async function addToCart(dishId) {
 
         if (!response.ok) throw new Error('Failed to add to cart');
         
-        showToast('Товар добавлен в корзину');
+        // showToast('Товар добавлен в корзину');
         updateCartCount();
     } catch (error) {
         console.error('Error adding to cart:', error);
-        showToast('Произошла ошибка при добавлении в корзину', 'error');
+        // showToast('Произошла ошибка при добавлении в корзину', 'error');
     }
 }
 
@@ -365,8 +361,12 @@ async function renderCatalog(dishes) {
 
 function renderPagination(totalItems) {
     console.log('Rendering pagination with total items:', totalItems);
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
     paginationContainer.innerHTML = '';
+    if (itemsPerPage === Infinity) {
+        // Не отображаем пагинацию, если выбрано "All"
+        return;
+    }
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.textContent = i;

@@ -106,7 +106,7 @@ def filter_sort_paginate(items, args):
 
     # Пагинация
     page = int(args.get('_page', 1))
-    limit = int(args.get('_limit', 10))
+    limit = int(args.get('_limit', len(items)))  # Изменено: по умолчанию возвращаем все элементы
     start = (page - 1) * limit
     end = start + limit
     total = len(items)
