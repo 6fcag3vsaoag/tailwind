@@ -15,6 +15,7 @@
 
     <script src="components.js" defer></script>
     <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js" defer></script>
 
 </head>
 
@@ -234,12 +235,32 @@
                 <span>#YellowKitchens </span>
                 <span class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full box-border mt-8">
-                <img src="images/Rectangle 10.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-                <img src="images/Rectangle 11.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-                <img src="images/Rectangle 12.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-                <img src="images/Rectangle 13.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-            </div>
+            <!-- Слайдер с адаптивным размером картинок -->
+            <swiper-container 
+            class="w-full mt-8 mx-auto"
+            slides-per-view="1"
+            navigation="true"
+            pagination="true"
+            loop="true"
+            style="max-width: 1200px;"
+            >
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 10.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 11.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 12.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 13.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            </swiper-container>
         </div>
     </section>
 </body>
