@@ -143,24 +143,20 @@
       "dishId": 4
     },
     {
-      "id": 9,
-      "userId": 1,
-      "dishId": 3
-    },
-    {
-      "id": 10,
+      "id": 8,
       "userId": 1,
       "dishId": 2
-    },
-    {
-      "id": 11,
-      "userId": 1,
-      "dishId": 10
     }
   ],
   "cart": [
     {
-      "id": 1,
+      "id": 2,
+      "userId": 1,
+      "dishId": 4,
+      "quantity": 1
+    },
+    {
+      "id": 2,
       "userId": 1,
       "dishId": 2,
       "quantity": 1

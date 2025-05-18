@@ -85,6 +85,8 @@ async function removeFromFavorites(dishId) {
         }
         
         await loadFavorites();
+        // Обновляем счетчики
+        await updateCounters();
     } catch (error) {
         console.error('Ошибка при удалении из избранного:', error);
         alert('Ошибка при удалении из избранного');

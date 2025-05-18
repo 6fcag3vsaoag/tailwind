@@ -171,7 +171,7 @@ async function toggleFavorite(dishId) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ dishId }) // Отправляем только dishId
+                body: JSON.stringify({ dishId })
             });
 
             if (!response.ok) {
@@ -187,6 +187,8 @@ async function toggleFavorite(dishId) {
         await filterAndSort();
         // Обновляем состояние кнопок избранного
         await updateFavoriteButtons();
+        // Обновляем счетчики
+        await updateCounters();
     } catch (error) {
         console.error('Error toggling favorite:', error);
         // showToast(error.message, 'error');
@@ -305,7 +307,8 @@ async function addToCart(dishId) {
         if (!response.ok) throw new Error('Failed to add to cart');
         
         // showToast('Товар добавлен в корзину');
-        updateCartCount();
+        // Обновляем счетчики
+        await updateCounters();
     } catch (error) {
         console.error('Error adding to cart:', error);
         // showToast('Произошла ошибка при добавлении в корзину', 'error');

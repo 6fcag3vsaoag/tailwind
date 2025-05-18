@@ -71,8 +71,13 @@ function createHeader() {
             <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto transition-transform duration-500 hover:rotate-y-180">
         </a>
         <nav class="flex items-center gap-4 md:gap-12">
-            <a href="feedback.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-                <img src="images/feedback.svg" alt="Feedback Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
+            <a href="favorites.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+                <img src="images/favorite.svg" alt="Favorites Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
+                <span id="favorites-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+            </a>
+            <a href="cart.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+                <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
             </a>
             <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/user.svg" alt="User Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
@@ -245,6 +250,9 @@ function initComponents() {
         document.documentElement.style.overflow = '';
         }
     }, 1000);
+
+    // Добавляем обновление счетчиков после инициализации компонентов
+    updateCounters();
 }
 
 // Вызываем инициализацию при загрузке страницы
@@ -253,4 +261,49 @@ document.addEventListener('DOMContentLoaded', initComponents);
 // Используем функции из window.auth
 function getAuthLink() {
     return window.auth.isAuthenticated() ? 'profile.html' : 'login.html';
+}
+
+// Добавляем функцию для обновления счетчиков
+async function updateCounters() {
+    const favoritesCount = document.getElementById('favorites-count');
+    const cartCount = document.getElementById('cart-count');
+    
+    if (!window.auth.isAuthenticated()) {
+        if (favoritesCount) favoritesCount.style.transform = 'scale(0)';
+        if (cartCount) cartCount.style.transform = 'scale(0)';
+        return;
+    }
+
+    try {
+        // Получаем количество избранных товаров
+        const favoritesResponse = await fetch(`${window.baseUrl}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${window.auth.getToken()}`
+            }
+        });
+        if (favoritesResponse.ok) {
+            const favorites = await favoritesResponse.json();
+            if (favoritesCount) {
+                favoritesCount.textContent = favorites.length;
+                favoritesCount.style.transform = favorites.length > 0 ? 'scale(1)' : 'scale(0)';
+            }
+        }
+
+        // Получаем количество товаров в корзине
+        const cartResponse = await fetch(`${window.baseUrl}/cart`, {
+            headers: {
+                'Authorization': `Bearer ${window.auth.getToken()}`
+            }
+        });
+        if (cartResponse.ok) {
+            const cartItems = await cartResponse.json();
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+                cartCount.style.transform = totalItems > 0 ? 'scale(1)' : 'scale(0)';
+            }
+        }
+    } catch (error) {
+        console.error('Error updating counters:', error);
+    }
 } 

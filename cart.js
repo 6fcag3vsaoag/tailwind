@@ -186,176 +186,89 @@ async function updateQuantity(dishId, newQuantity) {
 
 // Удаление из корзины
 async function removeFromCart(dishId) {
-    if (!dishId) {
-        console.error('ID товара не определен');
-        return;
-    }
-
-    if (isUpdating) {
-        console.log('Удаление уже выполняется, пропускаем запрос');
-        return;
-    }
-
     try {
-        isUpdating = true;
         const token = window.auth.getToken();
         if (!token) {
-            throw new Error('No token found');
+            console.error('Токен не найден');
+            return;
         }
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
         const response = await fetch(`${window.baseUrl}/cart/${dishId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
-            },
-            signal: controller.signal
+            }
         });
 
-        clearTimeout(timeoutId);
-
         if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         await loadCart();
-        await updateCartCount();
+        // Обновляем счетчики
+        await updateCounters();
     } catch (error) {
         console.error('Ошибка при удалении из корзины:', error);
-        alert('Ошибка при удалении из корзины: ' + error.message);
-    } finally {
-        isUpdating = false;
+        alert('Ошибка при удалении из корзины');
     }
 }
 
 // Оформление заказа с повторной попыткой для очистки корзины
 async function checkout() {
-    if (isUpdating) {
-        console.log('Оформление заказа уже выполняется, пропускаем запрос');
-        return;
-    }
-
     try {
-        isUpdating = true;
         const token = window.auth.getToken();
         if (!token) {
-            throw new Error('Токен не найден');
-        }
-
-        console.log('Проверка токена авторизации...');
-        const controllerToken = new AbortController();
-        const timeoutToken = setTimeout(() => controllerToken.abort(), 5000);
-        const tokenCheck = await fetch(`${window.baseUrl}/cart`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            signal: controllerToken.signal
-        });
-        clearTimeout(timeoutToken);
-
-        if (tokenCheck.status === 401) {
-            console.error('Токен недействителен или истек');
-            alert('Сессия истекла. Пожалуйста, войдите снова.');
-            window.location.href = 'login.html';
+            console.error('Токен не найден');
             return;
         }
 
-        console.log('Отправка запроса на получение корзины...');
-        const controllerCart = new AbortController();
-        const timeoutCart = setTimeout(() => controllerCart.abort(), 5000);
-        const cartResponse = await fetch(`${window.baseUrl}/cart`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            signal: controllerCart.signal
-        });
-        clearTimeout(timeoutCart);
-
-        if (!cartResponse.ok) {
-            const errorText = await cartResponse.text();
-            throw new Error(`Failed to fetch cart: ${cartResponse.status} ${errorText}`);
-        }
-
-        const cartItems = await cartResponse.json();
-        console.log('Товары в корзине для оформления заказа:', cartItems);
-        
+        const cartItems = await fetchCart();
         if (cartItems.length === 0) {
             alert('Корзина пуста');
             return;
         }
 
-        console.log('Создание нового заказа...');
-        const controllerOrder = new AbortController();
-        const timeoutOrder = setTimeout(() => controllerOrder.abort(), 5000);
-        const orderResponse = await fetch(`${window.baseUrl}/orders`, {
+        const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        const orderData = {
+            items: cartItems.map(item => ({
+                dishId: item.id,
+                quantity: item.quantity,
+                price: item.price
+            })),
+            totalAmount,
+            status: 'completed',
+            createdAt: new Date().toISOString()
+        };
+
+        const response = await fetch(`${window.baseUrl}/orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                items: cartItems.map(item => ({
-                    dishId: item.id,
-                    quantity: item.quantity,
-                    price: item.price
-                })),
-                totalAmount: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-                status: 'completed',
-                createdAt: new Date().toISOString()
-            }),
-            signal: controllerOrder.signal
+            body: JSON.stringify(orderData)
         });
-        clearTimeout(timeoutOrder);
 
-        if (!orderResponse.ok) {
-            const errorText = await orderResponse.text();
-            throw new Error(`Failed to create order: ${orderResponse.status} ${errorText}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Повторная попытка очистки корзины
-        console.log('Очистка корзины...');
-        let clearCartResponse;
-        let attempts = 3;
-        while (attempts > 0) {
-            try {
-                const controllerClear = new AbortController();
-                const timeoutClear = setTimeout(() => controllerClear.abort(), 5000);
-                clearCartResponse = await fetch(`${window.baseUrl}/cart/clear`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    signal: controllerClear.signal
-                });
-                clearTimeout(timeoutClear);
-                break;
-            } catch (error) {
-                attempts--;
-                console.warn(`Ошибка очистки корзины, осталось попыток: ${attempts}`, error);
-                if (attempts === 0) {
-                    throw new Error(`Failed to clear cart after retries: ${error.message}`);
-                }
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Задержка перед повторной попыткой
+        // Очищаем корзину
+        await fetch(`${window.baseUrl}/cart/clear`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
-        }
-
-        if (!clearCartResponse.ok) {
-            const errorText = await clearCartResponse.text();
-            throw new Error(`Failed to clear cart: ${clearCartResponse.status} ${errorText}`);
-        }
+        });
 
         alert('Заказ успешно оформлен!');
         await loadCart();
-        await updateCartCount();
+        // Обновляем счетчики
+        await updateCounters();
     } catch (error) {
         console.error('Ошибка при оформлении заказа:', error);
-        alert('Ошибка при оформлении заказа: ' + error.message);
-    } finally {
-        isUpdating = false;
+        alert('Ошибка при оформлении заказа');
     }
 }
 
