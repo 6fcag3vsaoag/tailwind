@@ -1,3 +1,11 @@
+// Функция для добавления favicon
+function addFavicon() {
+    const favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    favicon.href = 'images/sp7.png';
+    document.head.appendChild(favicon);
+}
+
 // Функция для проверки авторизации
 function isAuthenticated() {
     return localStorage.getItem('token') !== null;
@@ -165,6 +173,9 @@ function createOverlay() {
 
 // Функция для инициализации компонентов
 function initComponents() {
+    // Добавляем favicon
+    addFavicon();
+
     // Добавляем сайдбар
     document.body.insertAdjacentHTML('afterbegin', createSidebar());
     
