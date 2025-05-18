@@ -1,3 +1,37 @@
+// Функция создания прелоадера (добавьте в components.js)
+function createPreloader() {
+    return `
+    <div id="preloader" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    ">
+      <div style="
+        width: 60px;
+        height: 60px;
+        border: 4px solid #fbbf24;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      "></div>
+      <p style="
+        margin-top: 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5rem;
+        color: #3f4255;
+        font-weight: 600;
+      ">YellowKitchen</p>
+    </div>`;
+  }
+
 // Функция для добавления favicon
 function addFavicon() {
     const favicon = document.createElement('link');
@@ -173,6 +207,12 @@ function createOverlay() {
 
 // Функция для инициализации компонентов
 function initComponents() {
+    // прелоадер идет ПЕРВЫМ 
+    document.body.insertAdjacentHTML('afterbegin', createPreloader());
+
+    // Блок скролл во время прелоаедар
+    document.documentElement.style.overflow = 'hidden';
+
     // Добавляем favicon
     addFavicon();
 
@@ -187,6 +227,24 @@ function initComponents() {
     
     // Добавляем футер
     document.body.insertAdjacentHTML('beforeend', createFooter());
+
+    // CSS для анимации прелоадера
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin {
+        to { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Удаление прелоадера через 2 секунды
+    setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if(preloader) {
+        preloader.remove();
+        document.documentElement.style.overflow = '';
+        }
+    }, 1000);
 }
 
 // Вызываем инициализацию при загрузке страницы
