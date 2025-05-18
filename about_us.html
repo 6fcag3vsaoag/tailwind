@@ -13,11 +13,22 @@
 </head>
 
 <body class="bg-black">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <ul class="flex justify-center gap-8">
+                <li><a href="#welcome" class="text-white hover:text-yellow-400 transition-colors smooth-scroll">Welcome</a></li>
+                <li><a href="#journey" class="text-white hover:text-yellow-400 transition-colors smooth-scroll">Journey</a></li>
+                <li><a href="#gallery" class="text-white hover:text-yellow-400 transition-colors smooth-scroll">Gallery</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- Parallax Section -->
     <section class="parallax-section relative min-h-[300vh] overflow-hidden">
         <div class="parallax-container relative">
             <!-- Stage 1: Welcome -->
-            <div class="parallax-stage stage-1 min-h-screen flex items-center justify-center relative" data-stage="1">
+            <div class="parallax-stage stage-1 min-h-screen flex items-center justify-center relative" data-stage="1" id="welcome">
                 <div class="parallax-bg far-bg absolute inset-0 bg-cover bg-center" style="background-image: url('gallery/1.avif');"></div>
                 <div class="parallax-bg mid-bg absolute inset-0 bg-cover bg-center opacity-80" style="background-image: url('gallery/1.avif');"></div>
                 <div class="parallax-fg absolute inset-0 bg-contain bg-center bg-no-repeat opacity-50" style="background-image: url('gallery/fg_particles.png');"></div>
@@ -32,7 +43,7 @@
             </div>
 
             <!-- Stage 2: Journey -->
-            <div class="parallax-stage stage-2 min-h-screen flex items-center justify-center relative" data-stage="2">
+            <div class="parallax-stage stage-2 min-h-screen flex items-center justify-center relative" data-stage="2" id="journey">
                 <div class="parallax-bg far-bg absolute inset-0 bg-cover bg-center" style="background-image: url('gallery/2.avif');"></div>
                 <div class="parallax-bg mid-bg absolute inset-0 bg-cover bg-center opacity-80" style="background-image: url('gallery/2.avif');"></div>
                 <div class="parallax-fg absolute inset-0 bg-contain bg-center bg-no-repeat opacity-50" style="background-image: url('gallery/fg_particles.png');"></div>
@@ -47,13 +58,9 @@
             </div>
 
             <!-- Stage 3: Gallery -->
-            <div class="parallax-stage stage-3 min-h-[120vh] flex items-center justify-center relative" data-stage="3">
-                <div class="parallax-bg far-bg absolute inset-0 bg-cover bg-center" style="background-image: url('gallery/3.avif');"></div>
-                <div class="parallax-bg mid-bg absolute inset-0 bg-cover bg-center opacity-80" style="background-image: url('gallery/3.avif');"></div>
-                <div class="parallax-fg absolute inset-0 bg-contain bg-center bg-no-repeat opacity-50" style="background-image: url('gallery/fg_particles.png');"></div>
+            <div class="parallax-stage stage-3 min-h-[120vh] flex items-center justify-center relative" data-stage="3" id="gallery">
                 <div class="content max-w-7xl mx-auto px-4 text-center text-white relative z-10">
-                    <div class="content-inner bg-black/90 p-4 rounded-lg shadow-2xl">
-                        <h2 class="text-3xl font-bold mb-8">Наша Галерея</h2>
+                    <div class="content-inner">
                         <div class="gallery-container bg-black rounded-lg p-4">
                             <div class="gallery-main relative h-[600px] mb-4 rounded-lg overflow-hidden">
                                 <div class="gallery-main-content w-full h-full flex items-center justify-center"></div>
@@ -143,6 +150,13 @@
         </div>
     </section>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-yellow-400 text-black p-3 rounded-full shadow-lg hover:bg-yellow-300 transition-all opacity-0 invisible" title="Back to top">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+
     <style>
         .gallery-thumb.active {
             border: 2px solid #FFD700;
@@ -151,10 +165,11 @@
         .gallery-thumbs-container {
             scrollbar-width: thin;
             scrollbar-color: #FFD700 #000;
+            box-sizing: border-box;
         }
 
         .gallery-thumbs-container::-webkit-scrollbar {
-            height: 8px;
+            height: 6px;
         }
 
         .gallery-thumbs-container::-webkit-scrollbar-track {
@@ -173,6 +188,14 @@
             background: #000;
         }
 
+        .gallery-container {
+            box-sizing: border-box;
+        }
+
+        .gallery-thumbs {
+            box-sizing: border-box;
+        }
+
         /* Parallax Styles */
         .parallax-section {
             position: relative;
@@ -183,7 +206,7 @@
 
         .parallax-container {
             position: relative;
-            height: 300vh; /* Matches 3 stages */
+            height: 300vh;
         }
 
         .parallax-stage {
@@ -194,7 +217,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            perspective: 600px; /* Reduced for subtler 3D */
+            perspective: 600px;
         }
 
         .parallax-bg, .parallax-fg {
@@ -263,6 +286,38 @@
             overflow-anchor: auto;
         }
 
+        /* Navigation Styles */
+        nav {
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+        }
+
+        nav ul li a:hover {
+            transform: translateY(-2px);
+            display: inline-block;
+        }
+
+        /* Back to Top Styles */
+        #back-to-top {
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-4px);
+        }
+
         @media (max-width: 768px) {
             .parallax-stage {
                 min-height: 80vh;
@@ -278,7 +333,7 @@
             }
 
             .gallery-main {
-                height: 400px;
+                height: 300px;
             }
 
             .parallax-bg, .parallax-fg {
@@ -307,6 +362,110 @@
 
             .content-inner.visible {
                 transform: translateY(0) scale(1) translateZ(0);
+            }
+
+            nav ul {
+                gap: 4px;
+            }
+
+            nav ul li a {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+
+            .stage-3 .content-inner {
+                background: transparent;
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .gallery-main {
+                height: 100px;
+                margin-bottom: 2px;
+                width: 100%;
+            }
+
+            .gallery-thumb {
+                width: 24px;
+                height: 24px;
+            }
+
+            .gallery-thumb img, .gallery-thumb video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .gallery-thumb .absolute {
+                display: none;
+            }
+
+            .gallery-thumbs {
+                gap: 0px;
+                width: 100%;
+                display: flex;
+                flex-wrap: nowrap;
+            }
+
+            .gallery-thumbs-container {
+                padding-bottom: 2px;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: auto;
+                box-sizing: border-box;
+            }
+
+            .gallery-container {
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .content {
+                max-width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .content-inner {
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .gallery-prev, .gallery-next {
+                display: none;
+            }
+
+            nav ul li a {
+                font-size: 0.65rem;
+                padding: 0.2rem;
+            }
+
+            #back-to-top {
+                bottom: 2px;
+                right: 2px;
+                padding: 4px;
+            }
+
+            #back-to-top svg {
+                width: 12px;
+                height: 12px;
+            }
+
+            .stage-3 {
+                min-height: 50vh;
+                padding: 0;
+                background: #000;
+            }
+
+            .stage-3 .parallax-stage::before {
+                display: none;
             }
         }
     </style>
@@ -477,11 +636,18 @@
 
                         const scrollProgress = Math.min((scrollY - stageTop + viewportHeight / 2) / viewportHeight, 1);
 
-                        // Adjusted parallax with subtler tilt
-                        farBg.style.transform = `translateY(${scrollProgress * 150}px) translateZ(-100px) scale(1.1)`;
-                        midBg.style.transform = `translateY(${scrollProgress * 400}px) translateX(${-scrollProgress * 100}px) translateZ(-50px) scale(1.2)`;
-                        fg.style.transform = `translateY(${scrollProgress * 600}px) translateX(${scrollProgress * 200}px) translateZ(50px) rotate(${scrollProgress * 8}deg)`;
-                        content.style.transform = `translateY(${scrollProgress * -100}px) translateZ(20px) rotateX(${scrollProgress * 5}deg)`;
+                        if (farBg) {
+                            farBg.style.transform = `translateY(${scrollProgress * 150}px) translateZ(-100px) scale(1.1)`;
+                        }
+                        if (midBg) {
+                            midBg.style.transform = `translateY(${scrollProgress * 400}px) translateX(${-scrollProgress * 100}px) translateZ(-50px) scale(1.2)`;
+                        }
+                        if (fg) {
+                            fg.style.transform = `translateY(${scrollProgress * 600}px) translateX(${scrollProgress * 200}px) translateZ(50px) rotate(${scrollProgress * 8}deg)`;
+                        }
+                        if (content && !stage.classList.contains('stage-3')) {
+                            content.style.transform = `translateY(${scrollProgress * -100}px) translateZ(20px) rotateX(${scrollProgress * 5}deg)`;
+                        }
                     });
 
                     this.isScrolling = false;
@@ -496,10 +662,72 @@
                     const fg = stage.querySelector('.parallax-fg');
                     const contentContainer = stage.querySelector('.content');
                     content.classList.remove('visible');
-                    farBg.style.transform = 'translateY(0) translateZ(0) scale(1)';
-                    midBg.style.transform = 'translateY(0) translateX(0) translateZ(0) scale(1)';
-                    fg.style.transform = 'translateY(0) translateX(0) translateZ(0) rotate(0deg)';
-                    contentContainer.style.transform = 'translateY(0) translateZ(0) rotateX(0deg)';
+                    if (farBg) farBg.style.transform = 'translateY(0) translateZ(0) scale(1)';
+                    if (midBg) midBg.style.transform = 'translateY(0) translateX(0) translateZ(0) scale(1)';
+                    if (fg) fg.style.transform = 'translateY(0) translateX(0) translateZ(0) rotate(0deg)';
+                    if (contentContainer && !stage.classList.contains('stage-3')) {
+                        contentContainer.style.transform = 'translateY(0) translateZ(0) rotateX(0deg)';
+                    }
+                });
+            }
+        }
+
+        class SmoothScroll {
+            constructor() {
+                this.links = document.querySelectorAll('.smooth-scroll');
+                this.init();
+            }
+
+            init() {
+                this.links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        
+                        if (targetElement) {
+                            const offset = 80;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+
+                            if (typeof window.playRandomGeneratedSound === 'function') {
+                                window.playRandomGeneratedSound();
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        class BackToTop {
+            constructor() {
+                this.button = document.getElementById('back-to-top');
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        this.button.classList.add('visible');
+                    } else {
+                        this.button.classList.remove('visible');
+                    }
+                });
+
+                this.button.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (typeof window.playRandomGeneratedSound === 'function') {
+                        window.playRandomGeneratedSound();
+                    }
                 });
             }
         }
@@ -510,6 +738,8 @@
                 new Gallery(galleryContainer);
             }
             new ParallaxEffect();
+            new SmoothScroll();
+            new BackToTop();
         });
     </script>
 </body>
