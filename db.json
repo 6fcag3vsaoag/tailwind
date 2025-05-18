@@ -141,9 +141,31 @@
       "id": 7,
       "userId": 2,
       "dishId": 4
+    },
+    {
+      "id": 9,
+      "userId": 1,
+      "dishId": 3
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "dishId": 2
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "dishId": 10
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": 1,
+      "userId": 1,
+      "dishId": 2,
+      "quantity": 1
+    }
+  ],
   "users": [
     {
       "id": 1,
