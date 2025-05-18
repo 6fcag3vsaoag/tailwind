@@ -105,7 +105,59 @@ const galleryFiles = [
     'gallery/1244429.jpg'
 ];
 
+// Parallax эффект
+class ParallaxEffect {
+    constructor() {
+        this.historySection = document.querySelector('.history-section');
+        this.textBlocks = document.querySelectorAll('.text-block');
+        
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('scroll', () => this.handleScroll());
+        window.addEventListener('resize', () => this.handleResize());
+        this.handleScroll(); // Инициализация начального положения
+    }
+
+    handleScroll() {
+        const scrollY = window.scrollY;
+        const sectionTop = this.historySection.offsetTop;
+        const sectionHeight = this.historySection.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        
+        // Проверяем, находится ли секция в области видимости
+        if (scrollY + viewportHeight > sectionTop && scrollY < sectionTop + sectionHeight) {
+            // Управляем наложением текстовых блоков
+            this.textBlocks.forEach((block, index) => {
+                const blockTop = block.offsetTop;
+                const blockHeight = block.offsetHeight;
+                const scrollProgress = (scrollY - blockTop + viewportHeight) / (blockHeight + viewportHeight);
+                
+                if (scrollProgress > 0 && scrollProgress < 1) {
+                    // Плавно меняем прозрачность блоков при наложении
+                    const opacity = Math.min(1, Math.max(0, 1 - scrollProgress));
+                    block.style.opacity = opacity;
+                } else if (scrollProgress >= 1) {
+                    block.style.opacity = 0;
+                } else {
+                    block.style.opacity = 1;
+                }
+            });
+        }
+    }
+
+    handleResize() {
+        // Сбрасываем прозрачность при изменении размера окна
+        this.textBlocks.forEach(block => {
+            block.style.opacity = '1';
+        });
+        this.handleScroll(); // Пересчитываем позиции
+    }
+}
+
 // Инициализация галереи после загрузки страницы
 document.addEventListener('DOMContentLoaded', () => {
     new Gallery();
+    new ParallaxEffect();
 }); 
