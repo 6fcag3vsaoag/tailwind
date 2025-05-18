@@ -334,12 +334,36 @@ function createNotification(message, type = 'success') {
         success: 'bg-green-500',
         error: 'bg-red-500',
         warning: 'bg-yellow-500',
-        info: 'bg-blue-500'
+        info: 'bg-blue-500',
+        cart: 'bg-green-500',
+        favorite: 'bg-red-500'
+    };
+    
+    const icons = {
+        success: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>`,
+        error: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>`,
+        warning: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>`,
+        info: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>`,
+        cart: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>`,
+        favorite: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+        </svg>`
     };
     
     return `
     <div class="fixed top-4 right-4 transform transition-all duration-300 translate-x-full opacity-0 z-[9999]" id="notification">
         <div class="${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+            ${icons[type]}
             <span class="mr-2">${message}</span>
             <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -394,9 +418,9 @@ function showNotification(message, type = 'success', duration = 3000) {
     
     // Показываем уведомление с анимацией
     const notificationElement = document.getElementById('notification');
-    setTimeout(() => {
+    requestAnimationFrame(() => {
         notificationElement.classList.remove('translate-x-full', 'opacity-0');
-    }, 100);
+    });
     
     // Автоматически скрываем уведомление через указанное время
     setTimeout(() => {

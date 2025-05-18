@@ -200,11 +200,9 @@ async function removeFromCart(dishId) {
     try {
         const token = window.auth.getToken();
         if (!token) {
-            console.error('Токен не найден');
-            return;
+            throw new Error('No token found');
         }
 
-        console.log(`Удаление товара ${dishId} из корзины`);
         const response = await fetch(`${window.baseUrl}/cart/${dishId}`, {
             method: 'DELETE',
             headers: {
@@ -213,18 +211,17 @@ async function removeFromCart(dishId) {
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`Ошибка при удалении из корзины: ${response.status}`, errorText);
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        console.log(`Товар ${dishId} успешно удален из корзины`);
+        showNotification('Товар удален из корзины', 'cart');
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
         await loadCart();
-        await updateCounters();
-        showNotification('Товар удален из корзины', 'success');
+        await updateCartCount();
     } catch (error) {
         console.error('Ошибка при удалении из корзины:', error);
-        showNotification('Ошибка при удалении из корзины', 'error');
+        showNotification('Ошибка при удалении товара', 'error');
     }
 }
 
@@ -443,7 +440,8 @@ async function addToCart(dishId) {
     try {
         const token = window.auth.getToken();
         if (!token) {
-            throw new Error('No token found');
+            showNotification('Пожалуйста, войдите в систему', 'warning');
+            return;
         }
 
         const response = await fetch(`${window.baseUrl}/cart`, {
@@ -452,19 +450,20 @@ async function addToCart(dishId) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ dishId: dishId, quantity: 1 })
+            body: JSON.stringify({ dishId, quantity: 1 })
         });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        await loadCart();
-        await updateCounters();
-        showNotification('Товар добавлен в корзину', 'success');
+        showNotification('Товар добавлен в корзину', 'cart');
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await updateCartCount();
     } catch (error) {
         console.error('Ошибка при добавлении в корзину:', error);
-        showNotification('Ошибка при добавлении в корзину', 'error');
+        showNotification('Ошибка при добавлении товара', 'error');
     }
 }
 
@@ -473,7 +472,8 @@ async function toggleFavorite(dishId) {
     try {
         const token = window.auth.getToken();
         if (!token) {
-            throw new Error('No token found');
+            showNotification('Пожалуйста, войдите в систему', 'warning');
+            return;
         }
 
         const isFavorite = await isDishFavorite(dishId);
@@ -481,23 +481,22 @@ async function toggleFavorite(dishId) {
         const url = isFavorite ? `${window.baseUrl}/favorites/${dishId}` : `${window.baseUrl}/favorites`;
 
         const response = await fetch(url, {
-            method: method,
+            method,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: method === 'POST' ? JSON.stringify({ dishId: dishId }) : undefined
+            ...(method === 'POST' && { body: JSON.stringify({ dishId }) })
         });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        await loadCart();
-        await updateCounters();
+        await updateFavoritesCount();
         showNotification(
             isFavorite ? 'Товар удален из избранного' : 'Товар добавлен в избранное',
-            'success'
+            'favorite'
         );
     } catch (error) {
         console.error('Ошибка при обновлении избранного:', error);

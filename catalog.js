@@ -134,64 +134,41 @@ async function updateCartCount() {
 
 async function toggleFavorite(dishId) {
     try {
-        console.log('Toggling favorite for dish:', dishId);
         const token = window.auth.getToken();
         if (!token) {
-            console.error('Токен не найден');
-            showToast('Пожалуйста, войдите в систему', 'error');
-            window.location.href = 'login.html';
+            showNotification('Пожалуйста, войдите в систему', 'warning');
             return;
         }
 
-        // Проверяем, есть ли уже в избранном
         const isFavorite = await checkIfFavorite(dishId);
-        console.log('Current favorite status:', isFavorite);
+        const method = isFavorite ? 'DELETE' : 'POST';
+        const url = isFavorite ? `${window.baseUrl}/favorites/${dishId}` : `${window.baseUrl}/favorites`;
 
-        if (isFavorite) {
-            // Если уже в избранном - удаляем
-            console.log('Removing from favorites');
-            const response = await fetch(`${window.baseUrl}/favorites/${dishId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            ...(method === 'POST' && { body: JSON.stringify({ dishId }) })
+        });
 
-            if (!response.ok) {
-                throw new Error('Failed to remove from favorites');
-            }
-            console.log('Successfully removed from favorites');
-            // showToast('Блюдо удалено из избранного');
-        } else {
-            // Если нет в избранном - добавляем
-            console.log('Adding to favorites');
-            const response = await fetch(`${window.baseUrl}/favorites`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ dishId })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Server error:', errorData);
-                throw new Error(errorData.message || 'Failed to add to favorites');
-            }
-            console.log('Successfully added to favorites');
-            showToast('Блюдо добавлено в избранное');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Обновляем каталог
+        showNotification(
+            isFavorite ? 'Товар удален из избранного' : 'Товар добавлен в избранное',
+            'favorite'
+        );
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
         await filterAndSort();
-        // Обновляем состояние кнопок избранного
         await updateFavoriteButtons();
-        // Обновляем счетчики
-        await updateCounters();
+        await updateFavoritesCount();
     } catch (error) {
-        console.error('Error toggling favorite:', error);
-        // showToast(error.message, 'error');
+        console.error('Ошибка при обновлении избранного:', error);
+        showNotification('Ошибка при обновлении избранного', 'error');
     }
 }
 
@@ -288,12 +265,9 @@ async function addToCart(dishId) {
     try {
         const token = window.auth.getToken();
         if (!token) {
-            window.location.href = 'login.html';
+            showNotification('Пожалуйста, войдите в систему', 'warning');
             return;
         }
-
-        const quantityInput = document.querySelector(`#quantity-${dishId}`);
-        const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
 
         const response = await fetch(`${window.baseUrl}/cart`, {
             method: 'POST',
@@ -301,17 +275,20 @@ async function addToCart(dishId) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ dishId, quantity })
+            body: JSON.stringify({ dishId, quantity: 1 })
         });
 
-        if (!response.ok) throw new Error('Failed to add to cart');
-        
-        // showToast('Товар добавлен в корзину');
-        // Обновляем счетчики
-        await updateCounters();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        showNotification('Товар добавлен в корзину', 'cart');
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await updateCartCount();
     } catch (error) {
-        console.error('Error adding to cart:', error);
-        // showToast('Произошла ошибка при добавлении в корзину', 'error');
+        console.error('Ошибка при добавлении в корзину:', error);
+        showNotification('Ошибка при добавлении в корзину', 'error');
     }
 }
 
@@ -558,22 +535,30 @@ function showAddProduct() {
 
 // Функция для удаления товара
 async function deleteProduct(dishId) {
-    if (!confirm('Вы уверены, что хотите удалить этот товар?')) return;
-    
     try {
+        const token = window.auth.getToken();
+        if (!token) {
+            showNotification('Пожалуйста, войдите в систему', 'warning');
+            return;
+        }
+
         const response = await fetch(`${window.baseUrl}/dishes/${dishId}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${window.auth.getToken()}`
+                'Authorization': `Bearer ${token}`
             }
         });
-        
-        if (!response.ok) throw new Error('Failed to delete dish');
-        
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         showNotification('Товар успешно удален', 'success');
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
         await filterAndSort();
     } catch (error) {
-        console.error('Error deleting dish:', error);
+        console.error('Ошибка при удалении товара:', error);
         showNotification('Ошибка при удалении товара', 'error');
     }
 }

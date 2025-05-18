@@ -150,12 +150,12 @@
     {
       "id": 10,
       "userId": 1,
-      "dishId": 4
+      "dishId": 3
     },
     {
-      "id": 12,
+      "id": 11,
       "userId": 1,
-      "dishId": 3
+      "dishId": 4
     }
   ],
   "cart": [],
@@ -529,6 +529,25 @@
       "totalAmount": 24.740000000000002,
       "status": "completed",
       "createdAt": "2025-05-18T09:31:44.496Z"
+    },
+    {
+      "id": 19,
+      "userId": 1,
+      "items": [
+        {
+          "dishId": 3,
+          "quantity": 1,
+          "price": 10.99
+        },
+        {
+          "dishId": 4,
+          "quantity": 1,
+          "price": 13.75
+        }
+      ],
+      "totalAmount": 24.740000000000002,
+      "status": "completed",
+      "createdAt": "2025-05-18T09:58:51.484Z"
     }
   ]
 }
