@@ -25,6 +25,101 @@
         </div>
     </section>
 
+    <!-- Gallery Section -->
+    <section class="py-16 px-4 md:px-8 lg:px-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Наша Галерея</h2>
+            <div class="gallery-container bg-black rounded-lg p-4">
+                <!-- Основной блок с изображением/видео -->
+                <div class="gallery-main relative h-[600px] mb-4 rounded-lg overflow-hidden">
+                    <div class="gallery-main-content w-full h-full flex items-center justify-center">
+                        <!-- Здесь будет отображаться текущее изображение/видео -->
+                    </div>
+                    <!-- Кнопки навигации -->
+                    <button class="gallery-prev absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <button class="gallery-next absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Лента превью -->
+                <div class="gallery-thumbs-container overflow-x-auto">
+                    <div class="gallery-thumbs flex gap-2 pb-2" style="min-width: max-content;">
+                        <div class="gallery-thumb" data-type="video" data-src="gallery/SampleVideo_1280x720_5mb.mp4">
+                            <div class="relative w-24 h-16 rounded cursor-pointer">
+                                <video src="gallery/SampleVideo_1280x720_5mb.mp4" muted playsinline style="width:100%;height:100%;object-fit:cover;background:#000"></video>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/car-street-night-city-digital-art-4k-wallpaper-uhdpaper.com-914@0@i.jpg">
+                            <img src="gallery/car-street-night-city-digital-art-4k-wallpaper-uhdpaper.com-914@0@i.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/lighthouse-sunset-scenery-digital-art-4k-wallpaper-uhdpaper.com-326@1@m.jpg">
+                            <img src="gallery/lighthouse-sunset-scenery-digital-art-4k-wallpaper-uhdpaper.com-326@1@m.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/wallpapersden.com_cityscape-8k-cyber-city-digital-art_7680x4320.jpg">
+                            <img src="gallery/wallpapersden.com_cityscape-8k-cyber-city-digital-art_7680x4320.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/muscle-car-night-road-digital-art-4k-wallpaper-uhdpaper.com-25@0@j.jpg">
+                            <img src="gallery/muscle-car-night-road-digital-art-4k-wallpaper-uhdpaper.com-25@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/2024-year-digital-art-4k-wallpaper-uhdpaper.com-901@0@i.jpg">
+                            <img src="gallery/2024-year-digital-art-4k-wallpaper-uhdpaper.com-901@0@i.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/anime-night-stars-sky-clouds-scenery-digital-art-4k-wallpaper-uhdpaper.com-772@0@i.jpg">
+                            <img src="gallery/anime-night-stars-sky-clouds-scenery-digital-art-4k-wallpaper-uhdpaper.com-772@0@i.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/ferrari-car-road-hollywood-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-202@1@n.jpg">
+                            <img src="gallery/ferrari-car-road-hollywood-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-202@1@n.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/car-night-street-digital-art-4k-wallpaper-uhdpaper.com-16@0@j.jpg">
+                            <img src="gallery/car-night-street-digital-art-4k-wallpaper-uhdpaper.com-16@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/sunset-road-car-forest-scenery-digital-art-4k-wallpaper-uhdpaper.com-881@1@m.jpg">
+                            <img src="gallery/sunset-road-car-forest-scenery-digital-art-4k-wallpaper-uhdpaper.com-881@1@m.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/car-road-forest-sunset-mountain-scenery-4k-wallpaper-uhdpaper.com-878@1@m.jpg">
+                            <img src="gallery/car-road-forest-sunset-mountain-scenery-4k-wallpaper-uhdpaper.com-878@1@m.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/alone-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-851@1@m.jpg">
+                            <img src="gallery/alone-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-851@1@m.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/sports-car-red-smoke-digital-art-4k-wallpaper-uhdpaper.com-28@0@j.jpg">
+                            <img src="gallery/sports-car-red-smoke-digital-art-4k-wallpaper-uhdpaper.com-28@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/sports-car-road-digital-art-4k-wallpaper-uhdpaper.com-15@0@j.jpg">
+                            <img src="gallery/sports-car-road-digital-art-4k-wallpaper-uhdpaper.com-15@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/delorean-car-time-machine-neon-lights-digital-art-4k-wallpaper-uhdpaper.com-17@0@j.jpg">
+                            <img src="gallery/delorean-car-time-machine-neon-lights-digital-art-4k-wallpaper-uhdpaper.com-17@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/soldier-gas-mask-flower-digital-art-4k-wallpaper-uhdpaper.com-13@0@j.jpg">
+                            <img src="gallery/soldier-gas-mask-flower-digital-art-4k-wallpaper-uhdpaper.com-13@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/muscle-car-ice-road-red-moon-digital-art-4k-wallpaper-uhdpaper.com-18@0@j.jpg">
+                            <img src="gallery/muscle-car-ice-road-red-moon-digital-art-4k-wallpaper-uhdpaper.com-18@0@j.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/sci-fi-digital-art-uhdpaper.com-8K-4.956.jpg">
+                            <img src="gallery/sci-fi-digital-art-uhdpaper.com-8K-4.956.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                        <div class="gallery-thumb" data-type="image" data-src="gallery/1244429.jpg">
+                            <img src="gallery/1244429.jpg" alt="" class="w-24 h-16 object-cover rounded cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Us Content -->
     <section class="py-16 px-4 md:px-8 lg:px-16">
         <div class="max-w-4xl mx-auto">
@@ -92,6 +187,85 @@
             </div>
         </div>
     </section>
+
+    <style>
+        .gallery-thumb.active {
+            border: 2px solid #FFD700;
+        }
+
+        .gallery-thumbs-container {
+            scrollbar-width: thin;
+            scrollbar-color: #FFD700 #000;
+        }
+
+        .gallery-thumbs-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .gallery-thumbs-container::-webkit-scrollbar-track {
+            background: #000;
+            border-radius: 4px;
+        }
+
+        .gallery-thumbs-container::-webkit-scrollbar-thumb {
+            background-color: #FFD700;
+            border-radius: 4px;
+        }
+
+        .gallery-main-content, .gallery-main-content video {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+    </style>
+
+    <script>
+        function playRandomGeneratedSound() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+            // Случайный тип звука: клик, взрыв, писк, шум
+            const type = Math.floor(Math.random() * 4);
+
+            if (type === 0) {
+                // Клик (короткий щелчок)
+                const osc = ctx.createOscillator();
+                osc.type = 'square';
+                osc.frequency.value = 1000 + Math.random() * 2000;
+                osc.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.05);
+            } else if (type === 1) {
+                // Взрыв (шум с затуханием)
+                const bufferSize = 4096;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize); // затухание
+                }
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+                noise.connect(ctx.destination);
+                noise.start();
+                noise.stop(ctx.currentTime + 0.2);
+            } else if (type === 2) {
+                // Писк (короткий синус)
+                const osc = ctx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.value = 400 + Math.random() * 2000;
+                osc.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.1);
+            } else {
+                // Бульк (низкий короткий звук)
+                const osc = ctx.createOscillator();
+                osc.type = 'triangle';
+                osc.frequency.value = 80 + Math.random() * 120;
+                osc.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.15);
+            }
+        }
+    </script>
 </body>
 
 </html> 
