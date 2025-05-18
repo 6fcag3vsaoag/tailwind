@@ -1,16 +1,56 @@
-class Gallery {
-    constructor() {
+function playRandomGeneratedSound() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const type = Math.floor(Math.random() * 4);
+
+    if (type === 0) {
+        const osc = ctx.createOscillator();
+        osc.type = 'square';
+        osc.frequency.value = 1000 + Math.random() * 2000;
+        osc.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+    } else if (type === 1) {
+        const bufferSize = 4096;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        noise.connect(ctx.destination);
+        noise.start();
+        noise.stop(ctx.currentTime + 0.2);
+    } else if (type === 2) {
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.value = 400 + Math.random() * 2000;
+        osc.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.1);
+    } else {
+        const osc = ctx.createOscillator();
+        osc.type = 'triangle';
+        osc.frequency.value = 80 + Math.random() * 120;
+        osc.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.15);
+    }
+}
+
+class YellowKitchenGallery {
+    constructor(container) {
+        this.container = container;
         this.currentIndex = 0;
-        this.thumbs = document.querySelectorAll('.gallery-thumb');
-        this.mainContent = document.querySelector('.gallery-main-content');
-        this.prevButton = document.querySelector('.gallery-prev');
-        this.nextButton = document.querySelector('.gallery-next');
+        this.thumbs = container.querySelectorAll('.gallery-thumb');
+        this.mainContent = container.querySelector('.gallery-main-content');
+        this.prevButton = container.querySelector('.gallery-prev');
+        this.nextButton = container.querySelector('.gallery-next');
         
         this.init();
     }
 
     init() {
-        // Добавляем обработчики для превью
         this.thumbs.forEach((thumb, index) => {
             thumb.addEventListener('click', () => {
                 if (typeof window.playRandomGeneratedSound === 'function') window.playRandomGeneratedSound();
@@ -18,35 +58,28 @@ class Gallery {
             });
         });
 
-        // Добавляем обработчики для кнопок навигации
         this.prevButton.addEventListener('click', () => this.showPrev());
         this.nextButton.addEventListener('click', () => this.showNext());
 
-        // Показываем первый элемент
         this.showItem(0);
     }
 
     showItem(index) {
-        // Останавливаем текущее видео, если оно есть
         const currentVideo = this.mainContent.querySelector('video');
         if (currentVideo) {
             currentVideo.pause();
             currentVideo.currentTime = 0;
         }
 
-        // Обновляем активный класс у превью
         this.thumbs.forEach(thumb => thumb.classList.remove('active'));
         this.thumbs[index].classList.add('active');
 
-        // Получаем данные о текущем элементе
         const thumb = this.thumbs[index];
         const type = thumb.dataset.type;
         const src = thumb.dataset.src;
 
-        // Очищаем основной контейнер
         this.mainContent.innerHTML = '';
 
-        // Создаем новый элемент
         if (type === 'video') {
             const video = document.createElement('video');
             video.src = src;
@@ -56,7 +89,6 @@ class Gallery {
             video.autoplay = true;
             video.playsInline = true;
             video.style.display = 'block';
-
             this.mainContent.appendChild(video);
         } else {
             const img = document.createElement('img');
@@ -82,82 +114,157 @@ class Gallery {
     }
 }
 
-// Массив файлов галереи (автоматически сгенерирован)
-const galleryFiles = [
-    'gallery/SampleVideo_1280x720_5mb.mp4',
-    'gallery/car-street-night-city-digital-art-4k-wallpaper-uhdpaper.com-914@0@i.jpg',
-    'gallery/lighthouse-sunset-scenery-digital-art-4k-wallpaper-uhdpaper.com-326@1@m.jpg',
-    'gallery/wallpapersden.com_cityscape-8k-cyber-city-digital-art_7680x4320.jpg',
-    'gallery/muscle-car-night-road-digital-art-4k-wallpaper-uhdpaper.com-25@0@j.jpg',
-    'gallery/2024-year-digital-art-4k-wallpaper-uhdpaper.com-901@0@i.jpg',
-    'gallery/anime-night-stars-sky-clouds-scenery-digital-art-4k-wallpaper-uhdpaper.com-772@0@i.jpg',
-    'gallery/ferrari-car-road-hollywood-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-202@1@n.jpg',
-    'gallery/car-night-street-digital-art-4k-wallpaper-uhdpaper.com-16@0@j.jpg',
-    'gallery/sunset-road-car-forest-scenery-digital-art-4k-wallpaper-uhdpaper.com-881@1@m.jpg',
-    'gallery/car-road-forest-sunset-mountain-scenery-4k-wallpaper-uhdpaper.com-878@1@m.jpg',
-    'gallery/alone-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-851@1@m.jpg',
-    'gallery/sports-car-red-smoke-digital-art-4k-wallpaper-uhdpaper.com-28@0@j.jpg',
-    'gallery/sports-car-road-digital-art-4k-wallpaper-uhdpaper.com-15@0@j.jpg',
-    'gallery/delorean-car-time-machine-neon-lights-digital-art-4k-wallpaper-uhdpaper.com-17@0@j.jpg',
-    'gallery/soldier-gas-mask-flower-digital-art-4k-wallpaper-uhdpaper.com-13@0@j.jpg',
-    'gallery/muscle-car-ice-road-red-moon-digital-art-4k-wallpaper-uhdpaper.com-18@0@j.jpg',
-    'gallery/sci-fi-digital-art-uhdpaper.com-8K-4.956.jpg',
-    'gallery/1244429.jpg'
-];
-
-// Parallax эффект
 class ParallaxEffect {
     constructor() {
-        this.historySection = document.querySelector('.history-section');
-        this.textBlocks = document.querySelectorAll('.text-block');
-        
+        this.stages = document.querySelectorAll('.parallax-stage');
+        this.isScrolling = false;
         this.init();
     }
 
     init() {
         window.addEventListener('scroll', () => this.handleScroll());
         window.addEventListener('resize', () => this.handleResize());
-        this.handleScroll(); // Инициализация начального положения
+        this.setupIntersectionObserver();
+        this.handleScroll();
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const content = entry.target.querySelector('.content-inner');
+                if (entry.isIntersecting) {
+                    content.classList.add('visible');
+                } else {
+                    content.classList.remove('visible');
+                }
+            });
+        }, {
+            threshold: 0.5,
+            rootMargin: '0px 0px -20% 0px'
+        });
+
+        this.stages.forEach(stage => observer.observe(stage));
     }
 
     handleScroll() {
-        const scrollY = window.scrollY;
-        const sectionTop = this.historySection.offsetTop;
-        const sectionHeight = this.historySection.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        
-        // Проверяем, находится ли секция в области видимости
-        if (scrollY + viewportHeight > sectionTop && scrollY < sectionTop + sectionHeight) {
-            // Управляем наложением текстовых блоков
-            this.textBlocks.forEach((block, index) => {
-                const blockTop = block.offsetTop;
-                const blockHeight = block.offsetHeight;
-                const scrollProgress = (scrollY - blockTop + viewportHeight) / (blockHeight + viewportHeight);
-                
-                if (scrollProgress > 0 && scrollProgress < 1) {
-                    // Плавно меняем прозрачность блоков при наложении
-                    const opacity = Math.min(1, Math.max(0, 1 - scrollProgress));
-                    block.style.opacity = opacity;
-                } else if (scrollProgress >= 1) {
-                    block.style.opacity = 0;
-                } else {
-                    block.style.opacity = 1;
+        if (this.isScrolling) return;
+        this.isScrolling = true;
+
+        requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+
+            this.stages.forEach(stage => {
+                const stageTop = stage.offsetTop;
+                const farBg = stage.querySelector('.far-bg');
+                const midBg = stage.querySelector('.mid-bg');
+                const fg = stage.querySelector('.parallax-fg');
+                const content = stage.querySelector('.content');
+
+                const scrollProgress = Math.min((scrollY - stageTop + viewportHeight / 2) / viewportHeight, 1);
+
+                if (farBg) {
+                    farBg.style.transform = `translateY(${scrollProgress * 150}px) translateZ(-100px) scale(1.1)`;
+                }
+                if (midBg) {
+                    midBg.style.transform = `translateY(${scrollProgress * 400}px) translateX(${-scrollProgress * 100}px) translateZ(-50px) scale(1.2)`;
+                }
+                if (fg) {
+                    fg.style.transform = `translateY(${scrollProgress * 600}px) translateX(${scrollProgress * 200}px) translateZ(50px) rotate(${scrollProgress * 8}deg)`;
+                }
+                if (content && !stage.classList.contains('stage-3')) {
+                    content.style.transform = `translateY(${scrollProgress * -100}px) translateZ(20px) rotateX(${scrollProgress * 5}deg)`;
                 }
             });
-        }
+
+            this.isScrolling = false;
+        });
     }
 
     handleResize() {
-        // Сбрасываем прозрачность при изменении размера окна
-        this.textBlocks.forEach(block => {
-            block.style.opacity = '1';
+        this.stages.forEach(stage => {
+            const content = stage.querySelector('.content-inner');
+            const farBg = stage.querySelector('.far-bg');
+            const midBg = stage.querySelector('.mid-bg');
+            const fg = stage.querySelector('.parallax-fg');
+            const contentContainer = stage.querySelector('.content');
+            content.classList.remove('visible');
+            if (farBg) farBg.style.transform = 'translateY(0) translateZ(0) scale(1)';
+            if (midBg) midBg.style.transform = 'translateY(0) translateX(0) translateZ(0) scale(1)';
+            if (fg) fg.style.transform = 'translateY(0) translateX(0) translateZ(0) rotate(0deg)';
+            if (contentContainer && !stage.classList.contains('stage-3')) {
+                contentContainer.style.transform = 'translateY(0) translateZ(0) rotateX(0deg)';
+            }
         });
-        this.handleScroll(); // Пересчитываем позиции
     }
 }
 
-// Инициализация галереи после загрузки страницы
+class SmoothScroll {
+    constructor() {
+        this.links = document.querySelectorAll('.smooth-scroll');
+        this.init();
+    }
+
+    init() {
+        this.links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const offset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    if (typeof window.playRandomGeneratedSound === 'function') {
+                        window.playRandomGeneratedSound();
+                    }
+                }
+            });
+        });
+    }
+}
+
+class BackToTop {
+    constructor() {
+        this.button = document.getElementById('back-to-top');
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                this.button.classList.add('visible');
+            } else {
+                this.button.classList.remove('visible');
+            }
+        });
+
+        this.button.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            if (typeof window.playRandomGeneratedSound === 'function') {
+                window.playRandomGeneratedSound();
+            }
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    new Gallery();
+    const galleryContainer = document.querySelector('.stage-3 .gallery-container');
+    if (galleryContainer) {
+        new YellowKitchenGallery(galleryContainer);
+    }
     new ParallaxEffect();
-}); 
+    new SmoothScroll();
+    new BackToTop();
+});
