@@ -306,4 +306,184 @@ async function updateCounters() {
     } catch (error) {
         console.error('Error updating counters:', error);
     }
+}
+
+// Функция для создания модального окна
+function createModal(content, title = '') {
+    return `
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] hidden" id="modal">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 transform transition-all">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-xl font-semibold text-gray-900">${title}</h3>
+                <button onclick="hideModal()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                ${content}
+            </div>
+        </div>
+    </div>`;
+}
+
+// Функция для создания уведомления
+function createNotification(message, type = 'success') {
+    const colors = {
+        success: 'bg-green-500',
+        error: 'bg-red-500',
+        warning: 'bg-yellow-500',
+        info: 'bg-blue-500'
+    };
+    
+    return `
+    <div class="fixed top-4 right-4 transform transition-all duration-300 translate-x-full opacity-0 z-[9999]" id="notification">
+        <div class="${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+            <span class="mr-2">${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>`;
+}
+
+// Функция для отображения модального окна
+function showModal(content, title = '') {
+    // Удаляем существующее модальное окно, если оно есть
+    const existingModal = document.getElementById('modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Создаем и добавляем новое модальное окно
+    const modal = createModal(content, title);
+    document.body.insertAdjacentHTML('beforeend', modal);
+    
+    // Показываем модальное окно
+    const modalElement = document.getElementById('modal');
+    modalElement.classList.remove('hidden');
+    
+    // Блокируем прокрутку страницы
+    document.body.style.overflow = 'hidden';
+}
+
+// Функция для скрытия модального окна
+function hideModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+        modal.remove();
+        // Разблокируем прокрутку страницы
+        document.body.style.overflow = '';
+    }
+}
+
+// Функция для отображения уведомления
+function showNotification(message, type = 'success', duration = 3000) {
+    // Удаляем существующее уведомление, если оно есть
+    const existingNotification = document.getElementById('notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Создаем и добавляем новое уведомление
+    const notification = createNotification(message, type);
+    document.body.insertAdjacentHTML('beforeend', notification);
+    
+    // Показываем уведомление с анимацией
+    const notificationElement = document.getElementById('notification');
+    setTimeout(() => {
+        notificationElement.classList.remove('translate-x-full', 'opacity-0');
+    }, 100);
+    
+    // Автоматически скрываем уведомление через указанное время
+    setTimeout(() => {
+        if (notificationElement) {
+            notificationElement.classList.add('translate-x-full', 'opacity-0');
+            setTimeout(() => {
+                notificationElement.remove();
+            }, 300);
+        }
+    }, duration);
+}
+
+// Функция для создания универсальной карточки товара
+function createProductCard(dish, isFavorite = false) {
+    return `
+    <div class="w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50 cursor-pointer" onclick="showProductDetail(${dish.id})">
+        <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
+        <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+            <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
+            <p class="text-sm mb-2">${dish.description}</p>
+            <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
+            <div class="flex justify-between items-center gap-2 mt-2">
+                <button class="favorite-btn flex items-center gap-1 ${isFavorite ? 'bg-red-500' : 'bg-yellow-500'} text-white px-2 py-1 rounded w-[120px]" data-dish-id="${dish.id}" onclick="event.stopPropagation(); toggleFavorite(${dish.id})">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    ${isFavorite ? 'Unfavorite' : 'Favorite'}
+                </button>
+                <div class="flex items-center gap-2">
+                    <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 transition-all duration-300" data-dish-id="${dish.id}" onclick="event.stopPropagation(); addToCart(${dish.id})">
+                        to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+// Функция для создания модального окна с детальной информацией о товаре
+function createProductDetailModal(dish) {
+    return `
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="relative">
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-64 object-cover rounded-lg">
+        </div>
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold text-gray-900">${dish.name}</h2>
+            <p class="text-gray-600">${dish.description}</p>
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-yellow-500">€${dish.price.toFixed(2)}</span>
+                <span class="text-sm text-gray-500">/ ${dish.portion}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-yellow-500">★</span>
+                <span class="text-gray-600">${dish.rating}</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center border border-gray-300 rounded">
+                    <button class="px-2 py-1 hover:bg-gray-100" onclick="updateQuantity(${dish.id}, getCurrentQuantity(${dish.id}) - 1)">-</button>
+                    <span id="modal-quantity-${dish.id}" class="px-2 py-1">${getCurrentQuantity(dish.id)}</span>
+                    <button class="px-2 py-1 hover:bg-gray-100" onclick="updateQuantity(${dish.id}, getCurrentQuantity(${dish.id}) + 1)">+</button>
+                </div>
+                <button onclick="addToCart(${dish.id})" class="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                    Добавить в корзину
+                </button>
+            </div>
+        </div>
+    </div>`;
+}
+
+// Функция для отображения детальной информации о товаре
+async function showProductDetail(dishId) {
+    try {
+        const response = await fetch(`${window.baseUrl}/dishes/${dishId}`);
+        if (!response.ok) throw new Error('Failed to fetch dish details');
+        const dish = await response.json();
+        
+        const modalContent = createProductDetailModal(dish);
+        showModal(modalContent, dish.name);
+    } catch (error) {
+        console.error('Error showing product detail:', error);
+        showNotification('Ошибка при загрузке информации о товаре', 'error');
+    }
+}
+
+// Функция для получения текущего количества товара
+function getCurrentQuantity(dishId) {
+    const quantityElement = document.getElementById(`quantity-${dishId}`);
+    return quantityElement ? parseInt(quantityElement.textContent) || 1 : 1;
 } 
