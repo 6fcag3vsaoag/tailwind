@@ -9,9 +9,27 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#1a1a1a',
+                            text: '#ffffff',
+                            primary: '#ffe145',
+                            secondary: '#3f4255'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script src="common.js" defer></script>
     <script src="components.js" defer></script>
     <script src="translate.js" defer></script>
+    <script src="theme.js" defer></script>
     <script src="script.js" defer></script>
     <script src="cart.js" defer></script>
     <style>
@@ -24,31 +42,6 @@
             background-color: #dc2626 !important;
         }
     </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    padding: {
-                        '23': '5.75rem',
-                    },
-                    minHeight: {
-                        '70': '17.5rem',
-                        '109.5': '27.375rem',
-                    },
-                    width: {
-                        '74': '18.5rem',
-                        '120': '30rem',
-                    },
-                    margin: {
-                        '29.5': '7.375rem',
-                    },
-                    height: {
-                        '7.3': '1.825rem',
-                    },
-                }
-            }
-        }
-    </script>
     <link href="style.css" rel="stylesheet">
     <link href="style-common.css" rel="stylesheet">
     <link href="style-cart.css" rel="stylesheet">

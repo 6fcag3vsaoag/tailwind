@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
     <link href="style.css" rel="stylesheet">
     <link href="style-admin.css" rel="stylesheet">
-    <script src="common.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     padding: {
@@ -32,12 +32,22 @@
                     height: {
                         '7.3': '1.825rem',
                     },
+                    colors: {
+                        dark: {
+                            bg: '#1a1a1a',
+                            text: '#ffffff',
+                            primary: '#ffe145',
+                            secondary: '#3f4255'
+                        }
+                    }
                 }
             }
         }
     </script>
+    <script src="common.js" defer></script>
     <script src="components.js" defer></script>
     <script src="translate.js" defer></script>
+    <script src="theme.js" defer></script>
     <script src="script.js" defer></script>
     <script src="admin.js" defer></script>
 </head>

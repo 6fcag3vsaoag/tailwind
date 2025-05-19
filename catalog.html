@@ -11,25 +11,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    padding: {
-                        '23': '5.75rem',
-                    },
-                    minHeight: {
-                        '70': '17.5rem',
-                        '109.5': '27.375rem',
-                    },
-                    width: {
-                        '74': '18.5rem',
-                        '120': '30rem',
-                    },
-                    margin: {
-                        '29.5': '7.375rem',
-                    },
-                    height: {
-                        '7.3': '1.825rem',
-                    },
+                    colors: {
+                        dark: {
+                            bg: '#1a1a1a',
+                            text: '#ffffff',
+                            primary: '#ffe145',
+                            secondary: '#3f4255'
+                        }
+                    }
                 }
             }
         }
@@ -40,6 +32,7 @@
     <script src="common.js" defer></script>
     <script src="components.js" defer></script>
     <script src="translate.js" defer></script>
+    <script src="theme.js" defer></script>
     <script src="script.js" defer></script>
     <script src="auth.js" defer></script>
     <script src="catalog.js" defer></script>

@@ -66,21 +66,21 @@ function logout() {
 // Функция для создания хедера
 function createHeader() {
     return `
-    <header class="bg-white flex justify-between items-center py-3 mx-auto relative px-2 transition-colors duration-1000 ease-in-out hover:bg-gray-100 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[10000]"
+    <header class="bg-white dark:bg-dark-bg flex justify-between items-center py-3 mx-auto relative px-2 transition-colors duration-1000 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-800 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[10000]"
         style="position:fixed; top:0; left:0; width:100%; z-index:10000; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-        <a href="index.html" class="text-xl font-bold text-gray-800 relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+        <a href="index.html" class="text-xl font-bold text-gray-800 dark:text-gray-200 relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
             <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto transition-transform duration-500 hover:rotate-y-180">
         </a>
         <nav class="flex items-center gap-4 md:gap-12">
-            <a href="favorites.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+            <a href="favorites.html" class="text-gray-600 dark:text-gray-300 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/favorite.svg" alt="Favorites Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
                 <span id="favorites-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
             </a>
-            <a href="cart.html" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+            <a href="cart.html" class="text-gray-600 dark:text-gray-300 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
                 <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
             </a>
-            <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+            <a href="${getProfileLink()}" class="text-gray-600 dark:text-gray-300 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <img src="images/user.svg" alt="User Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
             </a>
             <button id="burger" class="focus:outline-none relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 rounded-full hover:shadow-lg hover:shadow-yellow-500/50 animate-pulse">
@@ -98,11 +98,11 @@ function createHeader() {
 // Функция для создания футера
 function createFooter() {
     return `
-    <footer class="bg-[#3f4255] text-white mt-5 mx-auto px-0 sm:px-8 py-6 lg:py-12 flex flex-col justify-between lg:min-h-109.5">
+    <footer class="bg-[#3f4255] dark:bg-gray-900 text-white mt-5 mx-auto px-0 sm:px-8 py-6 lg:py-12 flex flex-col justify-between lg:min-h-109.5">
         <div class="grid grid-cols-1 mx-auto md:grid-cols-2 xl:grid-cols-[25fr_20fr_20fr_35fr] gap-6 lg:min-h-70">
             <div class="flex flex-col gap-5 xl:gap-12 lg:pl-15 lg:min-w-120">
                 <img src="images/Logo2.svg" alt="Logo" class="h-6 w-auto lg:-ml-29.5 transition-all duration-300 ease-in-out hover:scale-110 hover:rotate-5 hover:hue-rotate-15 hover:brightness-150 hover:saturate-150" />
-                <div class="bg-[#d4d7e5] h-px lg:w-74"></div>
+                <div class="bg-[#d4d7e5] dark:bg-gray-700 h-px lg:w-74"></div>
                 <div class="flex gap-2 justify-center lg:justify-start">
                     <img src="images/app-img1-1.png" alt="App 1" class="h-7.3 w-auto hover:animate-bounce" />
                     <img src="images/app-img2-1.png" alt="App 2" class="h-7.3 w-auto hover:animate-bounce" />
@@ -112,6 +112,7 @@ function createFooter() {
                 <p class="[font-family:Poppins,sans-serif] pl-9 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0" data-i18n="about-us">About us</p>
                 <ul class="flex flex-col gap-4 list-none lg:pl-9 m-0">
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5] dark:text-gray-300" data-i18n="concept">Concept</span>
                         <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="concept">Concept</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
@@ -195,19 +196,32 @@ function createFooter() {
 // Функция для создания сайдбара
 function createSidebar() {
     const lang = typeof getCurrentLang === 'function' ? getCurrentLang() : (localStorage.getItem('language') || 'en');
+    const isDark = document.documentElement.classList.contains('dark');
+    
     return `
-    <div id="sidebar" class="fixed right-0 top-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-[9998]">
+    <div id="sidebar" class="fixed right-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-[9998]">
         <nav class="flex flex-col p-4 space-y-4 mt-16">
-            <a href="index.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="home">${i18Obj[lang]['home'] || 'Home'}</a>
-            <a href="catalog.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="catalog">${i18Obj[lang]['catalog'] || 'Catalog'}</a>
-            <a href="favorites.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="favorites">${i18Obj[lang]['favorites'] || 'Favorites'}</a>
-            <a href="cart.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="cart">${i18Obj[lang]['cart'] || 'Cart'}</a>
-            <a href="feedback.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="feedback">${i18Obj[lang]['feedback'] || 'Feedback'}</a>
-            <a href="about_us.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="about-us">${i18Obj[lang]['about-us'] || 'About us'}</a>
-            <a href="gallery.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="gallery">${i18Obj[lang]['gallery'] || 'Gallery'}</a>
-            <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="${isAuthenticated() ? 'profile' : 'login'}">${i18Obj[lang][isAuthenticated() ? 'profile' : 'login'] || (isAuthenticated() ? 'Профиль' : 'Вход')}</a>
-            ${isAuthenticated() ? `<button onclick="logout()" class="text-red-600 hover:text-red-700 relative after:absolute after:h-px after:bg-red-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full text-left" data-i18n="logout">${i18Obj[lang]['logout'] || 'Выйти'}</button>` : ''}
-            ${isAdmin() ? `<a href="admin.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="admin">${i18Obj[lang]['admin'] || 'Admin'}</a>` : ''}
+            <a href="index.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="home">${i18Obj[lang]['home'] || 'Home'}</a>
+            <a href="catalog.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="catalog">${i18Obj[lang]['catalog'] || 'Catalog'}</a>
+            <a href="favorites.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="favorites">${i18Obj[lang]['favorites'] || 'Favorites'}</a>
+            <a href="cart.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="cart">${i18Obj[lang]['cart'] || 'Cart'}</a>
+            <a href="feedback.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="feedback">${i18Obj[lang]['feedback'] || 'Feedback'}</a>
+            <a href="about_us.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="about-us">${i18Obj[lang]['about-us'] || 'About us'}</a>
+            <a href="gallery.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="gallery">${i18Obj[lang]['gallery'] || 'Gallery'}</a>
+            <a href="${getProfileLink()}" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="${isAuthenticated() ? 'profile' : 'login'}">${i18Obj[lang][isAuthenticated() ? 'profile' : 'login'] || (isAuthenticated() ? 'Профиль' : 'Вход')}</a>
+            ${isAuthenticated() ? `<button onclick="logout()" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 relative after:absolute after:h-px after:bg-red-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full text-left" data-i18n="logout">${i18Obj[lang]['logout'] || 'Выйти'}</button>` : ''}
+            ${isAdmin() ? `<a href="admin.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full" data-i18n="admin">${i18Obj[lang]['admin'] || 'Admin'}</a>` : ''}
+            
+            <!-- Переключатель темы -->
+            <div class="theme-toggle-container flex items-center gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                <button onclick="toggleTheme()" class="theme-toggle flex items-center gap-2 text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 transition-colors duration-300 w-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path class="sun-icon ${isDark ? 'hidden' : ''}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        <path class="moon-icon ${!isDark ? 'hidden' : ''}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <span class="theme-text">${isDark ? 'Светлая тема' : 'Темная тема'}</span>
+                </button>
+            </div>
         </nav>
     </div>`;
 }
@@ -541,4 +555,85 @@ function initLanguageSwitcher() {
         `;
         // ... остальной код ...
     }
-} 
+}
+
+// Функция для инициализации темы
+function initTheme() {
+    // Проверяем сохраненную тему в localStorage
+    const savedTheme = localStorage.getItem('theme');
+    
+    // Если тема сохранена, применяем её
+    if (savedTheme) {
+        document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    } else {
+        // Если тема не сохранена, проверяем системные настройки
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', prefersDark);
+        localStorage.setItem('theme', prefersDark ? 'dark' : 'light');
+    }
+}
+
+// Функция для переключения темы
+function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    // Обновляем текст в сайдбаре
+    const themeText = document.querySelector('.theme-text');
+    if (themeText) {
+        themeText.textContent = isDark ? 'Светлая тема' : 'Темная тема';
+    }
+    
+    // Обновляем иконку
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+    
+    if (isDark) {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+    } else {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+    }
+}
+
+// Создаем компонент переключателя темы
+function createThemeToggle() {
+    const toggle = document.createElement('button');
+    toggle.className = 'theme-toggle fixed top-4 right-4 z-50 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300';
+    toggle.innerHTML = `
+        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path class="sun-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            <path class="moon-icon hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    `;
+    
+    toggle.addEventListener('click', () => {
+        toggleTheme();
+        updateToggleIcon();
+    });
+    
+    document.body.appendChild(toggle);
+    updateToggleIcon();
+}
+
+// Функция для обновления иконки переключателя
+function updateToggleIcon() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+    
+    if (isDark) {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+    } else {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+    }
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    createThemeToggle();
+}); 

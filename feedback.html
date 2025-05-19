@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +10,9 @@
     <link href="style.css" rel="stylesheet">
     <link href="style-feedback.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="common.js" defer></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     padding: {
@@ -32,56 +32,65 @@
                     height: {
                         '7.3': '1.825rem',
                     },
+                    colors: {
+                        dark: {
+                            bg: '#1a1a1a',
+                            text: '#ffffff',
+                            primary: '#ffe145',
+                            secondary: '#3f4255'
+                        }
+                    }
                 }
             }
         }
     </script>
-    <!-- <link href="style-feedback.css" rel="stylesheet" /> -->
+    <script src="common.js" defer></script>
     <script src="components.js" defer></script>
     <script src="translate.js" defer></script>
+    <script src="theme.js" defer></script>
     <script src="script.js" defer></script>
     <script src="feedback.js" defer></script>
 </head>
-<body class="bg-white mx-auto px-0 overflow-x-hidden">
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text mx-auto px-0 overflow-x-hidden transition-colors duration-300">
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
-            <h1 class="text-3xl font-bold text-gray-900 mb-8" data-i18n="feedback-title">Отзывы</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8" data-i18n="feedback-title">Отзывы</h1>
             
             <!-- Форма добавления отзыва -->
-            <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
-                <h2 class="text-xl font-semibold mb-4" data-i18n="leave-feedback">Оставить отзыв</h2>
+            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100" data-i18n="leave-feedback">Оставить отзыв</h2>
                 <form id="feedbackForm" class="space-y-4">
                     <div>
-                        <label for="dishSelect" class="block text-sm font-medium text-gray-700" data-i18n="select-dish-label">
+                        <label for="dishSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="select-dish-label">
                             Выберите блюдо <span class="text-red-500">*</span>
                         </label>
                         <select id="dishSelect" name="dishId" required
-                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 rounded-md"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 rounded-md"
                             data-i18n-placeholder="select-dish-placeholder">
                             <option value="" data-i18n="select-dish-placeholder">Выберите блюдо</option>
                         </select>
                     </div>
                     
                     <div>
-                        <label for="rating" class="block text-sm font-medium text-gray-700" data-i18n="rating-label">
+                        <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="rating-label">
                             Оценка <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-1 flex items-center space-x-2">
-                            <button type="button" class="rating-btn" data-rating="1">1</button>
-                            <button type="button" class="rating-btn" data-rating="2">2</button>
-                            <button type="button" class="rating-btn" data-rating="3">3</button>
-                            <button type="button" class="rating-btn" data-rating="4">4</button>
-                            <button type="button" class="rating-btn" data-rating="5">5</button>
+                            <button type="button" class="rating-btn dark:bg-gray-700 dark:text-gray-300" data-rating="1">1</button>
+                            <button type="button" class="rating-btn dark:bg-gray-700 dark:text-gray-300" data-rating="2">2</button>
+                            <button type="button" class="rating-btn dark:bg-gray-700 dark:text-gray-300" data-rating="3">3</button>
+                            <button type="button" class="rating-btn dark:bg-gray-700 dark:text-gray-300" data-rating="4">4</button>
+                            <button type="button" class="rating-btn dark:bg-gray-700 dark:text-gray-300" data-rating="5">5</button>
                         </div>
                         <input type="hidden" id="rating" name="rating" required>
                     </div>
                     
                     <div>
-                        <label for="comment" class="block text-sm font-medium text-gray-700" data-i18n="comment-label">
+                        <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="comment-label">
                             Комментарий <span class="text-red-500">*</span>
                         </label>
                         <textarea id="comment" name="comment" rows="4" required
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
+                            class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
                             data-i18n-placeholder="comment-placeholder"
                             placeholder="Напишите ваш отзыв (минимум 10 символов)"></textarea>
                         <p id="commentError" class="mt-2 text-sm text-red-600 hidden"></p>
