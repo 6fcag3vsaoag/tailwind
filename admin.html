@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yellow Kitchen - Админ-панель</title>
+    <title data-i18n="admin-title">Yellow Kitchen - Админ-панель</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
@@ -37,6 +37,7 @@
         }
     </script>
     <script src="components.js" defer></script>
+    <script src="translate.js" defer></script>
     <script src="script.js" defer></script>
     <script src="admin.js" defer></script>
 </head>
@@ -48,18 +49,12 @@
                 <div class="flex justify-between h-16">
                     <div class="flex">
                         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                            <button id="dishesTab" class="border-yellow-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                                Управление товарами
-                            </button>
-                            <button id="feedbackTab" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                                Управление отзывами
-                            </button>
+                            <button id="dishesTab" class="border-yellow-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" data-i18n="admin-dishes-tab">Управление товарами</button>
+                            <button id="feedbackTab" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" data-i18n="admin-feedback-tab">Управление отзывами</button>
                         </div>
                     </div>
                     <div class="flex items-center">
-                        <button id="logoutButton" class="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">
-                            Выйти
-                        </button>
+                        <button id="logoutButton" class="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium" data-i18n="logout">Выйти</button>
                     </div>
                 </div>
             </div>
@@ -70,10 +65,10 @@
             <!-- Секция управления товарами -->
             <div id="dishesSection" class="space-y-6">
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Добавить новый товар</h2>
+                    <h2 class="text-xl font-semibold mb-4" data-i18n="admin-add-dish">Добавить новый товар</h2>
                     <form id="dishForm" class="space-y-4" enctype="multipart/form-data">
                         <div>
-                            <label for="dishName" class="block text-sm font-medium text-gray-700">
+                            <label for="dishName" class="block text-sm font-medium text-gray-700" data-i18n="admin-dish-name">
                                 Название <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="dishName" name="name" required
@@ -81,7 +76,7 @@
                         </div>
                         
                         <div>
-                            <label for="dishDescription" class="block text-sm font-medium text-gray-700">
+                            <label for="dishDescription" class="block text-sm font-medium text-gray-700" data-i18n="admin-dish-description">
                                 Описание <span class="text-red-500">*</span>
                             </label>
                             <textarea id="dishDescription" name="description" rows="3" required
@@ -89,7 +84,7 @@
                         </div>
                         
                         <div>
-                            <label for="dishPrice" class="block text-sm font-medium text-gray-700">
+                            <label for="dishPrice" class="block text-sm font-medium text-gray-700" data-i18n="admin-dish-price">
                                 Цена <span class="text-red-500">*</span>
                             </label>
                             <input type="number" id="dishPrice" name="price" step="0.01" required
@@ -97,22 +92,22 @@
                         </div>
                         
                         <div>
-                            <label for="dishCategory" class="block text-sm font-medium text-gray-700">
+                            <label for="dishCategory" class="block text-sm font-medium text-gray-700" data-i18n="admin-dish-category">
                                 Категория <span class="text-red-500">*</span>
                             </label>
                             <select id="dishCategory" name="category" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
-                                <option value="">Выберите категорию</option>
-                                <option value="Burger">Бургеры</option>
-                                <option value="Pasta">Паста</option>
-                                <option value="Pizza">Пицца</option>
-                                <option value="Salad">Салаты</option>
-                                <option value="Sushi">Суши</option>
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500" data-i18n-placeholder="admin-dish-category-placeholder">
+                                <option value="" data-i18n="admin-dish-category-placeholder">Выберите категорию</option>
+                                <option value="Burger" data-i18n="category-burger">Бургеры</option>
+                                <option value="Pasta" data-i18n="category-pasta">Паста</option>
+                                <option value="Pizza" data-i18n="category-pizza">Пицца</option>
+                                <option value="Salad" data-i18n="category-salad">Салаты</option>
+                                <option value="Sushi" data-i18n="category-sushi">Суши</option>
                             </select>
                         </div>
                         
                         <div>
-                            <label for="dishImage" class="block text-sm font-medium text-gray-700">
+                            <label for="dishImage" class="block text-sm font-medium text-gray-700" data-i18n="admin-dish-image">
                                 Изображение <span class="text-red-500">*</span>
                             </label>
                             <input type="file" id="dishImage" name="image" accept="image/*" required
@@ -121,7 +116,7 @@
                         
                         <div>
                             <button type="submit"
-                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-i18n="admin-add-dish-btn">
                                 Добавить товар
                             </button>
                         </div>
@@ -130,7 +125,7 @@
                 
                 <!-- Список товаров -->
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Список товаров</h2>
+                    <h2 class="text-xl font-semibold mb-4" data-i18n="admin-dishes-list">Список товаров</h2>
                     <div id="dishesList" class="space-y-4">
                         <!-- Товары будут добавлены динамически -->
                     </div>
@@ -140,13 +135,11 @@
             <!-- Секция управления отзывами -->
             <div id="feedbackSection" class="hidden space-y-6">
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Управление отзывами</h2>
+                    <h2 class="text-xl font-semibold mb-4" data-i18n="admin-feedback-title">Управление отзывами</h2>
                     <div class="mb-4">
-                        <label for="userFilter" class="block text-sm font-medium text-gray-700">
-                            Фильтр по пользователю
-                        </label>
-                        <select id="userFilter" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
-                            <option value="">Все пользователи</option>
+                        <label for="userFilter" class="block text-sm font-medium text-gray-700" data-i18n="admin-user-filter">Фильтр по пользователю</label>
+                        <select id="userFilter" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500" data-i18n-placeholder="admin-user-filter-placeholder">
+                            <option value="" data-i18n="admin-user-filter-placeholder">Все пользователи</option>
                             <!-- Пользователи будут добавлены динамически -->
                         </select>
                     </div>

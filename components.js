@@ -109,48 +109,52 @@ function createFooter() {
                 </div>
             </div>
             <div class="flex flex-col gap-6">
-                <p class="[font-family:Poppins,sans-serif] pl-9 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0">About us</p>
+                <p class="[font-family:Poppins,sans-serif] pl-9 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0" data-i18n="about-us">About us</p>
                 <ul class="flex flex-col gap-4 list-none lg:pl-9 m-0">
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Concept</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="concept">Concept</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Franchise</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="franchise">Franchise</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Business</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="business">Business</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Restaurant signup</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="restaurant-signup">Restaurant signup</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">For Investors</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="for-investors">For Investors</span>
                     </li>
                 </ul>
             </div>
             <div class="flex flex-col gap-6">
-                <p class="[font-family:Poppins,sans-serif] pl-8 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0">Get help</p>
+                <p class="[font-family:Poppins,sans-serif] pl-8 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0" data-i18n="get-help">Get help</p>
                 <ul class="flex flex-col gap-4 list-none lg:pl-8 m-0">
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Read FAQs</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="read-faqs">Read FAQs</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Restaurants</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="restaurants">Restaurants</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Specialities</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="specialties">Specialities</span>
                     </li>
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">Sign up to deliver</span>
+                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]" data-i18n="signup-deliver">Sign up to deliver</span>
                     </li>
                     <li class="flex justify-start gap-0 items-center group relative hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-40">
-                        <span class="[font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#d4d7e5]">English</span>
-                        <img src="images/down.svg" alt="Dropdown" class="w-6 h-6 pl-1 -mt-0.5 grow-0 shrink-0 basis-auto" />
+                        <div class="language-switcher relative cursor-pointer">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[#d4d7e5]">English</span>
+                                <img src="images/down.svg" alt="Dropdown" class="w-6 h-6 pl-1 -mt-0.5">
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="flex flex-col gap-6">
-                <p class="[font-family:Poppins,sans-serif] lg:pl-7 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0">Contact us</p>
+                <p class="[font-family:Poppins,sans-serif] lg:pl-7 lg:text-2xl font-semibold leading-8 text-[white] text-xl mx-auto lg:m-0" data-i18n="contact-us">Contact us</p>
                 <ul class="flex flex-col gap-4 list-none lg:pl-7 m-0">
                     <li class="group relative inline-block hover:animate-bounce after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-80">
                         <span class="[font-family:'Martel_Sans',sans-serif] text-base font-light tracking-[0.50px] text-left leading-6 text-[white] w-[213px]">Yellow kitchen Paris 11</span>
@@ -180,9 +184,9 @@ function createFooter() {
                 </a>
             </div>
             <div class="flex justify-start grow-0 shrink-0 items-center basis-auto flex-col sm:flex-row gap-4 lg:gap-14">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 pr-1 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">Privacy Policy</p>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">Terms</p>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full">© 2020 Yellow kitchen</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 pr-1 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full" data-i18n="privacy-policy">Privacy Policy</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-extrabold leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 inline-block hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full" data-i18n="terms">Terms</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal leading-4 text-[white] grow-0 shrink-0 basis-auto m-0 p-0 hover:animate-bounce relative group after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:rounded transition-all duration-300 hover:after:w-full" data-i18n="copyright">© 2020 Yellow kitchen</p>
             </div>
         </div>
     </footer>`;
@@ -438,6 +442,10 @@ function showNotification(message, type = 'success', duration = 3000) {
 
 // Функция для создания универсальной карточки товара
 function createProductCard(dish, isFavorite = false) {
+    const lang = typeof getCurrentLang === 'function' ? getCurrentLang() : (localStorage.getItem('language') || 'en');
+    const addToCartText = i18Obj[lang]['add-to-cart'] || 'to cart';
+    const removeFromFavoritesText = i18Obj[lang]['remove-from-favorites'] || 'Unfavorite';
+    const addToFavoritesText = i18Obj[lang]['add-to-favorites'] || 'Favorite';
     return `
     <div class="w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50 cursor-pointer" onclick="showProductDetail(${dish.id})">
         <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
@@ -450,11 +458,11 @@ function createProductCard(dish, isFavorite = false) {
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
-                    ${isFavorite ? 'Unfavorite' : 'Favorite'}
+                    ${isFavorite ? removeFromFavoritesText : addToFavoritesText}
                 </button>
                 <div class="flex items-center gap-2">
                     <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 transition-all duration-300" data-dish-id="${dish.id}" onclick="event.stopPropagation(); addToCart(${dish.id})">
-                        to cart
+                        ${addToCartText}
                     </button>
                 </div>
             </div>

@@ -432,15 +432,57 @@ function createAddProductModal() {
 
 // Обновляем функцию renderCatalog для добавления обработчиков кликов
 async function renderCatalog(dishes) {
-    if (!catalogContainer) return;
+    if (!dishes || dishes.length === 0) {
+        catalogContainer.innerHTML = `<div class="col-span-full text-center text-gray-500" data-i18n="no-items">Товары не найдены</div>`;
+        return;
+    }
 
-    const catalogHTML = await Promise.all(dishes.map(async dish => {
-        const isFavorite = await isDishFavorite(dish.id);
-        console.log(`Dish ${dish.id} favorite status:`, isFavorite);
-        return createProductCard(dish, isFavorite);
-    }));
+    const cartItems = await fetchCart();
+    const favorites = await fetchFavorites();
 
-    catalogContainer.innerHTML = catalogHTML.join('');
+    catalogContainer.innerHTML = dishes.map(dish => {
+        const isInCart = cartItems.some(item => item.dishId === dish.id);
+        const isFavorite = favorites.some(fav => fav.id === dish.id);
+        
+        return `
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="showProductDetail(${dish.id})">
+                <img src="${dish.image}" alt="${dish.name}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2">${dish.name}</h3>
+                    <p class="text-gray-600 mb-4">${dish.description}</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold">${dish.price} ${i18Obj[getCurrentLang()]['currency']}</span>
+                        <div class="flex items-center">
+                            <span class="text-yellow-500 mr-1">★</span>
+                            <span>${dish.rating} ${i18Obj[getCurrentLang()]['stars']}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between gap-2">
+                        <button onclick="event.stopPropagation(); toggleFavorite(${dish.id})" 
+                            class="favorite-btn ${isFavorite ? 'bg-red-500' : 'bg-yellow-500'} text-white px-4 py-2 rounded flex items-center justify-center gap-2 transition-all duration-300"
+                            data-dish-id="${dish.id}">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                            </svg>
+                            <span data-i18n="${isFavorite ? 'remove-from-favorites' : 'add-to-favorites'}">
+                                ${isFavorite ? i18Obj[getCurrentLang()]['remove-from-favorites'] : i18Obj[getCurrentLang()]['add-to-favorites']}
+                            </span>
+                        </button>
+                        <button onclick="event.stopPropagation(); addToCart(${dish.id})" 
+                            class="cart-btn bg-green-500 text-white px-4 py-2 rounded flex items-center justify-center gap-2 transition-all duration-300"
+                            data-dish-id="${dish.id}">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                            <span data-i18n="${isInCart ? 'remove-from-cart' : 'add-to-cart'}">
+                                ${isInCart ? i18Obj[getCurrentLang()]['remove-from-cart'] : i18Obj[getCurrentLang()]['add-to-cart']}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // Функция для отображения детальной информации о товаре
@@ -564,23 +606,78 @@ async function deleteProduct(dishId) {
 }
 
 function renderPagination(totalItems) {
-    console.log('Rendering pagination with total items:', totalItems);
-    paginationContainer.innerHTML = '';
-    if (itemsPerPage === Infinity) {
-        // Не отображаем пагинацию, если выбрано "All"
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
         return;
     }
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    let paginationHTML = '';
+    
+    // Кнопка "Первая"
+    paginationHTML += `
+        <button class="px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600 text-white'}"
+            ${currentPage === 1 ? 'disabled' : `onclick="goToPage(1)"`}>
+            <span data-i18n="first">${i18Obj[getCurrentLang()]['first']}</span>
+        </button>
+    `;
+
+    // Кнопка "Предыдущая"
+    paginationHTML += `
+        <button class="px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600 text-white'}"
+            ${currentPage === 1 ? 'disabled' : `onclick="goToPage(${currentPage - 1})"`}>
+            <span data-i18n="prev">${i18Obj[getCurrentLang()]['prev']}</span>
+        </button>
+    `;
+
+    // Номера страниц
     for (let i = 1; i <= totalPages; i++) {
-        const button = document.createElement('button');
-        button.textContent = i;
-        button.className = `px-4 py-2 border-2 border-yellow-300 rounded-md font-['Martel_Sans'] font-bold text-gray-500 ${i === currentPage ? 'bg-yellow-300' : 'bg-gray-100'} hover:bg-yellow-300 hover:text-gray-800 transition-all duration-300 ease-in-out`;
-        button.addEventListener('click', () => {
-            currentPage = i;
-            filterAndSort();
-        });
-        paginationContainer.appendChild(button);
+        if (
+            i === 1 || // Первая страница
+            i === totalPages || // Последняя страница
+            (i >= currentPage - 1 && i <= currentPage + 1) // Страницы вокруг текущей
+        ) {
+            paginationHTML += `
+                <button class="px-3 py-1 rounded ${currentPage === i ? 'bg-yellow-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}"
+                    onclick="goToPage(${i})">
+                    ${i}
+                </button>
+            `;
+        } else if (
+            i === currentPage - 2 || // Перед пропуском
+            i === currentPage + 2 // После пропуска
+        ) {
+            paginationHTML += `
+                <span class="px-2">...</span>
+            `;
+        }
     }
+
+    // Кнопка "Следующая"
+    paginationHTML += `
+        <button class="px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600 text-white'}"
+            ${currentPage === totalPages ? 'disabled' : `onclick="goToPage(${currentPage + 1})"`}>
+            <span data-i18n="next">${i18Obj[getCurrentLang()]['next']}</span>
+        </button>
+    `;
+
+    // Кнопка "Последняя"
+    paginationHTML += `
+        <button class="px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600 text-white'}"
+            ${currentPage === totalPages ? 'disabled' : `onclick="goToPage(${totalPages})"`}>
+            <span data-i18n="last">${i18Obj[getCurrentLang()]['last']}</span>
+        </button>
+    `;
+
+    // Информация о текущей странице
+    paginationHTML += `
+        <div class="ml-4 text-gray-600">
+            <span data-i18n="page">${i18Obj[getCurrentLang()]['page']}</span> ${currentPage} 
+            <span data-i18n="of">${i18Obj[getCurrentLang()]['of']}</span> ${totalPages}
+        </div>
+    `;
+
+    paginationContainer.innerHTML = paginationHTML;
 }
 
 async function filterAndSort() {
@@ -668,116 +765,64 @@ async function applyArrayMethod(method) {
     renderCatalog(result);
 }
 
-searchInput.addEventListener('input', () => {
-    currentPage = 1;
-    filterAndSort();
-});
-sortSelect.addEventListener('change', () => {
-    currentPage = 1;
-    filterAndSort();
-});
-itemsPerPageSelect.addEventListener('change', () => {
-    itemsPerPage = itemsPerPageSelect.value === 'all' ? Infinity : parseInt(itemsPerPageSelect.value);
-    currentPage = 1;
-    filterAndSort();
-});
-categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        currentCategory = button.dataset.category;
-        currentPage = 1;
-        filterAndSort();
-    });
-});
-arrayMethodButtons.forEach(button => {
-    button.addEventListener('click', () => applyArrayMethod(button.dataset.method));
-});
-priceMinInput.addEventListener('input', () => {
-    currentPage = 1;
-    filterAndSort();
-});
-priceMaxInput.addEventListener('input', () => {
-    currentPage = 1;
-    filterAndSort();
-});
-ratingMinInput.addEventListener('input', () => {
-    currentPage = 1;
-    filterAndSort();
-});
-ratingMaxInput.addEventListener('input', () => {
-    currentPage = 1;
-    filterAndSort();
-});
-
-document.addEventListener('click', async (e) => {
-    if (!window.auth.isAuthenticated()) {
-        window.location.href = 'login.html';
-        return;
-    }
-
-    if (e.target.closest('.favorite-btn')) {
-        const btn = e.target.closest('.favorite-btn');
-        const id = parseInt(btn.dataset.dishId);
-        console.log('Favorite button clicked for dish:', id);
-        await toggleFavorite(id);
-    } else if (e.target.closest('.cart-btn')) {
-        const btn = e.target.closest('.cart-btn');
-        const id = parseInt(btn.dataset.dishId);
-        const quantityInput = btn.parentElement.querySelector('.quantity-input');
-        const quantity = parseInt(quantityInput.value);
-        console.log('Cart button clicked for dish:', id, 'quantity:', quantity);
-        if (quantity > 0) {
-            await addToCart(id);
-            await updateCartCount();
-        } else {
-            alert('Please enter a valid quantity');
-        }
-    }
-});
+async function goToPage(page) {
+    currentPage = page;
+    await filterAndSort();
+}
 
 async function init() {
-    console.log('Initializing catalog...');
     try {
-        const { data, totalItems } = await fetchDishes();
-        console.log('Initial dishes data:', data);
+        // Инициализация переводов
+        getTranslate(getCurrentLang());
         
-        if (!data || !Array.isArray(data)) {
-            throw new Error('Invalid data format received from server');
-        }
-        
-        const categories = new Set(data.map(dish => dish.category));
-        console.log('Available categories:', categories);
-        
-        // Обновляем кнопки категорий
-        if (categoryButtons) {
-            categoryButtons.forEach(button => {
-                if (button.dataset.category !== 'all' && !categories.has(button.dataset.category)) {
-                    button.remove();
-                }
-            });
-        }
-        
-        // Рендерим каталог
-        if (catalogContainer) {
-            renderCatalog(data);
-        }
-        
-        // Рендерим пагинацию
-        if (paginationContainer) {
-            renderPagination(totalItems);
-        }
-        
-        // Обновляем счетчик корзины
+        // Добавляем обработчики событий для элементов с атрибутами data-i18n-placeholder
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            element.placeholder = i18Obj[getCurrentLang()][key];
+        });
+
+        // Загрузка данных
+        await filterAndSort();
         await updateCartCount();
-        
-        console.log('Catalog initialization completed');
+        await updateFavoriteButtons();
+        await updateFavoritesCount();
+
+        // Добавляем обработчики событий
+        searchInput.addEventListener('input', debounce(filterAndSort, 300));
+        sortSelect.addEventListener('change', filterAndSort);
+        itemsPerPageSelect.addEventListener('change', (e) => {
+            itemsPerPage = e.target.value === 'all' ? Infinity : parseInt(e.target.value);
+            currentPage = 1;
+            filterAndSort();
+        });
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentCategory = button.dataset.category;
+                currentPage = 1;
+                filterAndSort();
+            });
+        });
+
+        arrayMethodButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const method = button.dataset.method;
+                applyArrayMethod(method);
+            });
+        });
+
+        // Добавляем обработчики для фильтров цены и рейтинга
+        [priceMinInput, priceMaxInput, ratingMinInput, ratingMaxInput].forEach(input => {
+            input.addEventListener('input', debounce(filterAndSort, 300));
+        });
+
     } catch (error) {
-        console.error('Error during catalog initialization:', error);
-        if (catalogContainer) {
-            catalogContainer.innerHTML = '<p class="text-center text-red-500">Ошибка при загрузке каталога. Пожалуйста, попробуйте позже.</p>';
-        }
+        console.error('Error initializing catalog:', error);
+        showNotification(i18Obj[getCurrentLang()]['error'], 'error');
     }
 }
 
-init();
+// Запускаем инициализацию при загрузке страницы
+document.addEventListener('DOMContentLoaded', init);

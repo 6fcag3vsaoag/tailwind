@@ -145,11 +145,6 @@
     {
       "id": 8,
       "userId": 1,
-      "dishId": 1
-    },
-    {
-      "id": 10,
-      "userId": 1,
       "dishId": 3
     }
   ],

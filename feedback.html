@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yellow Kitchen - Отзывы</title>
+    <title data-i18n="feedback-title">Yellow Kitchen - Отзывы</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
     <link href="style.css" rel="stylesheet">
     <link href="style-feedback.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="common.js"></script>
+    <script src="common.js" defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -38,30 +38,32 @@
     </script>
     <!-- <link href="style-feedback.css" rel="stylesheet" /> -->
     <script src="components.js" defer></script>
+    <script src="translate.js" defer></script>
     <script src="script.js" defer></script>
     <script src="feedback.js" defer></script>
 </head>
 <body class="bg-white mx-auto px-0 overflow-x-hidden">
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
-            <h1 class="text-3xl font-bold text-gray-900 mb-8">Отзывы</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mb-8" data-i18n="feedback-title">Отзывы</h1>
             
             <!-- Форма добавления отзыва -->
             <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
-                <h2 class="text-xl font-semibold mb-4">Оставить отзыв</h2>
+                <h2 class="text-xl font-semibold mb-4" data-i18n="leave-feedback">Оставить отзыв</h2>
                 <form id="feedbackForm" class="space-y-4">
                     <div>
-                        <label for="dishSelect" class="block text-sm font-medium text-gray-700">
+                        <label for="dishSelect" class="block text-sm font-medium text-gray-700" data-i18n="select-dish-label">
                             Выберите блюдо <span class="text-red-500">*</span>
                         </label>
                         <select id="dishSelect" name="dishId" required
-                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 rounded-md">
-                            <option value="">Выберите блюдо</option>
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 rounded-md"
+                            data-i18n-placeholder="select-dish-placeholder">
+                            <option value="" data-i18n="select-dish-placeholder">Выберите блюдо</option>
                         </select>
                     </div>
                     
                     <div>
-                        <label for="rating" class="block text-sm font-medium text-gray-700">
+                        <label for="rating" class="block text-sm font-medium text-gray-700" data-i18n="rating-label">
                             Оценка <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-1 flex items-center space-x-2">
@@ -75,18 +77,20 @@
                     </div>
                     
                     <div>
-                        <label for="comment" class="block text-sm font-medium text-gray-700">
+                        <label for="comment" class="block text-sm font-medium text-gray-700" data-i18n="comment-label">
                             Комментарий <span class="text-red-500">*</span>
                         </label>
                         <textarea id="comment" name="comment" rows="4" required
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
+                            data-i18n-placeholder="comment-placeholder"
                             placeholder="Напишите ваш отзыв (минимум 10 символов)"></textarea>
                         <p id="commentError" class="mt-2 text-sm text-red-600 hidden"></p>
                     </div>
                     
                     <div>
                         <button type="submit" id="submitBtn" disabled
-                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            data-i18n="send-feedback">
                             Отправить отзыв
                         </button>
                     </div>

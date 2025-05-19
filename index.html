@@ -15,6 +15,7 @@
 
     <script src="common.js" defer></script>
     <script src="components.js" defer></script>
+    <script src="translate.js" defer></script>
     <script src="script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js" defer></script>
 
@@ -30,19 +31,19 @@
         <div class="flex flex-col lg:container xl:mx-auto xl:px-6 lg:absolute lg:top-1 lg:left-1 xl:top-14 xl:left-11.5">
             <div class="mt-5 lg:mt-10 h-[120px] md:h-[170px] w-auto xl:w-[540px] xl:h-[320px] flex flex-col justify-between p-0">
                 <!-- Верхняя часть: текст -->
-                <h1 class="[font-family:Poppins,sans-serif] text-[19px] sm:text-[30px] lg:text-[58px] font-light tracking-[2.90px] text-center lg:text-left md:leading-[64px] text-[#3f4255] lg:max-w-[539px] box-border md:pl-6 md:pt-6 transition-all duration-700 ease-in-out hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white hover:skew-y-6">Your Food court at home</h1>
+                <h1 class="[font-family:Poppins,sans-serif] text-[19px] sm:text-[30px] lg:text-[58px] font-light tracking-[2.90px] text-center lg:text-left md:leading-[64px] text-[#3f4255] lg:max-w-[539px] box-border md:pl-6 md:pt-6 transition-all duration-700 ease-in-out hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white hover:skew-y-6" data-i18n="your-food-court">Your Food court at home</h1>
                 <!-- Нижняя часть: кнопки -->
                 <div class="flex items-center justify-center lg:justify-start pl-5.5 pb-2 lg:w-[300px]">
                     <div class="flex gap-6">
                         <!-- Delivery Button -->
                         <a href="#" class="flex flex-col items-center justify-start h-[72px] w-[118px] h-max-[72px] rounded border-2 border-solid border-[#ffe145] text-center transition-all duration-500 ease-in-out hover:scale-110 hover:border-yellow-600 relative before:content-[''] before:absolute before:inset-0 before:bg-yellow-500 before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out hover:before:opacity-20">
-                            <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5 transition-colors duration-500 ease-in-out hover:text-yellow-900">Delivery</span>
-                            <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px] transition-transform duration-500 ease-in-out hover:translate-y-0">Order in</small>
+                            <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5 transition-colors duration-500 ease-in-out hover:text-yellow-900" data-i18n="delivery">Delivery</span>
+                            <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px] transition-transform duration-500 ease-in-out hover:translate-y-0" data-i18n="order-in">Order in</small>
                         </a>
                         <!-- Takeout Button -->
                         <a href="#" class="flex flex-col items-center justify-start h-[72px] w-[117px] h-max-[72px] rounded border-2 border-solid border-[#ffe145] text-center transition-all duration-500 ease-in-out hover:scale-110 hover:border-yellow-600 relative before:content-[''] before:absolute before:inset-0 before:bg-yellow-500 before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out hover:before:opacity-20">
-                            <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5 transition-colors duration-500 ease-in-out hover:text-yellow-900">Takeout</span>
-                            <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px] transition-transform duration-500 ease-in-out hover:translate-y-0">Grab and go</small>
+                            <span class="pt-[18px] text-base font-bold [font-family:'Martel_Sans',sans-serif] text-[#3f4255] tracking-[0.50px] leading-5 transition-colors duration-500 ease-in-out hover:text-yellow-900" data-i18n="takeout">Takeout</span>
+                            <small class="[font-family:'Martel_Sans',sans-serif] text-xs font-normal text-[#3f4255] tracking-[0.00px] text-center leading-4 transform translate-y-[-2px] transition-transform duration-500 ease-in-out hover:translate-y-0" data-i18n="grab-and-go">Grab and go</small>
                         </a>
                     </div>
                 </div>
@@ -57,7 +58,7 @@
                 <div class="relative z-10 bg-gray-50 p-2 rounded-md group-hover:rotate-6 transition-transform duration-300 ease-in-out">
                     <img src="images/clock.png" alt="" class="h-12 w-12 block box-border">
                 </div>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] md:text-left leading-6 text-[#3f4255] transition-colors duration-300 ease-in-out group-hover:text-gray-700">
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.3px] md:text-left leading-6 text-[#3f4255] transition-colors duration-300 ease-in-out group-hover:text-gray-700" data-i18n="delivery-time">
                     delivery in all paris in less than 30 minutes
                 </p>
             </div>
@@ -68,7 +69,7 @@
                 <div class="relative z-10 bg-gray-50 p-2 rounded-md group-hover:rotate-6 transition-transform duration-300 ease-in-out">
                     <img src="images/delivery.png" alt="" class="h-12 w-12 block box-border">
                 </div>
-                <p class="text-base font-light tracking-[0.50px] md:text-left leading-6 text-[#3f4255] transition-colors duration-300 ease-in-out group-hover:text-gray-700">
+                <p class="text-base font-light tracking-[0.50px] md:text-left leading-6 text-[#3f4255] transition-colors duration-300 ease-in-out group-hover:text-gray-700" data-i18n="free-delivery">
                     Free delivery from 29 euros
                 </p>
             </div>
@@ -79,7 +80,7 @@
                 <div class="relative z-10 bg-gray-50 p-2 rounded-md group-hover:rotate-6 transition-transform duration-300 ease-in-out">
                     <img src="images/paris.png" alt="" class="h-12 w-12 block box-border">
                 </div>
-                <p class="text-base font-normal tracking-[0.3px] md:text-left leading-6 text-[#3f4255] w-auto md:max-w-55 md:ml-[-1px] transition-colors duration-300 ease-in-out group-hover:text-gray-700">
+                <p class="text-base font-normal tracking-[0.3px] md:text-left leading-6 text-[#3f4255] w-auto md:max-w-55 md:ml-[-1px] transition-colors duration-300 ease-in-out group-hover:text-gray-700" data-i18n="fresh-products">
                     Only fresh <span class="md:block">and French products</span>
                 </p>
             </div>
@@ -89,9 +90,9 @@
     <!-- Restaurants Section -->
     <section class="bg-white container mx-auto max-w-[318px] md:max-w-[740px] lg:max-w-[1000px] xl:max-w-[1256px] mt-5 lg:mt-12">
         <div class="flex justify-between items-center px-4 sm:px-15 md:px-25 lg:px-35 xl:px-0">
-            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto md:m-0 md:p-0 transition-all duration-700 ease-in-out hover:skew-y-6  hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white">Restaurants</h2>
+            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto md:m-0 md:p-0 transition-all duration-700 ease-in-out hover:skew-y-6  hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-white" data-i18n="restaurants">Restaurants</h2>
             <a href="catalog.html" class="inline-block">
-                <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none] transition-all duration-500 ease-in-out hover:bg-yellow-500 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50">
+                <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none] transition-all duration-500 ease-in-out hover:bg-yellow-500 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50" data-i18n="show-all">
                     show all
                 </button>
             </a>
@@ -125,16 +126,16 @@
     <section class="mt-6 lg:mt-18 bg-gray-100 mx-0 xl:h-74 md:h-max-74">
         <div class="pt-5 md:pt-10 lg:pt-15 xl:pt-23 mx-2 md:mx-10 xl:mx-41 bg-gray-100 flex flex-col lg:flex-row justify-between">
             <div class="flex flex-wrap flex-col gap-2 xl:gap-9 bg-gray-100">
-                <h2 class="[font-family:Poppins,sans-serif] text-[18px] md:text-3xl xl:text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 lg:pl-2 transition-all duration-700 ease-in-out hover:animate-pulse">Your nearest restaurants</h2>
-                <p class="[font-family:'Martel_Sans',sans-serif] text-[12px] md:text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] xl:max-w-95 box-border m-0 lg:pl-2 transition-transform duration-500 ease-in-out hover:translate-x-4">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
+                <h2 class="[font-family:Poppins,sans-serif] text-[18px] md:text-3xl xl:text-4xl font-light tracking-[2.85px] text-[#3f4255] m-0 lg:pl-2 transition-all duration-700 ease-in-out hover:animate-pulse" data-i18n="nearest-restaurants">Your nearest restaurants</h2>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-[12px] md:text-base font-normal tracking-[0.33px] text-left leading-6 text-[#3f4255] xl:max-w-95 box-border m-0 lg:pl-2 transition-transform duration-500 ease-in-out hover:translate-x-4" data-i18n="delivery-area">Each kitchen works with its own delivery area to deliver food to you as soon as possible</p>
             </div>
             <!-- Форма ввода адреса -->
             <form class="flex md:justify-between gap-2 bg-gray-100 box-border w-full md:w-109 pr-2 mt-5 mb-8">
                 <div class="flex items-center shadow-[0px_8px_40px_rgba(0,0,0,0.08)] [font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.35px] leading-6 bg-white text-[#9093a6] grow-0 shrink-0 basis-auto md:pl-4 py-2 w-54 md:w-84 rounded transition-all duration-500 ease-in-out hover:shadow-yellow-500/50">
                     <img src="images/loc1.svg" alt="Location" class="mr-2 transition-transform duration-500 ease-in-out hover:scale-125">
-                    <input type="text" placeholder="Enter delivery address" class="md:w-full ">
+                    <input type="text" placeholder="Enter delivery address" class="md:w-full" data-i18n-placeholder="enter-address">
                 </div>
-                <button type="submit" class="bg-[#ffe145] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.px] leading-5 text-[#b79c10] grow-0 shrink-0 px-0 rounded w-18 md:w-22 md:ml-[-4px] transition-all duration-500 ease-in-out hover:bg-yellow-600 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50">send</button>
+                <button type="submit" class="bg-[#ffe145] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.px] leading-5 text-[#b79c10] grow-0 shrink-0 px-0 rounded w-18 md:w-22 md:ml-[-4px] transition-all duration-500 ease-in-out hover:bg-yellow-600 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50" data-i18n="send">send</button>
             </form>
         </div>
     </section>
@@ -142,50 +143,50 @@
     <!-- Specialties Section -->
     <section class="container mx-auto max-w-[1256px] md:mt-18">
         <div class="flex justify-between items-center px-4 sm:px-15 md:px-25 lg:px-35 xl:px-0">
-            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0 transition-all duration-700 ease-in-out hover:rotate-3">Specialities</h2>
-            <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none] transition-all duration-500 ease-in-out hover:bg-yellow-500 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50">show all</button>
+            <h2 class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-left text-[#3f4255] grow-0 shrink-0 basis-auto m-0 p-0 transition-all duration-700 ease-in-out hover:rotate-3" data-i18n="specialties">Specialities</h2>
+            <button class="rounded bg-[#f2f4fa] [font-family:'Martel_Sans',sans-serif] text-base font-bold tracking-[0.50px] leading-5 text-[#9093a6] cursor-pointer min-w-[118px] h-12 w-[118px] block box-border grow-0 shrink-0 basis-auto border-[none] transition-all duration-500 ease-in-out hover:bg-yellow-500 hover:text-white hover:shadow-lg hover:shadow-yellow-500/50" data-i18n="show-all">show all</button>
         </div>
         <!-- Карусель специальностей -->
         <div class="carousel-specialities grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-between items-center max-w-[1256px] grow-0 shrink-0 basis-auto box-border mt-12">
             <!-- Speciality 1 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/bagel.svg" alt="Bagel" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:rotate-180">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Bagel</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="bagel">Bagel</p>
             </div>
             <!-- Speciality 2 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/burger2.svg" alt="Burger" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:scale-125">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Burger</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="burger">Burger</p>
             </div>
             <!-- Speciality 3 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/chicken.svg" alt="Chicken" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:skew-x-12">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Chicken</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="chicken">Chicken</p>
             </div>
             <!-- Speciality 4 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/fish.svg" alt="Fish" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:scale-125">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Fish</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="fish">Fish</p>
             </div>
             <!-- Speciality 5 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/fishnchips.svg" alt="Fish'Chips" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:rotate-180">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Fish'Chips</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="fish-chips">Fish'Chips</p>
             </div>
             <!-- Speciality 6 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/pizza.svg" alt="Pizza" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:scale-125">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Pizza</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="pizza">Pizza</p>
             </div>
             <!-- Speciality 7 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/burger2.svg" alt="Salad" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:skew-x-12">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Salad</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="salad">Salad</p>
             </div>
             <!-- Speciality 8 -->
             <div class="carousel-specialities-item flex flex-col justify-between shadow-[0px_2px_16px_rgba(60,62,74,0.08)] bg-[white] box-border rounded-md md:w-[48%] xl:w-[136px] h-[136px] transition-all duration-500 ease-in-out hover:scale-110 hover:shadow-yellow-500/50">
                 <img src="images/fish.svg" alt="Sushi" class="max-w-[initial] w-12 block self-center grow-0 shrink-0 basis-auto box-border pt-6 transition-transform duration-500 ease-in-out hover:rotate-180">
-                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70">Sushi</p>
+                <p class="[font-family:'Martel_Sans',sans-serif] text-base font-normal tracking-[0.50px] text-center leading-6 text-[#313030] grow-0 shrink-0 basis-auto mt-4 m-0 pb-6 transition-opacity duration-500 ease-in-out hover:opacity-70" data-i18n="sushi">Sushi</p>
             </div>
         </div>
     </section>
@@ -198,7 +199,7 @@
             <div class="relative bg-transparent border-2 border-yellow-600 rounded-full w-32 h-32 flex justify-center items-center -translate-y-6">
                 <div class="font-[Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-gray-800">1</div>
             </div>
-            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap">kitchen</p>
+            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap" data-i18n="statistics-kitchen">kitchen</p>
         </div>
         <!-- Second 11 -->
         <div class="flex flex-col items-center w-50 pt-8.5 mx-auto lg:mx-0 lg:pr-2">
@@ -206,7 +207,7 @@
             <div class="relative bg-transparent border-2 border-yellow-600 rounded-full w-32 h-32 flex justify-center items-center -translate-y-6">
                 <div class="font-[Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-gray-800">11</div>
             </div>
-            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap">specialties</p>
+            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap" data-i18n="statistics-specialties">specialties</p>
         </div>
         <!-- Third 11 -->
         <div class="flex flex-col items-center w-50 pt-8.5 mx-auto lg:mx-0 lg:pl-2">
@@ -214,7 +215,7 @@
             <div class="relative bg-transparent border-2 border-yellow-600 rounded-full w-32 h-32 flex justify-center items-center -translate-y-6">
                 <div class="font-[Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-gray-800">11</div>
             </div>
-            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap">restaurants</p>
+            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap" data-i18n="statistics-restaurants">restaurants</p>
         </div>
         <!-- 4th 1 -->
         <div class="flex flex-col items-center w-50 pt-8.5 mx-auto lg:mx-0 lg:pl-6">
@@ -222,7 +223,7 @@
             <div class="relative bg-transparent border-2 border-yellow-600 rounded-full w-32 h-32 flex justify-center items-center -translate-y-6">
                 <div class="font-[Open_Sans_Condensed] text-[59px] font-bold tracking-[2.90px] leading-[64px] text-gray-800">1</div>
             </div>
-            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap">transport costs</p>
+            <p class="font-[Poppins] text-2xl font-semibold text-center leading-8 text-gray-800 whitespace-nowrap" data-i18n="statistics-transport">transport costs</p>
         </div>
     </section>
 
@@ -234,7 +235,7 @@
         <div class="grow-0 shrink-0 basis-auto mt-6 lg:mt-21">
             <p class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light tracking-[2.88px] text-[#313030] m-0 pl-[1px] animate-pulse duration-2000">
                 <span>#YellowKitchens </span>
-                <span class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
+                <span class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left" data-i18n="instagram">in instagram</span>
             </p>
             <!-- Слайдер с адаптивным размером картинок -->
             <swiper-container 
