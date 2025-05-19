@@ -76,107 +76,225 @@ const styleSheet = document.createElement("style");
 styleSheet.textContent = galleryStyles;
 document.head.appendChild(styleSheet);
 
-// Добавляем стили для parallax эффекта
-const parallaxStyles = `
-    .history-section {
-        perspective: 1000px;
+
+class YellowKitchenGallery {
+    constructor() {
+        this.galleryFiles = [
+            '1.jpg', '2.jpg', '3.jpg', '1244429.jpg',
+            '2024-year-digital-art-4k-wallpaper-uhdpaper.com-901@0@i.jpg',
+            'anime-night-stars-sky-clouds-scenery-digital-art-4k-wallpaper-uhdpaper.com-772@0@i.jpg',
+            'car-night-street-digital-art-4k-wallpaper-uhdpaper.com-16@0@j.jpg',
+            'car-road-forest-sunset-mountain-scenery-4k-wallpaper-uhdpaper.com-878@1@m.jpg',
+            'car-street-night-city-digital-art-4k-wallpaper-uhdpaper.com-914@0@i.jpg',
+            'delorean-car-time-machine-neon-lights-digital-art-4k-wallpaper-uhdpaper.com-17@0@j.jpg',
+            'ferrari-car-road-hollywood-night-city-scenery-digital-art-4k-wallpaper-uhdpaper.com-202@1@n.jpg',
+            'lighthouse-sunset-scenery-digital-art-4k-wallpaper-uhdpaper.com-326@1@m.jpg',
+            'muscle-car-ice-road-red-moon-digital-art-4k-wallpaper-uhdpaper.com-18@0@j.jpg',
+            'muscle-car-night-road-digital-art-4k-wallpaper-uhdpaper.com-25@0@j.jpg',
+            'sci-fi-digital-art-uhdpaper.com-8K-4.956.jpg',
+            'soldier-gas-mask-flower-digital-art-4k-wallpaper-uhdpaper.com-13@0@j.jpg',
+            'sports-car-red-smoke-digital-art-4k-wallpaper-uhdpaper.com-28@0@j.jpg',
+            'sports-car-road-digital-art-4k-wallpaper-uhdpaper.com-15@0@j.jpg',
+            'sunset-road-car-forest-scenery-digital-art-4k-wallpaper-uhdpaper.com-881@1@m.jpg',
+            'wallpapersden.com_cityscape-8k-cyber-city-digital-art_7680x4320.jpg',
+            'SampleVideo_1280x720_5mb.mp4'
+        ];
+
+        this.currentIndex = 0;
+        this.mainContent = document.querySelector('.main-content');
+        this.thumbnailsContainer = document.querySelector('.thumbnails');
+        this.prevBtn = document.querySelector('.prev-btn');
+        this.nextBtn = document.querySelector('.next-btn');
+        this.prevThumbBtn = document.querySelector('.prev-thumb-btn');
+        this.nextThumbBtn = document.querySelector('.next-thumb-btn');
+
+        this.init();
     }
 
-    .parallax-layer {
-        transition: transform 0.1s ease-out;
-        will-change: transform;
+    init() {
+        this.createThumbnails();
+        this.setupEventListeners();
+        this.showItem(0);
     }
 
-    .floating-element {
-        transition: transform 0.1s ease-out;
-        will-change: transform;
+    createThumbnails() {
+        if (!this.thumbnailsContainer) return;
+
+        this.galleryFiles.forEach((file, index) => {
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'thumbnail';
+            thumbnail.dataset.index = index;
+
+            if (file.endsWith('.mp4')) {
+                thumbnail.innerHTML = `
+                    <div class="relative w-full h-full">
+                        <video class="w-full h-full object-cover" muted preload="metadata">
+                            <source src="gallery/${file}" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+
+                // Добавляем обработчик для загрузки превью видео
+                const video = thumbnail.querySelector('video');
+                if (video) {
+                    video.addEventListener('loadeddata', () => {
+                        // Устанавливаем время на 1 секунду для превью
+                        video.currentTime = 1;
+                    });
+                }
+            } else {
+                thumbnail.innerHTML = `
+                    <img src="gallery/${file}" alt="Миниатюра ${index + 1}" class="w-full h-full object-cover">
+                `;
+            }
+
+            thumbnail.addEventListener('click', () => {
+                this.showItem(index);
+                this.playRandomGeneratedSound();
+            });
+
+            this.thumbnailsContainer.appendChild(thumbnail);
+        });
     }
 
-    .floating-elements {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
+    setupEventListeners() {
+        // Основная навигация
+        this.prevBtn?.addEventListener('click', () => {
+            this.showPrev();
+            this.playRandomGeneratedSound();
+        });
+
+        this.nextBtn?.addEventListener('click', () => {
+            this.showNext();
+            this.playRandomGeneratedSound();
+        });
+
+        // Навигация по миниатюрам
+        this.prevThumbBtn?.addEventListener('click', () => {
+            this.scrollThumbnails('prev');
+        });
+
+        this.nextThumbBtn?.addEventListener('click', () => {
+            this.scrollThumbnails('next');
+        });
+
+        // Обработка клавиш
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                this.showPrev();
+                this.playRandomGeneratedSound();
+            } else if (e.key === 'ArrowRight') {
+                this.showNext();
+                this.playRandomGeneratedSound();
+            }
+        });
     }
 
-    .bg-layer {
-        background-size: cover;
-        background-position: center;
-        z-index: 1;
-        overflow: hidden;
+    showItem(index) {
+        if (index < 0 || index >= this.galleryFiles.length) return;
+
+        this.currentIndex = index;
+        const file = this.galleryFiles[index];
+
+        // Обновляем основное изображение/видео
+        if (this.mainContent) {
+            if (file.endsWith('.mp4')) {
+                this.mainContent.innerHTML = `
+                    <video class="w-full h-full" controls>
+                        <source src="gallery/${file}" type="video/mp4">
+                    </video>
+                `;
+            } else {
+                this.mainContent.innerHTML = `
+                    <img src="gallery/${file}" alt="Изображение ${index + 1}" class="w-full h-full object-contain">
+                `;
+            }
+        }
+
+        // Обновляем активную миниатюру
+        const thumbnails = this.thumbnailsContainer?.querySelectorAll('.thumbnail');
+        thumbnails?.forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+
+        // Прокручиваем к активной миниатюре
+        this.scrollToActiveThumbnail();
     }
 
-    .bg-images {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10%;
+    showPrev() {
+        const newIndex = (this.currentIndex - 1 + this.galleryFiles.length) % this.galleryFiles.length;
+        this.showItem(newIndex);
     }
 
-    .bg-image {
-        width: 30%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.7;
-        filter: blur(2px);
-        transition: transform 0.1s ease-out;
+    showNext() {
+        const newIndex = (this.currentIndex + 1) % this.galleryFiles.length;
+        this.showItem(newIndex);
     }
 
-    .text-blocks {
-        position: relative;
-        z-index: 2;
+    scrollThumbnails(direction) {
+        if (!this.thumbnailsContainer) return;
+
+        const containerWidth = this.thumbnailsContainer.parentElement.offsetWidth;
+        const thumbnailWidth = 120; // Ширина миниатюры + отступ
+        const visibleThumbnails = Math.floor(containerWidth / thumbnailWidth);
+        const scrollAmount = visibleThumbnails * thumbnailWidth;
+
+        const currentScroll = parseInt(this.thumbnailsContainer.style.transform.replace('translateX(', '').replace('px)', '') || 0);
+        const maxScroll = -(this.galleryFiles.length * thumbnailWidth - containerWidth);
+
+        let newScroll;
+        if (direction === 'prev') {
+            newScroll = Math.min(0, currentScroll + scrollAmount);
+        } else {
+            newScroll = Math.max(maxScroll, currentScroll - scrollAmount);
+        }
+
+        this.thumbnailsContainer.style.transform = `translateX(${newScroll}px)`;
     }
 
-    .text-block {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        transition: opacity 0.5s ease-out;
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+    scrollToActiveThumbnail() {
+        if (!this.thumbnailsContainer) return;
+
+        const thumbnailWidth = 120; // Ширина миниатюры + отступ
+        const containerWidth = this.thumbnailsContainer.parentElement.offsetWidth;
+        const visibleThumbnails = Math.floor(containerWidth / thumbnailWidth);
+
+        const currentScroll = parseInt(this.thumbnailsContainer.style.transform.replace('translateX(', '').replace('px)', '') || 0);
+        const targetScroll = -(this.currentIndex * thumbnailWidth);
+
+        // Проверяем, видна ли активная миниатюра
+        const isVisible = targetScroll >= currentScroll && 
+                         targetScroll <= currentScroll - (visibleThumbnails * thumbnailWidth);
+
+        if (!isVisible) {
+            this.thumbnailsContainer.style.transform = `translateX(${targetScroll}px)`;
+        }
     }
 
-    .text-block::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.3);
-        z-index: 1;
-    }
+    playRandomGeneratedSound() {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
 
-    .text-block > div {
-        width: 100%;
-        position: relative;
-        z-index: 2;
-    }
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(440 + Math.random() * 440, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
 
-    .first-block {
-        z-index: 3;
-    }
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-    .second-block {
-        z-index: 2;
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.5);
     }
+}
 
-    .third-block {
-        z-index: 1;
-    }
-
-    .front-layer {
-        z-index: 4;
-    }
-`;
-
-// Добавляем стили parallax на страницу
-const parallaxStyleSheet = document.createElement("style");
-parallaxStyleSheet.textContent = parallaxStyles;
-document.head.appendChild(parallaxStyleSheet); 
+// Инициализация галереи при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    new YellowKitchenGallery();
+}); 

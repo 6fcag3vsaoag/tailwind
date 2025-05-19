@@ -66,7 +66,8 @@ function logout() {
 // Функция для создания хедера
 function createHeader() {
     return `
-    <header class="bg-white flex justify-between items-center py-3 mx-auto relative px-2 transition-colors duration-1000 ease-in-out hover:bg-gray-100 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[9999]">
+    <header class="bg-white flex justify-between items-center py-3 mx-auto relative px-2 transition-colors duration-1000 ease-in-out hover:bg-gray-100 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[10000]"
+        style="position:fixed; top:0; left:0; width:100%; z-index:10000; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
         <a href="index.html" class="text-xl font-bold text-gray-800 relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
             <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto transition-transform duration-500 hover:rotate-y-180">
         </a>
@@ -198,6 +199,7 @@ function createSidebar() {
             <a href="cart.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Cart</a>
             <a href="feedback.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Feedback</a>
             <a href="about_us.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">О нас</a>
+            <a href="gallery.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Галерея</a>
             <a href="${getProfileLink()}" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">${isAuthenticated() ? 'Профиль' : 'Вход'}</a>
             ${isAuthenticated() ? '<button onclick="logout()" class="text-red-600 hover:text-red-700 relative after:absolute after:h-px after:bg-red-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full text-left">Выйти</button>' : ''}
             ${isAdmin() ? '<a href="admin.html" class="text-gray-600 hover:text-yellow-500 relative after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">Admin</a>' : ''}
