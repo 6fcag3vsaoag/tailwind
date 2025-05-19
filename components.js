@@ -65,26 +65,33 @@ function logout() {
 
 // Функция для создания хедера
 function createHeader() {
+    const isDark = document.documentElement.classList.contains('dark');
     return `
-    <header class="bg-white dark:bg-dark-bg flex justify-between items-center py-3 mx-auto relative px-2 transition-colors duration-1000 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-800 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[10000]"
+    <header class="bg-white dark:bg-dark-bg flex justify-between items-center py-3 mx-auto relative px-20 transition-colors duration-1000 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-800 before:absolute before:h-px before:bg-yellow-500 before:w-full before:bottom-0 md:px-23 z-[10000]"
         style="position:fixed; top:0; left:0; width:100%; z-index:10000; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
         <a href="index.html" class="text-xl font-bold text-gray-800 dark:text-gray-200 relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            <img src="images/logo.svg" alt="Yellow Kitchen Logo" class="h-6 w-auto transition-transform duration-500 hover:rotate-y-180">
+            <img src="${isDark ? 'images/Logo.svg' : 'images/Logo2.svg'}" alt="Yellow Kitchen Logo" class="h-6 w-auto transition-transform duration-500 hover:rotate-y-180">
         </a>
         <nav class="flex items-center gap-4 md:gap-12">
-            <a href="favorites.html" class="text-gray-600 dark:text-gray-300 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-                <img src="images/favorite.svg" alt="Favorites Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
-                <span id="favorites-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+            <a href="favorites.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 dark:after:bg-yellow-400 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+                <svg class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span id="favorites-count" class="absolute -top-2 -right-2 bg-red-500 dark:bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
             </a>
-            <a href="cart.html" class="text-gray-600 dark:text-gray-300 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-                <img src="images/cart.svg" alt="Cart Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+            <a href="cart.html" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 dark:after:bg-yellow-400 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+                <svg class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 dark:bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
             </a>
-            <a href="${getProfileLink()}" class="text-gray-600 dark:text-gray-300 hover:text-yellow-500 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-                <img src="images/user.svg" alt="User Icon" class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" />
+            <a href="${getProfileLink()}" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 dark:after:bg-yellow-400 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+                <svg class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
             </a>
-            <button id="burger" class="focus:outline-none relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 rounded-full hover:shadow-lg hover:shadow-yellow-500/50 animate-pulse">
-                <svg class="h-8 w-8 md:h-12 md:w-12 transition-all duration-700 ease-in-out hover:saturate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <button id="burger" class="focus:outline-none relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 rounded-full hover:shadow-lg hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/30 animate-pulse">
+                <svg class="h-8 w-8 md:h-12 md:w-12 transition-all duration-700 ease-in-out hover:saturate-200 dark:text-gray-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -98,7 +105,7 @@ function createHeader() {
 // Функция для создания футера
 function createFooter() {
     return `
-    <footer class="bg-[#3f4255] dark:bg-gray-900 text-white mt-5 mx-auto px-0 sm:px-8 py-6 lg:py-12 flex flex-col justify-between lg:min-h-109.5">
+    <footer class="bg-[#3f4255] dark:bg-gray-900 text-white mt-5 mx-auto px-20 sm:px-8 py-6 lg:py-12 flex flex-col justify-between lg:min-h-109.5">
         <div class="grid grid-cols-1 mx-auto md:grid-cols-2 xl:grid-cols-[25fr_20fr_20fr_35fr] gap-6 lg:min-h-70">
             <div class="flex flex-col gap-5 xl:gap-12 lg:pl-15 lg:min-w-120">
                 <img src="images/Logo2.svg" alt="Logo" class="h-6 w-auto lg:-ml-29.5 transition-all duration-300 ease-in-out hover:scale-110 hover:rotate-5 hover:hue-rotate-15 hover:brightness-150 hover:saturate-150" />
@@ -216,10 +223,10 @@ function createSidebar() {
             <div class="theme-toggle-container flex items-center gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                 <button onclick="toggleTheme()" class="theme-toggle flex items-center gap-2 text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 transition-colors duration-300 w-full">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path class="sun-icon ${isDark ? 'hidden' : ''}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                        <path class="moon-icon ${!isDark ? 'hidden' : ''}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        <path id="sunIcon" class="${isDark ? 'hidden' : ''}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        <path id="moonIcon" class="${!isDark ? 'hidden' : ''}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
-                    <span class="theme-text">${isDark ? 'Светлая тема' : 'Темная тема'}</span>
+                    <span id="themeText">${isDark ? 'Светлая тема' : 'Темная тема'}</span>
                 </button>
             </div>
         </nav>
@@ -334,10 +341,10 @@ async function updateCounters() {
 function createModal(content, title = '') {
     return `
     <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] hidden" id="modal">
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 transform transition-all">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl font-semibold text-gray-900">${title}</h3>
-                <button onclick="hideModal()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 transform transition-all">
+            <div class="flex justify-between items-center p-4 border-b dark:border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">${title}</h3>
+                <button onclick="hideModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -462,21 +469,21 @@ function createProductCard(dish, isFavorite = false) {
     const removeFromFavoritesText = i18Obj[lang]['remove-from-favorites'] || 'Unfavorite';
     const addToFavoritesText = i18Obj[lang]['add-to-favorites'] || 'Favorite';
     return `
-    <div class="w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50 cursor-pointer" onclick="showProductDetail(${dish.id})">
-        <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
-        <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+    <div class="w-[296px] bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-yellow-300 dark:border-yellow-400 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/30 cursor-pointer" onclick="showProductDetail(${dish.id})">
+        <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm dark:brightness-90">
+        <div class="p-4 font-['Martel_Sans'] text-[#3f4255] dark:text-gray-200">
             <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
             <p class="text-sm mb-2">${dish.description}</p>
-            <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
+            <p class="text-yellow-500 dark:text-yellow-400 font-bold mb-2">€${dish.price.toFixed(2)}</p>
             <div class="flex justify-between items-center gap-2 mt-2">
-                <button class="favorite-btn flex items-center gap-1 ${isFavorite ? 'bg-red-500' : 'bg-yellow-500'} text-white px-2 py-1 rounded w-[120px]" data-dish-id="${dish.id}" onclick="event.stopPropagation(); toggleFavorite(${dish.id})">
+                <button class="favorite-btn flex items-center gap-1 ${isFavorite ? 'bg-red-500 dark:bg-red-600' : 'bg-yellow-500 dark:bg-yellow-600'} text-white px-2 py-1 rounded w-[120px]" data-dish-id="${dish.id}" onclick="event.stopPropagation(); toggleFavorite(${dish.id})">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                     ${isFavorite ? removeFromFavoritesText : addToFavoritesText}
                 </button>
                 <div class="flex items-center gap-2">
-                    <button class="cart-btn bg-green-500 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 transition-all duration-300" data-dish-id="${dish.id}" onclick="event.stopPropagation(); addToCart(${dish.id})">
+                    <button class="cart-btn bg-green-500 dark:bg-green-600 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 dark:hover:bg-green-700 transition-all duration-300" data-dish-id="${dish.id}" onclick="event.stopPropagation(); addToCart(${dish.id})">
                         ${addToCartText}
                     </button>
                 </div>
@@ -490,26 +497,26 @@ function createProductDetailModal(dish) {
     return `
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="relative">
-            <img src="${dish.image}" alt="${dish.name}" class="w-full h-64 object-cover rounded-lg">
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-64 object-cover rounded-lg dark:brightness-90">
         </div>
         <div class="space-y-4">
-            <h2 class="text-2xl font-bold text-gray-900">${dish.name}</h2>
-            <p class="text-gray-600">${dish.description}</p>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">${dish.name}</h2>
+            <p class="text-gray-600 dark:text-gray-300">${dish.description}</p>
             <div class="flex items-center space-x-2">
-                <span class="text-2xl font-bold text-yellow-500">€${dish.price.toFixed(2)}</span>
-                <span class="text-sm text-gray-500">/ ${dish.portion}</span>
+                <span class="text-2xl font-bold text-yellow-500 dark:text-yellow-400">€${dish.price.toFixed(2)}</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">/ ${dish.portion}</span>
             </div>
             <div class="flex items-center space-x-2">
-                <span class="text-yellow-500">★</span>
-                <span class="text-gray-600">${dish.rating}</span>
+                <span class="text-yellow-500 dark:text-yellow-400">★</span>
+                <span class="text-gray-600 dark:text-gray-300">${dish.rating}</span>
             </div>
             <div class="flex items-center space-x-4">
-                <div class="flex items-center border border-gray-300 rounded">
-                    <button class="px-2 py-1 hover:bg-gray-100" onclick="updateQuantity(${dish.id}, getCurrentQuantity(${dish.id}) - 1)">-</button>
-                    <span id="modal-quantity-${dish.id}" class="px-2 py-1">${getCurrentQuantity(dish.id)}</span>
-                    <button class="px-2 py-1 hover:bg-gray-100" onclick="updateQuantity(${dish.id}, getCurrentQuantity(${dish.id}) + 1)">+</button>
+                <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded">
+                    <button class="px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200" onclick="updateQuantity(${dish.id}, getCurrentQuantity(${dish.id}) - 1)">-</button>
+                    <span id="modal-quantity-${dish.id}" class="px-2 py-1 dark:text-gray-200">${getCurrentQuantity(dish.id)}</span>
+                    <button class="px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200" onclick="updateQuantity(${dish.id}, getCurrentQuantity(${dish.id}) + 1)">+</button>
                 </div>
-                <button onclick="addToCart(${dish.id})" class="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                <button onclick="addToCart(${dish.id})" class="flex-1 bg-yellow-500 dark:bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 dark:hover:bg-yellow-700 transition-colors">
                     Добавить в корзину
                 </button>
             </div>

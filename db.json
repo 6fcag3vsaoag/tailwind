@@ -148,7 +148,20 @@
       "dishId": 3
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": 1,
+      "userId": 1,
+      "dishId": 2,
+      "quantity": 3
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "dishId": 3,
+      "quantity": 1
+    }
+  ],
   "users": [
     {
       "id": 1,

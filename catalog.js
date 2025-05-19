@@ -321,30 +321,30 @@ async function isDishFavorite(dishId) {
 async function createProductDetailModal(dish) {
     const isFavorite = await isDishFavorite(dish.id);
     return `
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
         <div class="relative">
-            <img src="${dish.image}" alt="${dish.name}" class="w-full h-64 object-cover rounded-lg">
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-64 object-cover rounded-lg dark:brightness-90">
             <div class="absolute top-2 right-2">
-                <button onclick="toggleFavorite(${dish.id})" class="p-2 rounded-full bg-white shadow-lg hover:bg-gray-100">
-                    <svg class="w-6 h-6 ${isFavorite ? 'text-red-500' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 20 20">
+                <button onclick="toggleFavorite(${dish.id})" class="p-2 rounded-full bg-white dark:bg-gray-700 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                    <svg class="w-6 h-6 ${isFavorite ? 'text-red-500 dark:text-red-400' : 'text-gray-400 dark:text-gray-300'}" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
                     </svg>
                 </button>
             </div>
         </div>
         <div class="space-y-4">
-            <h2 class="text-2xl font-bold text-gray-900">${dish.name}</h2>
-            <p class="text-gray-600">${dish.description}</p>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">${dish.name}</h2>
+            <p class="text-gray-600 dark:text-gray-300">${dish.description}</p>
             <div class="flex items-center space-x-2">
-                <span class="text-2xl font-bold text-yellow-500">${dish.price} ₽</span>
-                <span class="text-sm text-gray-500">/ ${dish.portion}</span>
+                <span class="text-2xl font-bold text-yellow-500 dark:text-yellow-400">${dish.price} ₽</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">/ ${dish.portion}</span>
             </div>
             <div class="flex items-center space-x-2">
-                <span class="text-yellow-500">★</span>
-                <span class="text-gray-600">${dish.rating}</span>
+                <span class="text-yellow-500 dark:text-yellow-400">★</span>
+                <span class="text-gray-600 dark:text-gray-300">${dish.rating}</span>
             </div>
             <div class="flex items-center space-x-4">
-                <button onclick="addToCart(${dish.id})" class="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                <button onclick="addToCart(${dish.id})" class="flex-1 bg-yellow-500 dark:bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 dark:hover:bg-yellow-700 transition-colors">
                     Добавить в корзину
                 </button>
             </div>
@@ -355,36 +355,36 @@ async function createProductDetailModal(dish) {
 // Функция для создания модального окна редактирования товара
 function createEditProductModal(dish) {
     return `
-    <form id="editProductForm" class="space-y-4">
+    <form id="editProductForm" class="space-y-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
         <div>
-            <label class="block text-sm font-medium text-gray-700">Название</label>
-            <input type="text" name="name" value="${dish.name}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Название</label>
+            <input type="text" name="name" value="${dish.name}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-yellow-400 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:text-gray-100">
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700">Описание</label>
-            <textarea name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">${dish.description}</textarea>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Описание</label>
+            <textarea name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 dark:border-yellow-400 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:text-gray-100">${dish.description}</textarea>
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700">Цена</label>
-            <input type="number" name="price" value="${dish.price}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Цена</label>
+            <input type="number" name="price" value="${dish.price}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-yellow-400 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:text-gray-100">
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700">Порция</label>
-            <input type="text" name="portion" value="${dish.portion}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Порция</label>
+            <input type="text" name="portion" value="${dish.portion}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-yellow-400 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:text-gray-100">
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700">Рейтинг</label>
-            <input type="number" name="rating" value="${dish.rating}" step="0.1" min="0" max="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Рейтинг</label>
+            <input type="number" name="rating" value="${dish.rating}" step="0.1" min="0" max="5" class="mt-1 block w-full rounded-md border-gray-300 dark:border-yellow-400 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:text-gray-100">
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700">URL изображения</label>
-            <input type="text" name="image" value="${dish.image}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">URL изображения</label>
+            <input type="text" name="image" value="${dish.image}" class="mt-1 block w-full rounded-md border-gray-300 dark:border-yellow-400 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:text-gray-100">
         </div>
         <div class="flex justify-end space-x-3">
-            <button type="button" onclick="hideModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+            <button type="button" onclick="hideModal()" class="px-4 py-2 border border-gray-300 dark:border-gray-500 rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
                 Отмена
             </button>
-            <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+            <button type="submit" class="px-4 py-2 bg-yellow-500 dark:bg-yellow-600 text-white rounded-md hover:bg-yellow-600 dark:hover:bg-yellow-700 transition-colors">
                 Сохранить
             </button>
         </div>
@@ -445,33 +445,25 @@ async function renderCatalog(dishes) {
         const isFavorite = favorites.some(fav => fav.id === dish.id);
         
         return `
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="showProductDetail(${dish.id})">
-                <img src="${dish.image}" alt="${dish.name}" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-xl font-semibold mb-2">${dish.name}</h3>
-                    <p class="text-gray-600 mb-4">${dish.description}</p>
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-lg font-bold">${dish.price} ${i18Obj[getCurrentLang()]['currency']}</span>
-                        <div class="flex items-center">
-                            <span class="text-yellow-500 mr-1">★</span>
-                            <span>${dish.rating} ${i18Obj[getCurrentLang()]['stars']}</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between gap-2">
+            <div class="w-[296px] bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-yellow-300 dark:border-yellow-400 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/30 cursor-pointer" onclick="showProductDetail(${dish.id})">
+                <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm dark:brightness-90">
+                <div class="p-4 font-['Martel_Sans'] text-[#3f4255] dark:text-gray-200">
+                    <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
+                    <p class="text-sm mb-2">${dish.description}</p>
+                    <p class="text-yellow-500 dark:text-yellow-400 font-bold mb-2">${dish.price} ${i18Obj[getCurrentLang()]['currency']}</p>
+                    <div class="flex justify-between items-center gap-2 mt-2">
                         <button onclick="event.stopPropagation(); toggleFavorite(${dish.id})" 
-                            class="favorite-btn ${isFavorite ? 'bg-red-500' : 'bg-yellow-500'} text-white px-4 py-2 rounded flex items-center justify-center gap-2 transition-all duration-300"
-                            data-dish-id="${dish.id}">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                            class="favorite-btn flex items-center gap-1 ${isFavorite ? 'bg-red-500 dark:bg-red-600' : 'bg-yellow-500 dark:bg-yellow-600'} text-white px-2 py-1 rounded w-[120px]" data-dish-id="${dish.id}">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
                             <span data-i18n="${isFavorite ? 'remove-from-favorites' : 'add-to-favorites'}">
                                 ${isFavorite ? i18Obj[getCurrentLang()]['remove-from-favorites'] : i18Obj[getCurrentLang()]['add-to-favorites']}
                             </span>
                         </button>
                         <button onclick="event.stopPropagation(); addToCart(${dish.id})" 
-                            class="cart-btn bg-green-500 text-white px-4 py-2 rounded flex items-center justify-center gap-2 transition-all duration-300"
-                            data-dish-id="${dish.id}">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="cart-btn bg-green-500 dark:bg-green-600 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 dark:hover:bg-green-700 transition-all duration-300" data-dish-id="${dish.id}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
                             <span data-i18n="${isInCart ? 'remove-from-cart' : 'add-to-cart'}">

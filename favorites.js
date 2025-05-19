@@ -194,21 +194,21 @@ async function renderFavorites() {
         // Render each favorite dish as a card
         dishes.forEach(dish => {
             const card = document.createElement('div');
-            card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
+            card.className = 'w-[296px] bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-yellow-300 dark:border-yellow-400 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/30 cursor-pointer';
             card.innerHTML = `
-                <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
-                <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
+                <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm dark:brightness-90">
+                <div class="p-4 font-['Martel_Sans'] text-[#3f4255] dark:text-gray-200">
                     <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
                     <p class="text-sm mb-2">${dish.description}</p>
-                    <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
+                    <p class="text-yellow-500 dark:text-yellow-400 font-bold mb-2">€${dish.price.toFixed(2)}</p>
                     <div class="flex justify-between items-center gap-2 mt-2">
-                        <button class="favorite-btn flex items-center gap-1 bg-red-500 text-white px-2 py-1 rounded w-[120px]" data-favorite-id="${dish.favoriteId}" data-dish-id="${dish.id}">
+                        <button class="favorite-btn flex items-center gap-1 bg-red-500 dark:bg-red-600 text-white px-2 py-1 rounded w-[120px]" data-favorite-id="${dish.favoriteId}" data-dish-id="${dish.id}">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
                             Unfavorite
                         </button>
-                        <button onclick="addToCart(${dish.id})" class="bg-green-500 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 transition-all duration-300">
+                        <button onclick="addToCart(${dish.id})" class="bg-green-500 dark:bg-green-600 text-white px-2 py-1 rounded w-[120px] hover:bg-green-600 dark:hover:bg-green-700 transition-all duration-300">
                             В корзину
                         </button>
                     </div>
