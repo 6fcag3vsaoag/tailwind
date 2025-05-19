@@ -1,0 +1,140 @@
+.gallery-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-viewer {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: #000;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.main-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-content img,
+.main-content video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+.nav-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev-btn {
+    left: 1rem;
+}
+
+.next-btn {
+    right: 1rem;
+}
+
+.thumbnails-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.thumbnails-wrapper {
+    flex: 1;
+    overflow: hidden;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail {
+    flex: 0 0 120px;
+    height: 80px;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.thumbnail:hover,
+.thumbnail.active {
+    opacity: 1;
+}
+
+.thumbnail img,
+.thumbnail video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumb-nav-btn {
+    flex: 0 0 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+    z-index: 2;
+}
+
+.thumb-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev-thumb-btn {
+    margin-right: 0.5rem;
+}
+
+.next-thumb-btn {
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .main-viewer {
+        height: 400px;
+    }
+
+    .thumbnail {
+        flex: 0 0 100px;
+        height: 60px;
+    }
+}

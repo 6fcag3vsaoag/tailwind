@@ -134,62 +134,41 @@ async function updateCartCount() {
 
 async function toggleFavorite(dishId) {
     try {
-        console.log('Toggling favorite for dish:', dishId);
         const token = window.auth.getToken();
         if (!token) {
-            console.error('Токен не найден');
-            showToast('Пожалуйста, войдите в систему', 'error');
-            window.location.href = 'login.html';
+            showNotification('Пожалуйста, войдите в систему', 'warning');
             return;
         }
 
-        // Проверяем, есть ли уже в избранном
         const isFavorite = await checkIfFavorite(dishId);
-        console.log('Current favorite status:', isFavorite);
+        const method = isFavorite ? 'DELETE' : 'POST';
+        const url = isFavorite ? `${window.baseUrl}/favorites/${dishId}` : `${window.baseUrl}/favorites`;
 
-        if (isFavorite) {
-            // Если уже в избранном - удаляем
-            console.log('Removing from favorites');
-            const response = await fetch(`${window.baseUrl}/favorites/${dishId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            ...(method === 'POST' && { body: JSON.stringify({ dishId }) })
+        });
 
-            if (!response.ok) {
-                throw new Error('Failed to remove from favorites');
-            }
-            console.log('Successfully removed from favorites');
-            // showToast('Блюдо удалено из избранного');
-        } else {
-            // Если нет в избранном - добавляем
-            console.log('Adding to favorites');
-            const response = await fetch(`${window.baseUrl}/favorites`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ dishId }) // Отправляем только dishId
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Server error:', errorData);
-                throw new Error(errorData.message || 'Failed to add to favorites');
-            }
-            console.log('Successfully added to favorites');
-            showToast('Блюдо добавлено в избранное');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Обновляем каталог
+        showNotification(
+            isFavorite ? 'Товар удален из избранного' : 'Товар добавлен в избранное',
+            'favorite'
+        );
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
         await filterAndSort();
-        // Обновляем состояние кнопок избранного
         await updateFavoriteButtons();
+        await updateFavoritesCount();
     } catch (error) {
-        console.error('Error toggling favorite:', error);
-        // showToast(error.message, 'error');
+        console.error('Ошибка при обновлении избранного:', error);
+        showNotification('Ошибка при обновлении избранного', 'error');
     }
 }
 
@@ -286,12 +265,9 @@ async function addToCart(dishId) {
     try {
         const token = window.auth.getToken();
         if (!token) {
-            window.location.href = 'login.html';
+            showNotification('Пожалуйста, войдите в систему', 'warning');
             return;
         }
-
-        const quantityInput = document.querySelector(`#quantity-${dishId}`);
-        const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
 
         const response = await fetch(`${window.baseUrl}/cart`, {
             method: 'POST',
@@ -299,63 +275,291 @@ async function addToCart(dishId) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ dishId, quantity })
+            body: JSON.stringify({ dishId, quantity: 1 })
         });
 
-        if (!response.ok) throw new Error('Failed to add to cart');
-        
-        // showToast('Товар добавлен в корзину');
-        updateCartCount();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        showNotification('Товар добавлен в корзину', 'cart');
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await updateCartCount();
     } catch (error) {
-        console.error('Error adding to cart:', error);
-        // showToast('Произошла ошибка при добавлении в корзину', 'error');
+        console.error('Ошибка при добавлении в корзину:', error);
+        showNotification('Ошибка при добавлении в корзину', 'error');
     }
 }
 
 async function isDishFavorite(dishId) {
-    const favorites = await fetchFavorites();
-    return favorites.some(fav => fav.dishId === dishId);
+    try {
+        const token = window.auth.getToken();
+        if (!token) {
+            return false;
+        }
+
+        const response = await fetch(`${window.baseUrl}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            return false;
+        }
+
+        const favorites = await response.json();
+        return favorites.some(fav => fav.id === dishId);
+    } catch (error) {
+        console.error('Error checking favorite status:', error);
+        return false;
+    }
 }
 
-async function renderCatalog(dishes) {
-    console.log('Rendering catalog with dishes:', dishes);
-    catalogContainer.innerHTML = '';
-    if (dishes.length === 0) {
-        catalogContainer.innerHTML = '<p class="font-[\'Poppins\'] text-2xl text-[#3f4255] text-center my-12">No dishes found</p>';
-        return;
-    }
-    
-    const isAuth = window.auth.isAuthenticated();
-    console.log('User authenticated:', isAuth);
-    
-    for (const dish of dishes) {
-        const isFavorite = isAuth ? await checkIfFavorite(dish.id) : false;
-        const card = document.createElement('div');
-        card.className = 'w-[296px] bg-white rounded-lg overflow-hidden border border-yellow-300 shadow-md transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-sm hover:shadow-yellow-500/50';
-        card.innerHTML = `
-            <img src="${dish.image}" alt="${dish.name}" class="w-full h-[184px] object-cover transition-all duration-500 ease-in-out hover:blur-sm">
-            <div class="p-4 font-['Martel_Sans'] text-[#3f4255]">
-                <h3 class="font-['Poppins'] text-lg font-semibold mb-2">${dish.name}</h3>
-                <p class="text-sm mb-2">${dish.description}</p>
-                <p class="text-yellow-500 font-bold mb-2">€${dish.price.toFixed(2)}</p>
-                <div class="flex justify-between items-center gap-2 mt-2">
-                    ${isAuth ? `
-                        <button onclick="toggleFavorite(${dish.id})" class="favorite-btn flex items-center gap-1 ${isFavorite ? 'bg-red-500' : 'bg-yellow-500'} text-white px-2 py-1 rounded w-[120px]" data-dish-id="${dish.id}">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            <span>${isFavorite ? 'Unfavorite' : 'Favorite'}</span>
-                        </button>
-                    ` : ''}
-                    ${isAuth ? `
-                        <button onclick="addToCart(${dish.id})" class="cart-btn bg-green-500 text-white px-2 py-1 rounded w-[120px]">
-                            В корзину
-                        </button>
-                    ` : ''}
-                </div>
+// Функция для создания модального окна с детальной информацией о товаре
+async function createProductDetailModal(dish) {
+    const isFavorite = await isDishFavorite(dish.id);
+    return `
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="relative">
+            <img src="${dish.image}" alt="${dish.name}" class="w-full h-64 object-cover rounded-lg">
+            <div class="absolute top-2 right-2">
+                <button onclick="toggleFavorite(${dish.id})" class="p-2 rounded-full bg-white shadow-lg hover:bg-gray-100">
+                    <svg class="w-6 h-6 ${isFavorite ? 'text-red-500' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
             </div>
-        `;
-        catalogContainer.appendChild(card);
+        </div>
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold text-gray-900">${dish.name}</h2>
+            <p class="text-gray-600">${dish.description}</p>
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-yellow-500">${dish.price} ₽</span>
+                <span class="text-sm text-gray-500">/ ${dish.portion}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-yellow-500">★</span>
+                <span class="text-gray-600">${dish.rating}</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="addToCart(${dish.id})" class="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                    Добавить в корзину
+                </button>
+            </div>
+        </div>
+    </div>`;
+}
+
+// Функция для создания модального окна редактирования товара
+function createEditProductModal(dish) {
+    return `
+    <form id="editProductForm" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Название</label>
+            <input type="text" name="name" value="${dish.name}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Описание</label>
+            <textarea name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">${dish.description}</textarea>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Цена</label>
+            <input type="number" name="price" value="${dish.price}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Порция</label>
+            <input type="text" name="portion" value="${dish.portion}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Рейтинг</label>
+            <input type="number" name="rating" value="${dish.rating}" step="0.1" min="0" max="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">URL изображения</label>
+            <input type="text" name="image" value="${dish.image}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div class="flex justify-end space-x-3">
+            <button type="button" onclick="hideModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                Отмена
+            </button>
+            <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                Сохранить
+            </button>
+        </div>
+    </form>`;
+}
+
+// Функция для создания модального окна добавления товара
+function createAddProductModal() {
+    return `
+    <form id="addProductForm" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Название</label>
+            <input type="text" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Описание</label>
+            <textarea name="description" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Цена</label>
+            <input type="number" name="price" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Порция</label>
+            <input type="text" name="portion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Рейтинг</label>
+            <input type="number" name="rating" required step="0.1" min="0" max="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">URL изображения</label>
+            <input type="text" name="image" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+        <div class="flex justify-end space-x-3">
+            <button type="button" onclick="hideModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                Отмена
+            </button>
+            <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                Добавить
+            </button>
+        </div>
+    </form>`;
+}
+
+// Обновляем функцию renderCatalog для добавления обработчиков кликов
+async function renderCatalog(dishes) {
+    if (!catalogContainer) return;
+
+    const catalogHTML = await Promise.all(dishes.map(async dish => {
+        const isFavorite = await isDishFavorite(dish.id);
+        console.log(`Dish ${dish.id} favorite status:`, isFavorite);
+        return createProductCard(dish, isFavorite);
+    }));
+
+    catalogContainer.innerHTML = catalogHTML.join('');
+}
+
+// Функция для отображения детальной информации о товаре
+async function showProductDetail(dishId) {
+    try {
+        const response = await fetch(`${window.baseUrl}/dishes/${dishId}`);
+        if (!response.ok) throw new Error('Failed to fetch dish details');
+        const dish = await response.json();
+        
+        const modalContent = await createProductDetailModal(dish);
+        showModal(modalContent, dish.name);
+    } catch (error) {
+        console.error('Error showing product detail:', error);
+        showNotification('Ошибка при загрузке информации о товаре', 'error');
+    }
+}
+
+// Функция для отображения формы редактирования товара
+async function showEditProduct(dishId) {
+    try {
+        const response = await fetch(`${window.baseUrl}/dishes/${dishId}`);
+        if (!response.ok) throw new Error('Failed to fetch dish details');
+        const dish = await response.json();
+        
+        const modalContent = createEditProductModal(dish);
+        showModal(modalContent, 'Редактирование товара');
+        
+        // Добавляем обработчик отправки формы
+        document.getElementById('editProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const updatedDish = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch(`${window.baseUrl}/dishes/${dishId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${window.auth.getToken()}`
+                    },
+                    body: JSON.stringify(updatedDish)
+                });
+                
+                if (!response.ok) throw new Error('Failed to update dish');
+                
+                hideModal();
+                showNotification('Товар успешно обновлен', 'success');
+                await filterAndSort();
+            } catch (error) {
+                console.error('Error updating dish:', error);
+                showNotification('Ошибка при обновлении товара', 'error');
+            }
+        });
+    } catch (error) {
+        console.error('Error showing edit form:', error);
+        showNotification('Ошибка при загрузке формы редактирования', 'error');
+    }
+}
+
+// Функция для отображения формы добавления товара
+function showAddProduct() {
+    const modalContent = createAddProductModal();
+    showModal(modalContent, 'Добавление товара');
+    
+    // Добавляем обработчик отправки формы
+    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const newDish = Object.fromEntries(formData.entries());
+        
+        try {
+            const response = await fetch(`${window.baseUrl}/dishes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${window.auth.getToken()}`
+                },
+                body: JSON.stringify(newDish)
+            });
+            
+            if (!response.ok) throw new Error('Failed to add dish');
+            
+            hideModal();
+            showNotification('Товар успешно добавлен', 'success');
+            await filterAndSort();
+        } catch (error) {
+            console.error('Error adding dish:', error);
+            showNotification('Ошибка при добавлении товара', 'error');
+        }
+    });
+}
+
+// Функция для удаления товара
+async function deleteProduct(dishId) {
+    try {
+        const token = window.auth.getToken();
+        if (!token) {
+            showNotification('Пожалуйста, войдите в систему', 'warning');
+            return;
+        }
+
+        const response = await fetch(`${window.baseUrl}/dishes/${dishId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        showNotification('Товар успешно удален', 'success');
+        // Добавляем задержку перед обновлением
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await filterAndSort();
+    } catch (error) {
+        console.error('Ошибка при удалении товара:', error);
+        showNotification('Ошибка при удалении товара', 'error');
     }
 }
 

@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;700;800" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" />
-
+    
     <link href="style.css" rel="stylesheet">
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
+    <script src="common.js" defer></script>
     <script src="components.js" defer></script>
     <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js" defer></script>
 
 </head>
 
@@ -226,36 +228,7 @@
 
     <!-- Map + INST Section  -->
     <section class="box-border flex justify-start items-stretch flex-col grow-0 shrink-0 basis-auto xl:px-[91px] xl:py-[72px]">
-        <div class="[background:url('images/Background.png')_50%_/_cover_no-repeat] h-[320px] md:h-[600px] max-w-[initial] box-border flex justify-start items-center flex-col grow-0 shrink-0 basis-auto border-[none] animate-pulse duration-1000 scale-100">
-            <!-- Иконки локации -->
-            <div class="absolute inset-0">
-                <a href="#" class="absolute top-[37.2%] left-[33%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[20%] left-[34%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[26.5%] left-[52.5%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[38.6%] left-[41.5%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[42%] left-[52%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[62.5%] left-[45%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[56.5%] left-[30%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-                <a href="#" class="absolute top-[13.3%] left-[44%] scale-100 hover:scale-150 transition-transform duration-300 hover:cursor-pointer animate-pulse">
-                    <img src="Images/loc_map.svg" alt="Location" />
-                </a>
-            </div>
-        </div>
-        </div>
+        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A82403724955cc2a0651768e79fff866982b158c7ae6cfab23e0ae7221129c770&amp;width=100%25&amp;height=388&amp;lang=ru_RU&amp;scroll=true"></script>
 
         <!-- INST -->
         <div class="grow-0 shrink-0 basis-auto mt-6 lg:mt-21">
@@ -263,12 +236,32 @@
                 <span>#YellowKitchens </span>
                 <span class="[font-family:Poppins,sans-serif] text-2xl md:text-4xl font-light text-[#9093a6] tracking-[2.88px] text-left">in instagram</span>
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full box-border mt-8">
-                <img src="images/Rectangle 10.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-                <img src="images/Rectangle 11.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-                <img src="images/Rectangle 12.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-                <img src="images/Rectangle 13.png" class="w-full h-auto object-cover rounded-md border-2 border-gray-300 hover:scale-110 hover:border-black transition-all" />
-            </div>
+            <!-- Слайдер с адаптивным размером картинок -->
+            <swiper-container 
+            class="w-full mt-8 mx-auto"
+            slides-per-view="1"
+            navigation="true"
+            pagination="true"
+            loop="true"
+            style="max-width: 1200px;"
+            >
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 10.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 11.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 12.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            <swiper-slide class="flex justify-center items-center p-2 sm:p-4">
+                <img src="images/Rectangle 13.png" 
+                    class="w-auto max-w-[90%] h-[180px] xs:h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain rounded-md border-2 border-gray-300 hover:scale-105 hover:border-black transition-transform duration-300" />
+            </swiper-slide>
+            </swiper-container>
         </div>
     </section>
 </body>
