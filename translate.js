@@ -135,7 +135,11 @@ const i18Obj = {
         'about-values-title': 'Our Values',
         'about-values-text': 'We believe in quality, tradition, and innovation. Each of our products is made with love and care, using only the best ingredients and time-tested recipes.',
         'about-future-title': 'Our Future',
-        'about-future-text': 'We continue to grow and delight our customers with new flavors and ideas. Our goal is to become the best pastry shop in the city, while maintaining the soul and quality of homemade pastries.'
+        'about-future-text': 'We continue to grow and delight our customers with new flavors and ideas. Our goal is to become the best pastry shop in the city, while maintaining the soul and quality of homemade pastries.',
+        'home': 'Home',
+        'catalog': 'Catalog',
+        'feedback': 'Feedback',
+        'gallery': 'Gallery'
     },
     'ru': {
         // Header
@@ -273,7 +277,11 @@ const i18Obj = {
         'about-values-title': 'Наши Ценности',
         'about-values-text': 'Мы верим в качество, традиции и инновации. Каждый наш продукт создается с любовью и заботой, используя только лучшие ингредиенты и проверенные временем рецепты.',
         'about-future-title': 'Наше Будущее',
-        'about-future-text': 'Мы продолжаем развиваться и радовать наших клиентов новыми вкусами и идеями. Наша цель - стать лучшей кондитерской в городе, сохраняя при этом душевность и качество домашней выпечки.'
+        'about-future-text': 'Мы продолжаем развиваться и радовать наших клиентов новыми вкусами и идеями. Наша цель - стать лучшей кондитерской в городе, сохраняя при этом душевность и качество домашней выпечки.',
+        'home': 'Главная',
+        'catalog': 'Каталог',
+        'feedback': 'Отзывы',
+        'gallery': 'Галерея'
     }
 };
 
