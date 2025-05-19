@@ -85,11 +85,11 @@ function createHeader() {
                 </svg>
                 <span id="cart-count" class="absolute -top-2 -right-2 bg-green-500 dark:bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
             </a>
-            <a href="${getProfileLink()}" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 dark:after:bg-yellow-400 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
+            <button onclick="showUserProfile()" class="text-gray-600 dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 relative flex items-center transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 after:absolute after:h-px after:bg-yellow-500 dark:after:bg-yellow-400 after:w-0 after:bottom-0 after:left-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
                 <svg class="h-6 w-6 transition-all duration-500 ease-in-out hover:skew-x-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-            </a>
+            </button>
             <button id="burger" class="focus:outline-none relative transition-transform duration-300 ease-in-out hover:scale-125 active:scale-125 rounded-full hover:shadow-lg hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/30 animate-pulse">
                 <svg class="h-8 w-8 md:h-12 md:w-12 transition-all duration-700 ease-in-out hover:saturate-200 dark:text-gray-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -287,10 +287,37 @@ function initComponents() {
 // Вызываем инициализацию при загрузке страницы
 document.addEventListener('DOMContentLoaded', initComponents);
 
-// Используем функции из window.auth
-function getAuthLink() {
-    return window.auth.isAuthenticated() ? 'profile.html' : 'login.html';
-}
+// Инициализация объекта auth
+window.auth = {
+    // Проверка авторизации
+    isAuthenticated() {
+        return localStorage.getItem('token') !== null;
+    },
+
+    // Получение текущего пользователя
+    getCurrentUser() {
+        const user = localStorage.getItem('user');
+        return user ? JSON.parse(user) : null;
+    },
+
+    // Получение токена
+    getToken() {
+        return localStorage.getItem('token');
+    },
+
+    // Сохранение данных пользователя после входа
+    setUserData(data) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+    },
+
+    // Выход из системы
+    logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+    }
+};
 
 // Добавляем функцию для обновления счетчиков
 async function updateCounters() {
@@ -643,4 +670,175 @@ function updateToggleIcon() {
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     createThemeToggle();
-}); 
+});
+
+// Функция для создания модального окна профиля пользователя
+function createProfileModal(user) {
+    return `
+    <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Имя</label>
+                <input type="text" id="firstName" value="${user.firstName || ''}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Фамилия</label>
+                <input type="text" id="lastName" value="${user.lastName || ''}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Отчество</label>
+                <input type="text" id="middleName" value="${user.middleName || ''}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                <input type="email" id="email" value="${user.email || ''}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Телефон</label>
+                <input type="tel" id="phone" value="${user.phone || ''}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            </div>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Дата рождения</label>
+                <input type="date" id="birthDate" value="${user.birthDate || ''}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            </div>
+        </div>
+        <div class="flex justify-between pt-4">
+            <button onclick="resetUserSettings()" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                Сбросить настройки
+            </button>
+            <button onclick="saveUserProfile()" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
+                Сохранить изменения
+            </button>
+        </div>
+    </div>`;
+}
+
+// Функция для отображения профиля пользователя
+async function showUserProfile() {
+    if (!window.auth.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const currentUser = window.auth.getCurrentUser();
+        if (!currentUser) {
+            throw new Error('User data not found');
+        }
+
+        const response = await fetch(`${window.baseUrl}/users/${currentUser.id}`, {
+            headers: {
+                'Authorization': `Bearer ${window.auth.getToken()}`
+            }
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        
+        const user = await response.json();
+        const modalContent = createProfileModal(user);
+        showModal(modalContent, 'Профиль пользователя');
+    } catch (error) {
+        console.error('Error showing user profile:', error);
+        showNotification('Ошибка при загрузке профиля', 'error');
+    }
+}
+
+// Функция для сохранения профиля пользователя
+async function saveUserProfile() {
+    try {
+        const currentUser = window.auth.getCurrentUser();
+        if (!currentUser) {
+            throw new Error('User data not found');
+        }
+
+        const userData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            middleName: document.getElementById('middleName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            birthDate: document.getElementById('birthDate').value
+        };
+
+        const response = await fetch(`${window.baseUrl}/users/${currentUser.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.auth.getToken()}`
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (!response.ok) throw new Error('Failed to update user data');
+
+        // Обновляем данные пользователя в localStorage
+        const updatedUser = await response.json();
+        const currentUserData = window.auth.getCurrentUser();
+        currentUserData.firstName = updatedUser.firstName;
+        currentUserData.lastName = updatedUser.lastName;
+        currentUserData.middleName = updatedUser.middleName;
+        currentUserData.email = updatedUser.email;
+        currentUserData.phone = updatedUser.phone;
+        currentUserData.birthDate = updatedUser.birthDate;
+        localStorage.setItem('user', JSON.stringify(currentUserData));
+
+        showNotification('Профиль успешно обновлен', 'success');
+        hideModal();
+    } catch (error) {
+        console.error('Error saving user profile:', error);
+        showNotification('Ошибка при сохранении профиля', 'error');
+    }
+}
+
+// Функция для сброса настроек пользователя
+async function resetUserSettings() {
+    if (!confirm('Вы уверены, что хотите сбросить все настройки профиля?')) {
+        return;
+    }
+
+    try {
+        const currentUser = window.auth.getCurrentUser();
+        if (!currentUser) {
+            throw new Error('User data not found');
+        }
+
+        const response = await fetch(`${window.baseUrl}/users/${currentUser.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.auth.getToken()}`
+            },
+            body: JSON.stringify({
+                firstName: '',
+                lastName: '',
+                middleName: '',
+                phone: '',
+                birthDate: ''
+            })
+        });
+
+        if (!response.ok) throw new Error('Failed to reset user settings');
+
+        // Обновляем данные пользователя в localStorage
+        const updatedUser = await response.json();
+        const currentUserData = window.auth.getCurrentUser();
+        currentUserData.firstName = '';
+        currentUserData.lastName = '';
+        currentUserData.middleName = '';
+        currentUserData.phone = '';
+        currentUserData.birthDate = '';
+        localStorage.setItem('user', JSON.stringify(currentUserData));
+
+        showNotification('Настройки успешно сброшены', 'success');
+        hideModal();
+    } catch (error) {
+        console.error('Error resetting user settings:', error);
+        showNotification('Ошибка при сбросе настроек', 'error');
+    }
+} 
