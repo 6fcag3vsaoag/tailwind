@@ -522,4 +522,23 @@ async function showProductDetail(dishId) {
 function getCurrentQuantity(dishId) {
     const quantityElement = document.getElementById(`quantity-${dishId}`);
     return quantityElement ? parseInt(quantityElement.textContent) || 1 : 1;
+}
+
+function initLanguageSwitcher() {
+    const langSwitcher = document.querySelector('.language-switcher');
+    if (langSwitcher) {
+        const currentLang = getCurrentLang();
+        langSwitcher.innerHTML = `
+            <div class="flex items-center gap-2">
+                <span class="text-[#d4d7e5]">${currentLang === 'en' ? 'English' : currentLang === 'ru' ? 'Русский' : '中文'}</span>
+                <img src="images/down.svg" alt="Dropdown" class="w-6 h-6 pl-1 -mt-0.5">
+            </div>
+            <div class="language-dropdown hidden absolute top-full left-0 bg-white shadow-lg rounded-md mt-1">
+                <button onclick="setLang('en')" class="block w-full text-left px-4 py-2 hover:bg-gray-100">English</button>
+                <button onclick="setLang('ru')" class="block w-full text-left px-4 py-2 hover:bg-gray-100">Русский</button>
+                <button onclick="setLang('zh')" class="block w-full text-left px-4 py-2 hover:bg-gray-100">中文</button>
+            </div>
+        `;
+        // ... остальной код ...
+    }
 } 
