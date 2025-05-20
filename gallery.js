@@ -36,152 +36,143 @@ const styleSheet = document.createElement("style");
 styleSheet.textContent = galleryStyles;
 document.head.appendChild(styleSheet);
 
-// Конфигурация
-const UNSPLASH_API_KEY = 'HuABN90hSczCgLfA1iVfLIUq3OcUdhG9lBnFDPeXyfk';
-const UNSPLASH_API_URL = 'https://api.unsplash.com';
-const PHOTOS_PER_PAGE = 20;
-
-// Элементы DOM
-const searchInput = document.getElementById('searchInput');
-const clearSearchBtn = document.getElementById('clearSearch');
-const gallery = document.getElementById('gallery');
-const noResults = document.getElementById('noResults');
-const loading = document.getElementById('loading');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const imageModal = document.getElementById('imageModal');
-const modalImage = document.getElementById('modalImage');
-const modalTitle = document.getElementById('modalTitle');
-const modalAuthor = document.getElementById('modalAuthor');
-const modalDescription = document.getElementById('modalDescription');
-const modalDownload = document.getElementById('modalDownload');
-const modalDate = document.getElementById('modalDate');
-const closeModal = document.getElementById('closeModal');
+// Конфигурация приложения
+const CONFIG = {
+    API_KEY: 'HuABN90hSczCgLfA1iVfLIUq3OcUdhG9lBnFDPeXyfk',
+    API_URL: 'https://api.unsplash.com',
+    PHOTOS_PER_PAGE: 20,
+    FILTERS: {
+        all: 'nature',
+        nature: 'nature landscape',
+        architecture: 'architecture building',
+        food: 'food cuisine'
+    }
+};
 
 // Состояние приложения
-let currentPage = 1;
-let currentQuery = '';
-let currentFilter = 'all';
-let isLoading = false;
+const state = {
+    currentPage: 1,
+    currentQuery: '',
+    currentFilter: 'all',
+    isLoading: false
+};
 
-// Инициализация
+// DOM элементы
+const elements = {
+    searchInput: document.getElementById('searchInput'),
+    clearSearchBtn: document.getElementById('clearSearch'),
+    gallery: document.getElementById('gallery'),
+    noResults: document.getElementById('noResults'),
+    loading: document.getElementById('loading'),
+    filterBtns: document.querySelectorAll('.filter-btn'),
+    imageModal: document.getElementById('imageModal'),
+    modalImage: document.getElementById('modalImage'),
+    modalTitle: document.getElementById('modalTitle'),
+    modalAuthor: document.getElementById('modalAuthor'),
+    modalDescription: document.getElementById('modalDescription'),
+    modalDownload: document.getElementById('modalDownload'),
+    modalDate: document.getElementById('modalDate'),
+    closeModal: document.getElementById('closeModal')
+};
+
+// Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
-    // Фокус на поле поиска при загрузке
-    searchInput.focus();
-    
-    // Загрузка начальных изображений
+    elements.searchInput.focus();
     loadImages();
-    
-    // Обработчики событий
     setupEventListeners();
 });
 
 // Настройка обработчиков событий
 function setupEventListeners() {
     // Поиск по Enter
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            currentQuery = searchInput.value.trim();
-            currentPage = 1;
-            loadImages();
-        }
-    });
-
+    elements.searchInput.addEventListener('keypress', handleSearch);
+    
     // Очистка поиска
-    clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        clearSearchBtn.classList.add('hidden');
-        currentQuery = '';
-        currentPage = 1;
-        loadImages();
-    });
-
+    elements.clearSearchBtn.addEventListener('click', handleClearSearch);
+    
     // Показ/скрытие кнопки очистки
-    searchInput.addEventListener('input', () => {
-        clearSearchBtn.classList.toggle('hidden', !searchInput.value);
-    });
-
+    elements.searchInput.addEventListener('input', handleSearchInput);
+    
     // Фильтры
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Удаляем класс active у всех кнопок
-            filterBtns.forEach(b => {
-                b.classList.remove('active');
-                b.classList.remove('bg-yellow-500');
-                b.classList.remove('text-white');
-                b.classList.add('bg-gray-200');
-                b.classList.add('dark:bg-gray-700');
-                b.classList.add('text-gray-700');
-                b.classList.add('dark:text-gray-200');
-            });
-            
-            // Добавляем класс active и стили для активной кнопки
-            btn.classList.add('active');
-            btn.classList.remove('bg-gray-200');
-            btn.classList.remove('dark:bg-gray-700');
-            btn.classList.remove('text-gray-700');
-            btn.classList.remove('dark:text-gray-200');
-            btn.classList.add('bg-yellow-500');
-            btn.classList.add('text-white');
-            
-            currentFilter = btn.dataset.filter;
-            currentPage = 1;
-            loadImages();
-        });
+    elements.filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => handleFilterClick(btn));
     });
-
+    
     // Закрытие модального окна
-    closeModal.addEventListener('click', () => {
-        imageModal.classList.add('hidden');
+    elements.closeModal.addEventListener('click', () => {
+        elements.imageModal.classList.add('hidden');
     });
-
+    
     // Закрытие модального окна по клику вне изображения
-    imageModal.addEventListener('click', (e) => {
-        if (e.target === imageModal) {
-            imageModal.classList.add('hidden');
+    elements.imageModal.addEventListener('click', (e) => {
+        if (e.target === elements.imageModal) {
+            elements.imageModal.classList.add('hidden');
         }
     });
-
+    
     // Бесконечная прокрутка
-    window.addEventListener('scroll', () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
-            loadMoreImages();
-        }
+    window.addEventListener('scroll', handleScroll);
+}
+
+// Обработчики событий
+function handleSearch(e) {
+    if (e.key === 'Enter') {
+        state.currentQuery = elements.searchInput.value.trim();
+        state.currentPage = 1;
+        loadImages();
+    }
+}
+
+function handleClearSearch() {
+    elements.searchInput.value = '';
+    elements.clearSearchBtn.classList.add('hidden');
+    state.currentQuery = '';
+    state.currentPage = 1;
+    loadImages();
+}
+
+function handleSearchInput() {
+    elements.clearSearchBtn.classList.toggle('hidden', !elements.searchInput.value);
+}
+
+function handleFilterClick(btn) {
+    // Сброс стилей всех кнопок
+    elements.filterBtns.forEach(b => {
+        b.classList.remove('active', 'bg-yellow-500', 'text-white');
+        b.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200');
     });
+    
+    // Установка стилей активной кнопки
+    btn.classList.add('active', 'bg-yellow-500', 'text-white');
+    btn.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200');
+    
+    state.currentFilter = btn.dataset.filter;
+    state.currentPage = 1;
+    loadImages();
+}
+
+function handleScroll() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+        loadMoreImages();
+    }
 }
 
 // Загрузка изображений
 async function loadImages() {
-    if (isLoading) return;
-    isLoading = true;
+    if (state.isLoading) return;
+    state.isLoading = true;
     
     showLoading();
     hideNoResults();
     
     try {
-        let query = currentQuery;
+        const query = state.currentQuery || CONFIG.FILTERS[state.currentFilter];
         
-        // Применяем фильтр, если нет поискового запроса
-        if (!query) {
-            switch (currentFilter) {
-                case 'nature':
-                    query = 'nature landscape';
-                    break;
-                case 'architecture':
-                    query = 'architecture building';
-                    break;
-                case 'food':
-                    query = 'food cuisine';
-                    break;
-                default:
-                    query = 'nature'; // По умолчанию показываем природу
-            }
-        }
-
         const response = await fetch(
-            `${UNSPLASH_API_URL}/search/photos?query=${query}&page=${currentPage}&per_page=${PHOTOS_PER_PAGE}&orientation=landscape`,
+            `${CONFIG.API_URL}/search/photos?query=${query}&page=${state.currentPage}&per_page=${CONFIG.PHOTOS_PER_PAGE}&orientation=landscape`,
             {
                 headers: {
-                    'Authorization': `Client-ID ${UNSPLASH_API_KEY}`
+                    'Authorization': `Client-ID ${CONFIG.API_KEY}`
                 }
             }
         );
@@ -190,8 +181,8 @@ async function loadImages() {
         
         const data = await response.json();
         
-        if (currentPage === 1) {
-            gallery.innerHTML = '';
+        if (state.currentPage === 1) {
+            elements.gallery.innerHTML = '';
         }
 
         if (data.results.length === 0) {
@@ -204,14 +195,14 @@ async function loadImages() {
         showNotification('Ошибка при загрузке изображений', 'error');
     } finally {
         hideLoading();
-        isLoading = false;
+        state.isLoading = false;
     }
 }
 
 // Загрузка дополнительных изображений
 function loadMoreImages() {
-    if (!isLoading && !noResults.classList.contains('hidden')) {
-        currentPage++;
+    if (!state.isLoading && !elements.noResults.classList.contains('hidden')) {
+        state.currentPage++;
         loadImages();
     }
 }
@@ -220,7 +211,7 @@ function loadMoreImages() {
 function renderImages(images) {
     images.forEach(image => {
         const card = createImageCard(image);
-        gallery.appendChild(card);
+        elements.gallery.appendChild(card);
     });
 }
 
@@ -256,32 +247,32 @@ function createImageCard(image) {
 
 // Показ модального окна с изображением
 function showImageModal(image) {
-    modalImage.src = image.urls.regular;
-    modalImage.alt = image.alt_description || 'Unsplash image';
-    modalTitle.textContent = image.description || 'Без названия';
-    modalAuthor.textContent = `Фото: ${image.user.name}`;
-    modalDescription.textContent = image.alt_description || '';
-    modalDownload.href = image.links.download;
-    modalDate.textContent = new Date(image.created_at).toLocaleDateString();
+    elements.modalImage.src = image.urls.regular;
+    elements.modalImage.alt = image.alt_description || 'Unsplash image';
+    elements.modalTitle.textContent = image.description || 'Без названия';
+    elements.modalAuthor.textContent = `Фото: ${image.user.name}`;
+    elements.modalDescription.textContent = image.alt_description || '';
+    elements.modalDownload.href = image.links.download;
+    elements.modalDate.textContent = new Date(image.created_at).toLocaleDateString();
     
-    imageModal.classList.remove('hidden');
+    elements.imageModal.classList.remove('hidden');
 }
 
 // Вспомогательные функции
 function showLoading() {
-    loading.classList.remove('hidden');
+    elements.loading.classList.remove('hidden');
 }
 
 function hideLoading() {
-    loading.classList.add('hidden');
+    elements.loading.classList.add('hidden');
 }
 
 function showNoResults() {
-    noResults.classList.remove('hidden');
+    elements.noResults.classList.remove('hidden');
 }
 
 function hideNoResults() {
-    noResults.classList.add('hidden');
+    elements.noResults.classList.add('hidden');
 }
 
 // Функция для показа уведомлений
