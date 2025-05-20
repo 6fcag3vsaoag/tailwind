@@ -30,46 +30,6 @@ const galleryStyles = `
     }
 `;
 
-// Функция для генерации случайных звуков
-function playRandomGeneratedSound() {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const type = Math.floor(Math.random() * 4);
-
-    if (type === 0) {
-        const osc = ctx.createOscillator();
-        osc.type = 'square';
-        osc.frequency.value = 1000 + Math.random() * 2000;
-        osc.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.05);
-    } else if (type === 1) {
-        const bufferSize = 4096;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
-        }
-        const noise = ctx.createBufferSource();
-        noise.buffer = buffer;
-        noise.connect(ctx.destination);
-        noise.start();
-        noise.stop(ctx.currentTime + 0.2);
-    } else if (type === 2) {
-        const osc = ctx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.value = 400 + Math.random() * 2000;
-        osc.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.1);
-    } else {
-        const osc = ctx.createOscillator();
-        osc.type = 'triangle';
-        osc.frequency.value = 80 + Math.random() * 120;
-        osc.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.15);
-    }
-}
 
 // Добавляем стили на страницу
 const styleSheet = document.createElement("style");
